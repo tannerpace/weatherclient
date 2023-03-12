@@ -49,28 +49,35 @@ Ordered
 Inline `code`
 
 ```
-export default function Nextra({ Component, pageProps }) {
+import useTextStyles from "@/hooks/useTextStyles"
+import useWindDirectionToNumber from "./useWindDirectionToNumber"
+import useCalculateWindAnimation from "./useCalculateWindAnimation"
+import { WiWindDeg } from "react-icons/wi"
+const WindDial = ({ viableDirections, item }) => {
+  // we need to convert the wind direction to a number
+  const windAnimation = useCalculateWindAnimation(
+    item.windSpeed,
+    item.windDirection
+  )
+  const { result } = useWindDirectionToNumber(item.windDirection)
+  const viable = viableDirections.includes(item.windDirection)
   return (
-    <>
-      <Head>
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          title="RSS"
-          href="/feed.xml"
-        />
-        <link
-          rel="preload"
-          href="/fonts/Inter-roman.latin.var.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </Head>
-      <Component {...pageProps} />
-    </>
+    <WiWindDeg
+      fontWeight={900}
+      size={63}
+      style={{
+        width: "100%",
+        margin: "auto",
+        backgroundColor: "transparent",
+        color: viable ? "#59d95d" : "red",
+        transform: `rotate(${result}deg)`,
+        ...windAnimation,
+      }}
+    />
   )
 }
+
+export default WindDial
 ```
 
 ## Tables
