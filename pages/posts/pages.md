@@ -20,13 +20,9 @@ While building [**Kitesurf.ninja**](https://ninja-iota.vercel.app/) I ran into a
 }
 ```
 
-My initial structure was to fetch the location information from my server this included the viable wind directions for a location as well as the lat and long. Then I would use the lat and long to fetch the weather information from the NOAA API. This would allow me to get the wind speed and direction for the location. I would then use the wind speed and direction to determine if the location was viable for kitesurfing. This would allow me to display the location on the map and show the user if the location was viable for kitesurfing.
+My initial structure was to fetch the location information from my server this included the viable wind directions for a location as well as the lat and long. I would use the lat and long to fetch the weather data. I would then use the wind speed and direction to determine if the location was viable for kitesurfing. This would allow me to display the location on the map and show the user if the location was viable for kitesurfing.
 
-```
-{"error":windspeed is undefined}
-```
-
-The logic for determining viable locations was tightly coupled to the rendering. At the time I was using react, with [**react-query**](https://react-query.tanstack.com/) library to fetch the weather on the client side. Tight coupling such as this is a problem because it makes the code difficult to test. It also makes it difficult to change the logic for determining viable locations. I had to change the structure of the page to fetch the data on the server side. This would allow the page to build and load faster.
+The logic for determining viable locations was tightly coupled to the rendering. At the time I was using react, with [**react-query**](https://react-query.tanstack.com/) library to fetch the weather on the client side. Tight coupling such as this is a problem because it makes the code difficult to test. It also makes it difficult to change the logic for determining viable locations. I had to change the structure of my api to fetch the data on the server side. This would allow the page to build and load faster.
 
 ## Problem 2: API is slow
 
@@ -38,7 +34,7 @@ The logic for determining viable locations was tightly coupled to the rendering.
 }
 ```
 
-The NOAA API is slow. It takes a long time to fetch the weather information. This is a problem because it makes the page load slowly. I had to change the structure of the page to fetch the data on the server side. This would allow the page to build and load faster.
+The NOAA API is slow, and my users had to wait for not just the weather data but also the location data. This was a noticeable delay. Changing the structure of the api to fetch the data on the server side would allow the page to build and load faster.
 
 ## Problem 3: API is unreliable
 
@@ -50,11 +46,111 @@ The NOAA API is slow. It takes a long time to fetch the weather information. Thi
 }
 ```
 
-The NOAA API is unreliable. It is down frequently. This is a problem because with out the weather information the page is useless. I intend to update the component to fetch the weather information from the NOAA API on the client side. If it is not included in the initial page load the user can fetch the weather information by clicking a button. This will allow the page to load faster and will allow the user to fetch the weather information if they want it.
+## Problem 4: API sends data that is not usable
+
+The weather data from the goverment weather API is not in a standard format. The wind direction is a string, and the wind speed is a string. I had to convert the wind direction to a degree.
+
+```
+{"windDirection": "N",}
+
+```
+
+It wasn't clever but it worked.
+
+```
+
+
+export default function useWindDirectionToNumber(direction) {
+  let result = 0
+  switch (direction) {
+    case "N":
+      result = 0
+      break
+    case "NNE":
+      result = 22.5
+      break
+    case "NE":
+      result = 45
+      break
+    case "ENE":
+      result = 67.5
+      break
+    case "E":
+      result = 90
+      break
+    case "ESE":
+      result = 112.5
+      break
+    case "SE":
+      result = 135
+      break
+    case "SSE":
+      result = 157.5
+      break
+    case "S":
+      result = 180
+      break
+    case "SSW":
+      result = 202.5
+      break
+    case "SW":
+      result = 225
+      break
+    case "WSW":
+      result = 247.5
+      break
+    case "W":
+      result = 270
+      break
+    case "WNW":
+      result = 292.5
+      break
+    case "NW":
+      result = 315
+      break
+    case "NNW":
+      result = 337.5
+      break
+    default:
+      result = 0
+  }
+  return { result }
+}
+
+
+```
+
+## Problem 5: API sends windspeed as a string
+
+```
+{
+  "windSpeed": "15 mph",
+}
+```
+
+I had to convert the wind speed to a number.
+I also had to determine if the number was greater than 10 because when converting the string to a number it would return 15.0. I had to convert the number to a string and then check the length of the string.
+
+```
+export default function useWindSpeedToNumber(speed) {
+  let result = 0
+  if (speed) {
+    result = Number(speed.split(" ")[0])
+    if (result > 10) {
+      result = result.toFixed(0)
+    }
+  }
+  return { result }
+}
+```
+
+```
 
 ## Conclusion
 
-Working with unreliable APIs is a problem. I had to change the structure of the page to fetch the data on the server side. This would allow the page to build and load faster. I intend to update the component to fetch the weather information from the NOAA API on the client side. If it is not included in the initial page load the user can fetch the weather information by clicking a button. This will allow the page to load faster and will allow the user to fetch the weather information if they want it.
+Working with unreliable APIs is a problem, that you have to design around. I intend to update the component to fetch the weather information from the NOAA API on the client side, only as a backup if it is not included in the initial page data. This will allow the page to load and will allow the user to see if the location is viable for kitesurfing. Even if the NOAA API errors on the request from my server.
+
+
 
 ## Resources
 
@@ -77,3 +173,9 @@ Working with unreliable APIs is a problem. I had to change the structure of the 
 - [**MySQL**](https://www.mysql.com/)
 
 - [**Postman**](https://www.postman.com/)
+
+```
+
+```
+
+```
