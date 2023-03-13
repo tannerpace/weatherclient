@@ -144,13 +144,9 @@ export default function useWindSpeedToNumber(speed) {
 }
 ```
 
-```
-
 ## Conclusion
 
-Working with unreliable APIs is a problem, that you have to design around. I intend to update the component to fetch the weather information from the NOAA API on the client side, only as a backup if it is not included in the initial page data. This will allow the page to load and will allow the user to see if the location is viable for kitesurfing. Even if the NOAA API errors on the request from my server.
-
-
+Working with unreliable APIs is a problem, that you have to design around. I could have easily switched to a different API, but I wanted to use the NOAA API because it was free. I also enjoyed the challenge of working with an API that I didn't control. I learned a lot about how to work with APIs. I also learned a lot about how to design an API that is reliable and easy to work with.
 
 ## Resources
 
@@ -173,6 +169,8 @@ Working with unreliable APIs is a problem, that you have to design around. I int
 - [**MySQL**](https://www.mysql.com/)
 
 - [**Postman**](https://www.postman.com/)
+
+```
 
 ```
 
