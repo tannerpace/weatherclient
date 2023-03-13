@@ -8,7 +8,9 @@ author: Tanner Bleakley
 
 # Working with unreliable APIs
 
-While building [**Kitesurf.ninja**](https://ninja-iota.vercel.app/) I ran into a few unanticipated problems with the [NOAA Weather Api](https://www.weather.gov/documentation/services-web-api). I will go over the problems I had and how I solved them.
+While building [**Kitesurf.ninja**](https://ninja-iota.vercel.app/) I ran into a few unanticipated problems with the [NOAA Weather Api](https://www.weather.gov/documentation/services-web-api).
+
+My initial structure was to fetch the viable wind directions for a location as well as the lat and long, I would use the lat and long to fetch the weather data. This would allow me to display the location on the map and show the user if the location was viable for kitesurfing.
 
 ## Problem 1: API is down
 
@@ -20,9 +22,7 @@ While building [**Kitesurf.ninja**](https://ninja-iota.vercel.app/) I ran into a
 }
 ```
 
-My initial structure was to fetch the location information from my server this included the viable wind directions for a location as well as the lat and long. I would use the lat and long to fetch the weather data. I would then use the wind speed and direction to determine if the location was viable for kitesurfing. This would allow me to display the location on the map and show the user if the location was viable for kitesurfing.
-
-The logic for determining viable locations was tightly coupled to the rendering. At the time I was using react, with [**react-query**](https://react-query.tanstack.com/) library to fetch the weather on the client side. Tight coupling such as this is a problem because it makes the code difficult to test. It also makes it difficult to change the logic for determining viable locations. I had to change the structure of my api to fetch the data on the server side. This would allow the page to build and load faster.
+The logic for determining viable locations was tightly coupled to the rendering. At the time I was using react, with [**react-query**](https://react-query.tanstack.com/) library to fetch the weather on the client side. Tight coupling such as this is a problem because it makes the code difficult to test. It also makes it difficult to read the logic. I moved as much business logic out of the components and onto the server.
 
 ## Problem 2: API is slow
 
@@ -34,19 +34,9 @@ The logic for determining viable locations was tightly coupled to the rendering.
 }
 ```
 
-The NOAA API is slow, and my users had to wait for not just the weather data but also the location data. This was a noticeable delay. Changing the structure of the api to fetch the data on the server side would allow the page to build and load faster.
+The NOAA API is slow, and my users had to wait for not just the weather data but also the location data. This was a noticeable delay.
 
-## Problem 3: API is unreliable
-
-```
-{
-  "status": "503",
-  "title": "Service Unavailable",
-  "detail": "The server is currently unable to handle the request due to a temporary overload or scheduled maintenance, which will likely be alleviated after some delay. The server MAY send a Retry-After header field to suggest an appropriate amount of time for the client to wait before retrying the request."
-}
-```
-
-## Problem 4: API sends data that is not usable
+## Problem 3: API sends data that is not usable
 
 The weather data from the goverment weather API is not in a standard format. The wind direction is a string, and the wind speed is a string. I had to convert the wind direction to a degree.
 
@@ -120,7 +110,7 @@ export default function useWindDirectionToNumber(direction) {
 
 ```
 
-## Problem 5: API sends windspeed as a string
+## Problem 4: API sends windspeed as a string
 
 ```
 {
@@ -143,6 +133,8 @@ export default function useWindSpeedToNumber(speed) {
   return { result }
 }
 ```
+
+This works, because for my use windspeed below 10mph are not viable, in the future I will have a user defined variable and may revisit this solution.
 
 ## Conclusion
 
