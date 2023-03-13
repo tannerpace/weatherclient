@@ -34,7 +34,7 @@ The logic for determining viable locations was tightly coupled to the rendering.
 }
 ```
 
-The NOAA API is slow, and my users had to wait for not just the weather data but also the location data. This was a noticeable delay.
+The NOAA API is slow, and my users had to wait for not just the weather data but also the location data. This was a noticeable delay.By having my server request weather data from NOAA I could reduce time users had to wait, this would help seo and user experience.
 
 ## Problem 3: API sends data that is not usable
 
