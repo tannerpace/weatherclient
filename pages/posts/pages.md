@@ -29,7 +29,7 @@ I needed to convert the wind speed and direction to a number so I could use it i
 
 const windSpeedToNumber = (windSpeed) => {
 if (typeof windSpeed !== 'string') return 0
-// this is will get the largest number from the string
+// the match method returns an array of matches. The reduce method returns the largest number in the array
 const largestNumber = windSpeed.match(/\d+/g).reduce((a, b) => Math.max(a, b))
 const result = parseInt(largestNumber, 10)
 return result
