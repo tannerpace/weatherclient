@@ -23,16 +23,18 @@ My initial structure was to fetch the viable wind directions for a location as w
 
 I needed to convert the wind speed and direction to a number so I could use it in a calculation.
 
-```
+To accomplish this I used a regular expression to find the largest number in the string.
+then reduced the array of numbers to the largest number.
+This ensured wind speed was corectly converted to a number.
 
 ```
 
 const windSpeedToNumber = (windSpeed) => {
-if (typeof windSpeed !== 'string') return 0
-// the match method returns an array of matches. The reduce method returns the largest number in the array
-const largestNumber = windSpeed.match(/\d+/g).reduce((a, b) => Math.max(a, b))
-const result = parseInt(largestNumber, 10)
-return result
+  if (typeof windSpeed !== "string") return 0
+largest number
+  const largestNumber = windSpeed.match(/\d+/g).reduce((a, b) => Math.max(a, b))
+  const result = parseInt(largestNumber, 10)
+  return result
 }
 
 ```
@@ -138,7 +140,6 @@ return { result }
 
 ```
 
-
 ## Conclusion
 
 Working with unreliable APIs out of your control is a problem, and the nature of agile development. I could have easily switched to a different API, but I wanted to use the NOAA API because it was free and I wanted to learn how to work with it. I learned a lot about building a robust API and how to handle errors.
@@ -164,6 +165,8 @@ Working with unreliable APIs out of your control is a problem, and the nature of
 - [**MySQL**](https://www.mysql.com/)
 
 - [**Postman**](https://www.postman.com/)
+
+```
 
 ```
 
