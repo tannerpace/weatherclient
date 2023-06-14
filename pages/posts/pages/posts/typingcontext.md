@@ -55,7 +55,7 @@ export { AppContext, useAppContext }
 const symbol = Symbol()
 ```
 
-## Then Define the type that you will be passing to the context consumers
+## Next Define the type that you will be passing to the context consumers
 
 ```ts
 
@@ -66,7 +66,7 @@ interface MyContextInterface = {
 
 ```
 
-## Now you can create the context with the symbol passing the interface as the type
+## Next create the context
 
 ```ts
 const MyContext = createContext<MyContextInterface>(
@@ -74,12 +74,12 @@ const MyContext = createContext<MyContextInterface>(
 )
 ```
 
-## After that you can create the provider
+## Next create the provider
 
 ```ts
 const MyContextProvider = ({ children }) => {
-  const [name, setName] = useState<string>('')
-  const [hobies, setHobies] = useState<hobie[]>([])
+  const [name, setName] = useState('')
+  const [hobie, setHobie] = useState<hobie[]>([])
 
   return (
     <MyContext.Provider
@@ -94,117 +94,51 @@ const MyContextProvider = ({ children }) => {
 }
 ```
 
-## In order to use the context you need to create a hook
+## Next create the hook
 
 ```ts
 const useMyContext = () => useContext(MyContext)
 ```
 
-## its convention to export the context, provider and hook
+## Next export the context, provider, and hook
 
 ```ts
 export { MyContext, MyContextProvider, useMyContext }
 ```
 
-````ts
-
-
-## Dont forget to wrap your app in the provider or the context will not be available and you will get an error when you try to use the hook
+## Next wrap the app in the provider
 
 ```tsx
-import React from 'react'
 import { MyContextProvider } from './MyContext'
 
-export default function App() {
+const App = () => {
   return (
     <MyContextProvider>
-      <div>My App</div>
+      <AppLayout />
     </MyContextProvider>
   )
 }
-
-````
-
-#
-
-## Full Example
-
-```ts
-import React, { createContext, useContext, useState } from 'react'
-
-const symbol = Symbol()
-
-interface MyContextInterface = {
-  name: string
-  hobies: hobie[]
-}
-
-const MyContext = createContext<MyContextInterface>(
-  sym as unknown as MyContextInterface
-)
-
-const MyContextProvider = ({ children }) => {
-  const [name, setName] = useState<string>('')
-  const [hobies, setHobies] = useState<hobie[]>([])
-
-  return (
-    <MyContext.Provider
-      value={{
-        name,
-        hobies
-      }}
-    >
-      {children}
-    </MyContext.Provider>
-  )
-}
-
-const useMyContext = () => useContext(MyContext)
-
-export { MyContext, MyContextProvider, useMyContext }
 ```
 
-## Now you can use the context in any component
+## Next use the hook
 
 ```tsx
-import React from 'react'
-
 import { useMyContext } from './MyContext'
 
-export default function MyComponent() {
+const AppLayout = () => {
   const { name, hobies } = useMyContext()
 
   return (
     <div>
-      <div>{name}</div>
-      <div>
+      <h1>{name}</h1>
+      <ul>
         {hobies.map((hobie) => (
-          <div>{hobie}</div>
+          <li>{hobie}</li> // programming, kiteboarding, surfing, running
         ))}
-      </div> // this will throw an error if hobie is not a string
+      </ul>
     </div>
   )
 }
 ```
 
-Congratulations! You have typed your context! 🎉
-
-## Interested in learning more about React Context?
-
-[React Context](https://react.dev/reference/react/createContext)
-
-## TypeScript docs
-
-[TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html)
-
-## React docs
-
-[React](https://reactjs.org/docs/getting-started.html)
-
-```
-
-```
-
-```
-
-```
+TypeScript is now able to infer the type of the context! 😀
