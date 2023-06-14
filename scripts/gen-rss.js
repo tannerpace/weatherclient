@@ -5,7 +5,7 @@ const matter = require('gray-matter')
 
 async function generate() {
   const feed = new RSS({
-    title: 'Tanner Bleakley',
+    title: 'Your Name',
     site_url: 'https://tannerb.dev',
     feed_url: 'https://tannerb.dev/feed.xml'
   })
@@ -14,21 +14,22 @@ async function generate() {
   const allPosts = []
   await Promise.all(
     posts.map(async (name) => {
-      if (name.startsWith('index.')) return
+      const filepath = path.join(__dirname, '..', 'pages', 'posts', name);
+      const stat = await fs.stat(filepath);
 
-      const content = await fs.readFile(
-        path.join(__dirname, '..', 'pages', 'posts', name)
-      )
-      const frontmatter = matter(content)
+      if (stat.isFile()) {
+        const content = await fs.readFile(filepath)
+        const frontmatter = matter(content)
 
-      allPosts.push({
-        title: frontmatter.data.title,
-        url: '/posts/' + name.replace(/\.mdx?/, ''),
-        date: frontmatter.data.date,
-        description: frontmatter.data.description,
-        categories: frontmatter.data.tag.split(', '),
-        author: frontmatter.data.author
-      })
+        allPosts.push({
+          title: frontmatter.data.title,
+          url: '/posts/' + name.replace(/\.mdx?/, ''),
+          date: frontmatter.data.date,
+          description: frontmatter.data.description,
+          categories: frontmatter.data.tag.split(', '),
+          author: frontmatter.data.author
+        })
+      }
     })
   )
 
