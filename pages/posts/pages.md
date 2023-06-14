@@ -2,7 +2,7 @@
 title: Working with unreliable APIs
 date: 2021/3/18
 description: How to work with unreliable APIs
-tags: [web development, api, react, typescript, javascript, kitesurfing]
+tag: mobile development
 author: Tanner Bleakley
 ---
 
