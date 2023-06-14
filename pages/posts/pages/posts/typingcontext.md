@@ -141,4 +141,4 @@ const AppLayout = () => {
 }
 ```
 
-TypeScript is now able to infer the type of the context! 😀
+Celebrate, typeScript is now able to infer the type of the context! 😀
