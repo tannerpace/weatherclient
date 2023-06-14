@@ -2,7 +2,22 @@
 title: Typing Context in React
 date: 2023/6/12
 description: How to type context in React
-tag: web development
+tag:
+  [
+    web development,
+    react,
+    typescript,
+    javascript,
+    mobiledevelopment,
+    mobile development,
+    react native,
+    react-native,
+    reactnative,
+    context,
+    typing,
+    typescript,
+    javascript
+  ]
 author: Tanner Bleakley
 ---
 
