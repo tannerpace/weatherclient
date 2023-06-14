@@ -133,7 +133,7 @@ const AppLayout = () => {
       <h1>{name}</h1>
       <ul>
         {hobies.map((hobie) => (
-          <li>{hobie}</li> // programming, kiteboarfing, surfing, running
+          <li>{hobie}</li> // programming, kiteboarding, surfing, running
         ))}
       </ul>
     </div>
