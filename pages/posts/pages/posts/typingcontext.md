@@ -61,7 +61,7 @@ const symbol = Symbol()
 
 interface MyContextInterface = {
   name: string
-  hobie: hobie[]
+  hobies: hobie[]
 }
 
 ```
@@ -85,7 +85,7 @@ const MyContextProvider = ({ children }) => {
     <MyContext.Provider
       value={{
         name,
-        hobie
+        hobies
       }}
     >
       {children}
@@ -126,14 +126,14 @@ const App = () => {
 import { useMyContext } from './MyContext'
 
 const AppLayout = () => {
-  const { name, hobie } = useMyContext()
+  const { name, hobies } = useMyContext()
 
   return (
     <div>
       <h1>{name}</h1>
       <ul>
-        {hobie.map((hobie) => (
-          <li>{hobie}</li>
+        {hobies.map((hobie) => (
+          <li>{hobie}</li> // programming, kiteboarfing, surfing, running
         ))}
       </ul>
     </div>
