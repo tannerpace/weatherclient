@@ -2,7 +2,7 @@
 title: Typing Context in React
 date: 2023/6/12
 description: How to type context in React
-tag:
+tags:
   [
     web development,
     react,
