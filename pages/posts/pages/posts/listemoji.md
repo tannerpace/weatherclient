@@ -8,6 +8,10 @@ web dev]
 author: Tanner Bleakley
 ---
 
+```
+
+```
+
 # List of All Emoji
 
 I often find my self needing an emoji list. I have compiled a list of all emoji. I have also included the unicode, utf-8, utf-16, and utf-32 values for each emoji, emojis are not just a fun way to enhance your messages; they have become an integral part of communication. Whether you're incorporating them into your mobile development projects, web development endeavors, or simply enjoying them in your everyday conversations, I hope this list will help you find the an emoji for any occasion.
@@ -71,3 +75,15 @@ EMOJI MEANING UNICODE Smiley Face Emojis
 ⚕ Medical symbol U+2695 ♻ Recycling symbol U+267B ⚜ Fleur-de-lis U+269C 🔱 Trident U+1F531 📛 Name badge U+1F4DB 🔰 Japanese symbol for beginner U+1F530 ⭕ Hollow red circle U+2B55 ✅ Green box with checkmark U+2705 ☑ Blue box with checkmark U+2611 ✔ Checkmark U+2714 ❌ Crossmark U+274C ❎ Green crossmark U+274E ➰ Curly loop U+27B0 ➿ Double curly loop U+27BF 〽 PArt alternation mark U+303D ✳ Eight-spoked asterik U+2733 ✴ Eight-pointed star U+2734 ❇ Sparkle U+2747 © Copyright symbol U+00A9 ® Registered U+00AE ™
 
 Trademark U+2122
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
