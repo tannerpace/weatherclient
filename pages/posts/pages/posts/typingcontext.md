@@ -189,17 +189,10 @@ export default function MyComponent() {
 
 Congratulations! You have typed your context! 🎉
 
-## Interested in learning more about React Context?
+````
 
-[React Context](https://react.dev/reference/react/createContext)
-
-## TypeScript docs
-
-[TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html)
-
-## React docs
-
-[React](https://reactjs.org/docs/getting-started.html)
+```
+````
 
 ```
 
