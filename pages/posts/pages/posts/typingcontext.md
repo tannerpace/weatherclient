@@ -52,11 +52,11 @@ interface MyContextInterface = {
 
 ```
 
-## Next create the context
+## We pass the symbol to the react context hook, cast it as unknown and then as the type we want.... this is the 'magic'
 
 ```ts
 const MyContext = createContext<MyContextInterface>(
-  sym as unknown as MyContextInterface
+  symbol as unknown as MyContextInterface
 )
 ```
 
