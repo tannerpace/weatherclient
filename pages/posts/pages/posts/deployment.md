@@ -63,7 +63,7 @@ Harness the power of AWS to deploy a backend for your React app. This guide eluc
 
 ### 9. Testing:
 - Access your React app.
-- Trigger an API call and ensure there's no problem in communication.
+- Use  Postman or ThunderClient, trigger an API call and ensure there's no problem in communication.
 
 ### Conclusion:
 By meticulously following this guide, you can establish a secure and efficient bridge between your React application and the backend, harnessing the reliability of AWS.
