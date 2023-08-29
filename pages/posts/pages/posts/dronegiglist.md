@@ -1,6 +1,6 @@
 ---
 title: AirAutonomo & DroneGigList.com Pioneering the Drone Industry
-date: 2023/6/29
+date: 2023/7/01
 description: An in-depth look at AirAutonomo's drone services and the revolutionary job platform, DroneGigList.com.
 tag: drone industry
 tags:
