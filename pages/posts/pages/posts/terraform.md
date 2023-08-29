@@ -6,14 +6,15 @@ tags:
   [
     terraform,
     aws,
-    rds,
-    ec2,
-    node.js,
-    express,
-    infrastructure as code,
-    git,
-    ssh,
-    scalability
+    RDS,
+    EC2,
+    Express,
+    Node.js,
+    PM2,
+    Ubuntu,
+    CloudWatch,
+    Web Development,
+    DevOps
   ]
 author: Tanner Bleakley
 ---
@@ -129,6 +130,6 @@ I Hope you enjoyed this tutorial! If you have any questions, feel free to reach 
 
 ### References:
 
-https://registry.terraform.io/modules/terraform-aws-modules/ec2-instance/aws/latest/examples/complete
-https://pm2.keymetrics.io/
-https://ubuntu.com/
+[TerraForm](https://registry.terraform.iomodules/terraform-aws-modules/ec2-instance/aws/latest/examples/complete)
+[PM2](https://pm2.keymetrics.io/)
+[Ubuntu](https://ubuntu.com/)
