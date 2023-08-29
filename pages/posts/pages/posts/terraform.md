@@ -1,5 +1,5 @@
 ---
-title: Deploying and Scaling a Node.js Express Server on AWS with Terraform
+title: Deploying and Scaling With Terraform
 date: 2023-08-15
 description: An in-depth guide to deploying and scaling a Node.js Express server on AWS EC2 backed by RDS using Terraform for high customer loads.
 tags:
