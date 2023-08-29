@@ -1,3 +1,14 @@
+---
+title: How To Deploy A Backend for REST API to AWS EC2
+date: 2023-07-14
+description: A comprehensive guide on deploying a REST API backend on AWS EC2.
+tag: web development
+tags: [react, typescript, aws, ec2, backend, deployment, web dev, REST API]
+author: Tanner Bleakley
+---
+
+
+
 ### Introduction:
 Harness the power of AWS to deploy a backend for your React app. This guide elucidates every step in detail.
 
