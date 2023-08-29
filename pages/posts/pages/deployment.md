@@ -1,6 +1,5 @@
----
 
-**Setting Up and Connecting a Backend Server on AWS EC2 with a Custom Subdomain**
+Setting Up and Connecting a Backend Server on AWS EC2   with a Custom Subdomain 
 
 ### Introduction:
 In today's cloud-centric world, deploying and integrating applications has never been easier. This guide focuses on AWS, the leader in cloud services, to set up a backend server for a React app.
