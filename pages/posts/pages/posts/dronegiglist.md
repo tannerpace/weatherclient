@@ -50,4 +50,4 @@ While the journey from being a drone service provider with AirAutonomo to concep
 
 I invite you all to be a part of this journey. Together, let's shape the future of the drone industry, making it more connected, more efficient, and more innovative.
 
-Stay with us, as DroneGigList unfolds, and let's elevate the world of drone services to unparalleled heights.
+Stay with us, as DroneGigList unfolds, with innovative infrastructure, and opensouce software, lets democratize premium drone assets and data processing for all.
