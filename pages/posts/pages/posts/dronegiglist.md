@@ -1,6 +1,6 @@
 ---
 title: AirAutonomo & DroneGigList.com Pioneering the Drone Industry
-date: 2023/8/16
+date: 2023/6/29
 description: An in-depth look at AirAutonomo's drone services and the revolutionary job platform, DroneGigList.com.
 tag: drone industry
 tags:
@@ -24,55 +24,30 @@ tags:
 author: Tanner Bleakley
 ---
 
-```
-## **AirAutonomo & DroneGigList.com: Pioneering the Drone Industry**
+## From AirAutonomo to DroneGigList: Tanner Bleakley's Personal Odyssey
 
-In a world where drone technology is rapidly reshaping numerous sectors, finding a reliable service provider or a platform to discover drone-specific gigs can be a challenge. Enter AirAutonomo and DroneGigList.com: two revolutionary platforms redefining the drone landscape.
+Every innovation has a backstory, a journey of trials, tribulations, and triumphs. As the founder of AirAutonomo and the visionary behind DroneGigList, let me, Tanner Bleakley, walk you through the transformative path that has shaped my aspirations in the world of drone technology.
 
-### **AirAutonomo.com: Elevating Drone Services**
+### The Roots: AirAutonomo
 
-Based out of Charleston, SC, AirAutonomo is at the cutting edge of drone services. With a keen emphasis on precision, innovation, and customer satisfaction, AirAutonomo has quickly established itself as a trusted name in the industry. Our services include:
+Nestled in Charleston, SC, AirAutonomo wasn't just a startup; it was my heart and soul. My aim was clear – harness the untapped potential of drones and offer unparalleled services to the world. As a drone service provider, we didn't just capture footage; we weaved stories, created memories, and transformed raw data into actionable insights.
 
-- **Orthomosaics**: Crafting detailed aerial maps from high-resolution photos.
-- **Photogrammetry**: Employing drones to measure distances and produce topographical maps.
-- **Real Estate**: Enhancing property listings with mesmerizing aerial views.
-- **3D Modeling & Scanning**: Digitally recreating environments with pinpoint accuracy.
-- **Inspections & Mapping**: Utilizing drones for meticulous land mappings and infrastructure inspections.
+Over time, AirAutonomo garnered recognition, becoming synonymous with quality and reliability in the drone services sector. Our services spanned from high-definition mapping to intricate photogrammetry, and every project was a testament to our dedication.
 
-### **DroneGigList.com: A Gateway to Drone Opportunities**
+### The Evolution: DroneGigList
 
-Identifying a gap in the market for a dedicated platform for drone job listings, I founded DroneGigList.com. Whether you're a seasoned drone professional or a business seeking these specialized services, DroneGigList.com serves as a bridge connecting opportunities with talent.
+As the horizon of possibilities expanded, so did my vision. I recognized a gap in the drone industry - a lack of a holistic platform that seamlessly connected drone pilots with potential clients, making the whole process streamlined and efficient. That's when the blueprint of DroneGigList began to take shape.
 
-With a user-centric design, the platform makes it easy for professionals to find gigs tailored to their skills and for businesses to hire the best in the industry.
+DroneGigList isn't just another platform; it's a dream in the making. My ambition for DroneGigList extends beyond just connecting pilots to clients. With the integration of cloud-based data processing, we are paving the way for a comprehensive ecosystem where pilots don't just get jobs but also have the tools to process and manage their data efficiently.
 
-### **A Dual Approach to Success**
+The goal? To simplify, streamline, and revolutionize the drone industry.
 
-By helming both AirAutonomo and DroneGigList.com, I've been able to create a synergistic ecosystem. While AirAutonomo delivers top-tier drone services, DroneGigList.com ensures that drone professionals have a dedicated space to find gigs that resonate with their expertise.
+### The Vision Ahead
 
-As I lead these two ventures, I'm also on the lookout for a full-time software developer position. My journey with drones and software development has been nothing short of exhilarating, and I'm eager to bring my diverse skill set to a new challenge.
+As DroneGigList is still under active development, the future is brimming with potential. This platform is more than just a business venture for me; it's a passion project. I envision a future where drone pilots, irrespective of their scale or expertise, have a platform that aids in both job procurement and data management.
 
-If you're seeking unmatched drone services or a platform to discover drone-specific opportunities, remember the names: AirAutonomo and DroneGigList.com. Let's together shape the future of the drone industry!
+While the journey from being a drone service provider with AirAutonomo to conceptualizing a groundbreaking platform like DroneGigList has been challenging, it's been equally rewarding. Every step, every setback, and every breakthrough has shaped the journey.
 
-## **About the Author**
+I invite you all to be a part of this journey. Together, let's shape the future of the drone industry, making it more connected, more efficient, and more innovative.
 
-Tanner Bleakley is a software developer and drone enthusiast based out of Charleston, SC. He is the founder of AirAutonomo and DroneGigList.com. To learn more about his work, visit his [personal website](https://tannerb.dev/).
-
-## **Contact**
-
-Tanner Bleakley
-https://linkedin.com/in/tannerbleakley
-
-## **Tags**
-
-AirAutonomo, DroneGigList, drone services, orthomosaics, photogrammetry, real estate, 3D modeling, inspections, mapping, drone jobs, drone gigs, Charleston, drone technology, drone platforms, drone community
-
-## **Categories**
-
-AirAutonomo, DroneGigList, drone services, orthomosaics, photogrammetry, real estate, 3D modeling, inspections, mapping, drone jobs, drone gigs, Charleston, drone technology, drone platforms, drone community
-```
-
-## **DroneGigList.com: A Gateway to Drone Opportunities**
-
-Identifying a gap in the market for a dedicated platform for drone job listings, I founded DroneGigList.com. Whether you're a seasoned drone professional or a business seeking these specialized services, DroneGigList.com serves as a bridge connecting opportunities with talent.
-
-With a user-centric design, the platform makes it easy for professionals to find gigs tailored to their skills and for businesses to hire the best in the industry.
+Stay with us, as DroneGigList unfolds, and let's elevate the world of drone services to unparalleled heights.
