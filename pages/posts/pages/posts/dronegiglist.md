@@ -1,9 +1,26 @@
 ---
-title: AirAutonomo & DroneGigList.com: Pioneering the Drone Industry
+title: AirAutonomo & DroneGigList.com Pioneering the Drone Industry
 date: 2023/8/16
 description: An in-depth look at AirAutonomo's drone services and the revolutionary job platform, DroneGigList.com.
 tag: drone industry
-tags: [AirAutonomo, DroneGigList, drone services, orthomosaics, photogrammetry, real estate, 3D modeling, inspections, mapping, drone jobs, drone gigs, Charleston, drone technology, drone platforms, drone community]
+tags:
+  [
+    AirAutonomo,
+    DroneGigList,
+    drone services,
+    orthomosaics,
+    photogrammetry,
+    real estate,
+    3D modeling,
+    inspections,
+    mapping,
+    drone jobs,
+    drone gigs,
+    Charleston,
+    drone technology,
+    drone platforms,
+    drone community
+  ]
 author: Tanner Bleakley
 ---
 
