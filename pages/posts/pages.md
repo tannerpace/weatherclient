@@ -39,7 +39,7 @@ largest number
 
 ```
 
-## Problem : API is down
+## API is down
 
 ```
 
@@ -51,23 +51,11 @@ largest number
 
 ```
 
-The logic for determining viable locations was tightly coupled to the rendering. At the time I was using react, with [**react-query**](https://react-query.tanstack.com/) library to fetch the weather on the client side. Tight coupling such as this is a problem because it makes the code difficult to test. It also makes it difficult to read the logic. I moved as much business logic out of the components and onto the server.
-
-## Problem 2: API is slow
-
-```
-
-{
-"status": "504",
-"title": "Gateway Timeout",
-"detail": "The server, while acting as a gateway or proxy, did not receive a timely response from the upstream server specified by the URI or some other auxiliary server (e.g. DNS) it needed to access in attempting to complete the request."
-}
-
-```
+The logic for determining viable locations was tightly coupled to the rendering. At the time I was using react, with [**react-query**](https://react-query.tanstack.com/) library to fetch the weather on the client side. The application was unusable because of long wait times. I moved as much business logic out of the components and onto the server, when weather data was not availiable I would return null and display a message to the user. I added a button that would allow the user to try again.This was a better user experience, and it prevented me from getting blocked by the API, due to too many requests.
 
 The NOAA API is slow, and my users had to wait for not just the weather data but also the location data. This was a noticeable delay.By having my server request weather data from NOAA I could reduce time users had to wait, this would help seo and user experience.
 
-## Problem 3: API sends data that is not usable
+## API sends data that is not usable
 
 The weather data from the goverment weather API is not in a usable format. The wind direction was a string. To let users easily see if a location was viable I needed to convert the wind direction to a number. I used a switch statement.
 
@@ -142,7 +130,7 @@ return { result }
 
 ## Conclusion
 
-Working with unreliable APIs out of your control is a problem, and the nature of agile development. I could have easily switched to a different API, but I wanted to use the NOAA API because it was free and I wanted to learn how to work with it. I learned a lot about building a robust API and how to handle errors.
+Working with unreliable APIs out of your control is a problem. I could have easily switched to a different API, but I wanted to use the NOAA API because it was free and I wanted to learn how to work with it. I learned a lot about building a robust API and how to handle errors.
 
 ## Resources
 
