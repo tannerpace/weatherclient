@@ -69,7 +69,7 @@ The NOAA API is slow, and my users had to wait for not just the weather data but
 
 ## Problem 3: API sends data that is not usable
 
-The weather data from the goverment weather API is not in a standard format. The wind direction is a string, and the wind speed is a string. I had to convert the wind direction to a degree.
+The weather data from the goverment weather API is not in a usable format. The wind direction was a string. To let users easily see if a location was viable I needed to convert the wind direction to a number. I used a switch statement.
 
 ```
 
