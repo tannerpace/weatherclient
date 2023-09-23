@@ -10,7 +10,7 @@ author: Tanner Bleakley
 
 While building [**Kitesurf.ninja**](https://kitesurf.ninja/) I ran into a few unanticipated problems with the [NOAA Weather Api](https://www.weather.gov/documentation/services-web-api).
 
-My initial structure was to fetch the viable wind directions for a location as well as the lat and long, I would use the lat and long to fetch the weather data. This would allow me to display the location on the map and show the user if the location was viable for kitesurfing.
+My initial structure was to fetch the viable wind directions for a location as well as the lat and long, I would use the lat and long to fetch the weather data on the client. This would allow me to display the location on the map and show the user if the location was viable for kitesurfing.
 
 ## Wind Speed and Wind Direction needed to be converted to numbers for calculations
 
@@ -51,7 +51,7 @@ largest number
 
 ```
 
-The logic for determining viable locations was tightly coupled to the rendering. At the time I was using react, with [**react-query**](https://react-query.tanstack.com/) library to fetch the weather on the client side. The application was unusable because of long wait times. I moved as much business logic out of the components and onto the server, when weather data was not availiable I would return null and display a message to the user. I added a button that would allow the user to try again.This was a better user experience, and it prevented me from getting blocked by the API, due to too many requests.
+The logic for determining viable locations was tightly coupled to the rendering. At the time I was using react, with [**react-query**](https://react-query.tanstack.com/) library to fetch the weather on the client side. The application was unusable because of long wait times, as well as crashing when no weather data was avaliable. I moved as much business logic out of the components and onto the server, when weather data was not availiable I would return null and display a message to the user. I added a button that would allow the user to try again.This was a better user experience, and it prevented me from getting blocked by the API, due to too many requests.
 
 The NOAA API is slow, and my users had to wait for not just the weather data but also the location data. This was a noticeable delay.By having my server request weather data from NOAA I could reduce time users had to wait, this would help seo and user experience.
 
