@@ -8,7 +8,7 @@ author: Tanner Bleakley
 
 # Working with unreliable APIs - Kitesurf.ninja
 
-While building [**Kitesurf.ninja**](https://ninja-iota.vercel.app/) I ran into a few unanticipated problems with the [NOAA Weather Api](https://www.weather.gov/documentation/services-web-api).
+While building [**Kitesurf.ninja**](https://kitesurf.ninja/) I ran into a few unanticipated problems with the [NOAA Weather Api](https://www.weather.gov/documentation/services-web-api).
 
 My initial structure was to fetch the viable wind directions for a location as well as the lat and long, I would use the lat and long to fetch the weather data. This would allow me to display the location on the map and show the user if the location was viable for kitesurfing.
 
