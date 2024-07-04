@@ -34,6 +34,7 @@ const locations: KitesurfSpot[] = [
     description: "Sullivan's Island is located along the Atlantic Ocean near the center of Charleston County. The town is bordered to the west by the entrance to Charleston Harbor, to the north by Cove Inlet and the west by the Intercostal waterway.The writer Edgar Allan Poe was stationed at Fort Moultrie from November 1827 to December 1828.[20] The island is a setting for much of his short story \"The Gold- Bug\" (1843). In Poe's short story \"The Balloon - Hoax\", a gas balloon (forerunner of the dirigible) is piloted by eight men, six of them making independent diary entries, and describes a trip from Northern Wales to Fort Moultrie, Sullivan's Island over the course 75 hours  published as fact in a New York City newspaper in 1844 and retracted three days later.",
     experience: "beginner",
     references: "https://en.wikipedia.org/wiki/Sullivan%27s_Island,_South_Carolina",
+    location_img_url: ''
   },
   {
     id: 2,
@@ -48,6 +49,7 @@ const locations: KitesurfSpot[] = [
     experience: "beginner",
     title: "Folly Beach County Park",
     references: "https://en.wikipedia.org/wiki/Folly_Beach_County_Park",
+    location_img_url: ''
   },
   {
     id: 3,
@@ -63,8 +65,8 @@ const locations: KitesurfSpot[] = [
     experience: "intermediate",
     title: "Folly Beach North End",
     references: "https://en.wikipedia.org/wiki/Folly_Beach",
+    location_img_url: ''
   },
-
   {
     id: 4,
     latitude: "32.688061417805606",
@@ -80,6 +82,7 @@ const locations: KitesurfSpot[] = [
     experience: "advanced",
     title: "Morris Light House",
     references: "https://en.wikipedia.org/wiki/Morris_Island_Lighthouse",
+    location_img_url: ''
   },
   {
     id: 5,
@@ -95,8 +98,8 @@ const locations: KitesurfSpot[] = [
     experience: "advanced",
     title: "Fort Sumpter",
     references: "https://en.wikipedia.org/wiki/Fort_Sumter",
+    location_img_url: ''
   },
-
   {
     id: 6,
     latitude: "32.757628",
@@ -110,6 +113,7 @@ const locations: KitesurfSpot[] = [
     experience: "advanced",
     title: "Fort Moultrie",
     references: "https://en.wikipedia.org/wiki/Fort_Moultrie",
+    location_img_url: ''
   },
 ]
 
