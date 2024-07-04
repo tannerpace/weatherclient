@@ -1,3 +1,4 @@
+"use client"
 import React from "react"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
@@ -5,7 +6,9 @@ import { useRouter } from "next/router"
 import { WindProvider, useWindContext } from "@/app/context/WindContext"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
-import useLocations from "./hooks/useKiteSurfSpots"
+import useKiteSurfSpots from "./hooks/useKiteSurfSpots"
+import { KitesurfSpot } from "@/app/components/Map"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 config.autoAddCss = false
 
@@ -17,11 +20,11 @@ const center: [number, number] = [lat, long]
 
 const FilteredApp: React.FC = () => {
   const { filter, setWindFilter } = useWindContext()
-  const router = useRouter()
-  const { data: locations, isLoading } = useLocations()
+
+  const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
 
   const handleLocationClick = (locationId: number) => {
-    router.push(`/weather/${locationId}`)
+    // router.push(`/weather/${locationId}`)
   }
 
   return (
@@ -40,10 +43,11 @@ const FilteredApp: React.FC = () => {
         {!isLoading && (
           <Map
             position={center}
-            kitesurfSpots={locations}
+            kitesurfSpots={kitesurfSpots as unknown as KitesurfSpot[]}
             onLocationClick={handleLocationClick}
           />
         )}
+        {JSON.stringify(kitesurfSpots, null, 2)}
       </div>
       <div className="w-full p-4 overflow-y-auto h-1/3">Filter</div>
       item cards
@@ -54,7 +58,9 @@ const FilteredApp: React.FC = () => {
 const App: React.FC = () => {
   return (
     <WindProvider>
-      <FilteredApp />
+      <QueryClientProvider client={new QueryClient()}>
+        <FilteredApp />
+      </QueryClientProvider>
     </WindProvider>
   )
 }
