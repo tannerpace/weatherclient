@@ -1,7 +1,11 @@
-interface Location {
+
+import { WindDirection } from "@/app/context/FilterContext"
+
+export interface KitesurfSpot {
+  location_img_url: string | undefined
   id: number
-  latitude: string
-  longitude: string
+  latitude: string | number
+  longitude: string | number
   name: string
   island: string
   winddirections: string
@@ -13,9 +17,10 @@ interface Location {
   references: string
 }
 
-
-
-const locations: Location[] = [
+export type viable_directions = {
+  [key in WindDirection]: number
+}
+const locations: KitesurfSpot[] = [
   {
     id: 1,
     latitude: "32.76562356586255",
