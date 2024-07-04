@@ -5,10 +5,11 @@ import dynamic from "next/dynamic"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 import useKiteSurfSpots from "./hooks/useKiteSurfSpots"
-import { KitesurfSpot } from "@/app/components/Map"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
+import { QueryClientProvider } from "@tanstack/react-query"
 import { FilterProvider } from "./context/FilterContext"
 import { queryClient } from "@/app/queryClient"
+import { KitesurfSpot } from "../../mock"
 config.autoAddCss = false
 
 const Map = dynamic(() => import("@/app/components/Map"), { ssr: false })

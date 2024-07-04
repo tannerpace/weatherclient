@@ -66,7 +66,7 @@ const Map: React.FC<MapProps> = ({
                   <p>{spot.description}</p>
                   <div>
                     <a
-                      href={`https://www.google.com/maps/dir/?api=1&destination=${spot.location_latitude},${spot.location_longitude}`}
+                      href={`https://www.google.com/maps/dir/?api=1&destination=${spot.latitude},${spot.longitude}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
