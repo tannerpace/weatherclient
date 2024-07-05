@@ -14,6 +14,7 @@ specifiers:
   '@types/react': ^18
   '@types/react-dom': ^18
   axios: ^1.7.2
+  clsx: ^2.1.1
   eslint: ^8
   eslint-config-next: 14.2.4
   leaflet: ^1.9.4
@@ -36,6 +37,7 @@ dependencies:
   '@mui/material': 5.15.21_2ydye2ssgie5txqpzjyz7x4tnm
   '@tanstack/react-query': 5.49.2_react@18.3.1
   axios: 1.7.2
+  clsx: 2.1.1
   leaflet: 1.9.4
   next: 14.2.4_nnrd3gsncyragczmpvfhocinkq
   react: 18.3.1
