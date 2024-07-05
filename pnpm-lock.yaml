@@ -6,6 +6,7 @@ specifiers:
   '@fortawesome/fontawesome-svg-core': ^6.5.2
   '@fortawesome/free-solid-svg-icons': ^6.5.2
   '@fortawesome/react-fontawesome': ^0.2.2
+  '@mui/icons-material': ^5.15.21
   '@mui/material': ^5.15.21
   '@tanstack/react-query': ^5.49.2
   '@types/leaflet': ^1.9.12
@@ -30,6 +31,7 @@ dependencies:
   '@fortawesome/fontawesome-svg-core': 6.5.2
   '@fortawesome/free-solid-svg-icons': 6.5.2
   '@fortawesome/react-fontawesome': 0.2.2_5kypwqptikan3pxpavlwcg34xi
+  '@mui/icons-material': 5.15.21_jx2yqklgc3ysua3kbit6sn6sky
   '@mui/material': 5.15.21_2ydye2ssgie5txqpzjyz7x4tnm
   '@tanstack/react-query': 5.49.2_react@18.3.1
   axios: 1.7.2
@@ -489,6 +491,23 @@ packages:
 
   /@mui/core-downloads-tracker/5.15.21:
     resolution: {integrity: sha512-dp9lXBaJZzJYeJfQY3Ow4Rb49QaCEdkl2KKYscdQHQm6bMJ+l4XPY3Cd9PCeeJTsHPIDJ60lzXbeRgs6sx/rpw==}
+    dev: false
+
+  /@mui/icons-material/5.15.21_jx2yqklgc3ysua3kbit6sn6sky:
+    resolution: {integrity: sha512-yqkq1MbdkmX5ZHyvZTBuAaA6RkvoqkoAgwBSx9Oh0L0jAfj9T/Ih/NhMNjkl8PWVSonjfDUkKroBnjRyo/1M9Q==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      '@mui/material': ^5.0.0
+      '@types/react': ^17.0.0 || ^18.0.0
+      react: ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.24.7
+      '@mui/material': 5.15.21_2ydye2ssgie5txqpzjyz7x4tnm
+      '@types/react': 18.3.3
+      react: 18.3.1
     dev: false
 
   /@mui/material/5.15.21_2ydye2ssgie5txqpzjyz7x4tnm:

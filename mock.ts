@@ -207,8 +207,8 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     depth: "various",
     description: "Bird Key is a small island located near the entrance to Charleston Harbor. It's known for its strong winds from the NE, E, and SE, making it a great spot for kitesurfing. The island is accessible only by boat and offers a mix of shallow and deep waters. The wildlife on Bird Key is diverse, and it's common to see various bird species and occasional dolphins. It's a great spot for intermediate to advanced kiteboarders looking for a less crowded and natural setting.",
     experience: "intermediate",
-    references: "https://en.wikipedia.org/wiki/Bird_Key",
-    location_img_url: 'public/birdkey.jpg',
+    references: "https://www.dnr.sc.gov/birdsanctuaries/birdkeystono.html",
+    location_img_url: '/public/birdkey.jpg',
     viable_directions: {
       "N": 0,
       "S": 0,
