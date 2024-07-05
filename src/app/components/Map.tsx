@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation" // Correct import for App Router
 import Image from "next/image"
 import { WindDirection } from "../context/FilterContext"
 import { KitesurfSpot } from "../../../mock"
+import SpotImage from "./SpotImage"
 
 config.autoAddCss = false
 
@@ -60,15 +61,7 @@ const Map: React.FC<MapProps> = ({
             >
               <Popup>
                 <div>
-                  {spot.location_img_url ? (
-                    <Image
-                      src={spot.location_img_url}
-                      alt={spot.name}
-                      width={300}
-                      height={200}
-                      style={{ width: "100%", marginBottom: "0.5rem" }}
-                    />
-                  ) : null}
+                  <SpotImage spot={spot} />
                   <div style={{ fontWeight: "bold", fontSize: "1.1rem" }}>
                     {spot.name}
                   </div>

@@ -3,7 +3,7 @@ const capersIslandImageUrl = '/public/party.jpg'
 const birdKeyLat = "32.62833267361373"
 const birdKeyLong = "-79.98719329863708"
 export interface KitesurfSpot {
-  location_img_url: string | undefined;
+  location_img_url: string;
   id: number;
   latitude: number;
   longitude: number;
