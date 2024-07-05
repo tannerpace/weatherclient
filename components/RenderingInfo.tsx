@@ -3,13 +3,39 @@
 import useWeather from "@/app/hooks/useWeather"
 import React, { useState } from "react"
 
-export function RenderingInfo({
-  latitude,
-  longitude,
-}: {
+interface WeatherPeriod {
+  number: number
+  startTime: string
+  endTime: string
+  isDaytime: boolean
+  temperature: number
+  temperatureUnit: string
+  temperatureTrend: string | null
+  probabilityOfPrecipitation: {
+    unitCode: string
+    value: number
+  }
+  dewpoint: {
+    unitCode: string
+    value: number
+  }
+  relativeHumidity: {
+    unitCode: string
+    value: number
+  }
+  windSpeed: string
+  windDirection: string
+  icon: string
+  shortForecast: string
+  detailedForecast: string
+}
+
+interface WeatherProps {
   latitude: string
   longitude: string
-}) {
+}
+
+export function RenderingInfo({ latitude, longitude }: WeatherProps) {
   const { data, isLoading, error } = useWeather({ latitude, longitude })
   const [selectedPeriod, setSelectedPeriod] = useState<number | null>(null)
 
@@ -32,7 +58,7 @@ export function RenderingInfo({
   return (
     <div className="space-y-3 rounded-lg bg-gray-900 p-3">
       <div className="text-sm text-gray-300">
-        {data.properties.periods.map((period) => (
+        {data.properties.periods.map((period: any) => (
           <div
             key={period.number}
             className={`p-2 cursor-pointer ${
@@ -46,7 +72,7 @@ export function RenderingInfo({
             {selectedPeriod === period.number && (
               <div>
                 <div>
-                  Temperature: {period.temperature} {period.temperature}
+                  Temperature: {period.temperature} {period.temperatureUnit}
                 </div>
                 <div>
                   Wind: {period.windSpeed} {period.windDirection}
