@@ -10,6 +10,7 @@ import { QueryClientProvider } from "@tanstack/react-query"
 import { FilterProvider } from "./context/FilterContext"
 import { queryClient } from "@/app/queryClient"
 import { KitesurfSpot } from "../../mock"
+
 config.autoAddCss = false
 
 const Map = dynamic(() => import("@/app/components/Map"), { ssr: false })
@@ -20,10 +21,6 @@ const center: [number, number] = [lat, long]
 
 const FilteredApp: React.FC = () => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
-
-  const handleLocationClick = (locationId: number) => {
-    // router.push(`/weather/${locationId}`)
-  }
 
   return (
     <div className="flex flex-col h-screen">
@@ -37,17 +34,14 @@ const FilteredApp: React.FC = () => {
           maxHeight: "3rem",
         }}
       />
-      <div className="w-full p-4 h-1/3">
+      <div className="w-full p-4 h-full">
         {!isLoading && (
           <Map
             position={center}
             kitesurfSpots={kitesurfSpots as KitesurfSpot[]}
-            onLocationClick={handleLocationClick}
           />
         )}
       </div>
-      <div className="w-full p-4 overflow-y-auto h-1/3">Filter</div>
-      item cards
     </div>
   )
 }

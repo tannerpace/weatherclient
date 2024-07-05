@@ -37,7 +37,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     description: "Sullivan's Island is located along the Atlantic Ocean near the center of Charleston County. The town is bordered to the west by the entrance to Charleston Harbor, to the north by Cove Inlet and the west by the Intercostal waterway. The writer Edgar Allan Poe was stationed at Fort Moultrie from November 1827 to December 1828. The island is a setting for much of his short story 'The Gold-Bug' (1843). In Poe's short story 'The Balloon-Hoax', a gas balloon (forerunner of the dirigible) is piloted by eight men, six of them making independent diary entries, and describes a trip from Northern Wales to Fort Moultrie, Sullivan's Island over the course of 75 hours, published as fact in a New York City newspaper in 1844 and retracted three days later.",
     experience: "beginner",
     references: "https://en.wikipedia.org/wiki/Sullivan%27s_Island,_South_Carolina",
-    location_img_url: "/public/photo1.jpg",
+    location_img_url: "/photo1.jpg",
     viable_directions: {
       "N": 0,
       "S": 1,
@@ -61,7 +61,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     description: "Folly Beach County Park is a large park on the south end of Folly Beach, South Carolina. It is a great place to start your kiteboarding session, and is a great place to kite on almost any wind direction. It is also a swimming beach with seasonal lifeguards & pelican rookery featured in the preserve with limited parking.",
     experience: "beginner",
     references: "https://en.wikipedia.org/wiki/Folly_Beach_County_Park",
-    location_img_url: '/public/PANO0001-Pano.jpg',
+    location_img_url: '/PANO0001-Pano.jpg',
     viable_directions: {
       "N": 0,
       "S": 1,
@@ -87,7 +87,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     experience: "intermediate",
 
     references: "https://en.wikipedia.org/wiki/Folly_Beach",
-    location_img_url: "/public/photo2.jpg",
+    location_img_url: "/photo2.jpg",
     viable_directions: {
       "N": 1,
       "S": 0,
@@ -112,7 +112,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
       "Fort Sumter is a sea fort built on an artificial island protecting Charleston, South Carolina from naval invasion. Its origin dates to the War of 1812 when the British invaded Washington by sea. It was still incomplete in 1861 when the Battle of Fort Sumter began the American Civil War. It was severely damaged during the war, left in ruins, and although there was some rebuilding, the fort as conceived was never completed. The fort was abandoned in the late 19th century and was rebuilt in the early 20th century. The fort is now a museum and a tourist attraction. The fort is a great place to start your kiteboarding session, and is a great place to see dolphins. In this spot, be cautious of the rocks on the beach, you will often see hikers and fishers on this beach. The water here has very strong currents. This makes it suitable for experienced kiteboarders, but not for beginners.",
     experience: "advanced",
     references: "https://en.wikipedia.org/wiki/Fort_Sumter",
-    location_img_url: 'public/photograph-Charleston-South-Carolina-shots-Fort-Sumter.webp',
+    location_img_url: '/photograph-Charleston-South-Carolina-shots-Fort-Sumter.webp',
     viable_directions: {
       "N": 0,
       "S": 1,
@@ -136,7 +136,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     description: "Beware of coyotes, shipping traffic, and strong currents. This is an ok spot for intermediate kiteboarders. Fort Moultrie is a series of fortifications on Sullivan's Island, South Carolina, built to protect the city of Charleston. The first fort, formerly named Fort Sullivan, built of palmetto logs, inspired the flag and nickname of South Carolina, as 'The Palmetto State.' The fort was renamed for the U.S. patriot commander in the Battle of Sullivan's Island, General William Moultrie. During British occupation, in 1780–1782, the fort was known as Fort Arbuthnot.",
     experience: "advanced",
     references: "https://en.wikipedia.org/wiki/Fort_Moultrie",
-    location_img_url: '/public/moultry.jpg',
+    location_img_url: '/moultry.jpg',
     viable_directions: {
       "N": 0,
       "S": 1,
@@ -208,7 +208,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     description: "Bird Key is a small island located near the entrance to Charleston Harbor. It's known for its strong winds from the NE, E, and SE, making it a great spot for kitesurfing. The island is accessible only by boat and offers a mix of shallow and deep waters. The wildlife on Bird Key is diverse, and it's common to see various bird species and occasional dolphins. It's a great spot for intermediate to advanced kiteboarders looking for a less crowded and natural setting.",
     experience: "intermediate",
     references: "https://www.dnr.sc.gov/birdsanctuaries/birdkeystono.html",
-    location_img_url: '/public/birdkey.jpg',
+    location_img_url: '/birdkey.jpg',
     viable_directions: {
       "N": 0,
       "S": 0,

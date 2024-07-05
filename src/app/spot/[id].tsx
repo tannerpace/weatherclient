@@ -1,10 +1,10 @@
 import React from "react"
 import { useRouter } from "next/router"
 import Image from "next/image" // Import Image from next/image
-import useKiteSurfSpots from "../../hooks/useKiteSurfSpots" // Adjust the import path
+import useKiteSurfSpots from "../hooks/useKiteSurfSpots" // Adjust the import path
 import useWeather from "@/app/hooks/useWeather"
 
-const SpotCardPage: React.FC = () => {
+const Page: React.FC = () => {
   const router = useRouter()
   const { id } = router.query
   const { data: kitesurfSpots = [] } = useKiteSurfSpots()
@@ -54,4 +54,4 @@ const SpotCardPage: React.FC = () => {
   )
 }
 
-export default SpotCardPage
+export default Page

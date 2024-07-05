@@ -11,7 +11,7 @@ import Image from "next/image"
 import { WindDirection } from "../context/FilterContext"
 import { KitesurfSpot } from "../../../mock"
 import SpotImage from "./SpotImage"
-
+import Link from "next/link"
 config.autoAddCss = false
 
 L.Icon.Default.mergeOptions({
@@ -26,7 +26,6 @@ L.Icon.Default.mergeOptions({
 interface MapProps {
   position: [number, number] | null
   kitesurfSpots: KitesurfSpot[]
-  onLocationClick: (id: number) => void
 }
 
 const Map: React.FC<MapProps> = ({
@@ -87,25 +86,26 @@ const Map: React.FC<MapProps> = ({
                       />
                       Go
                     </a>
-                    <button
-                      onClick={() => handleWeatherClick(spot.id)}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                        color: "blue",
-                        textDecoration: "underline",
-                        cursor: "pointer",
-                        fontSize: "1.1rem",
-                      }}
-                    >
-                      <FontAwesomeIcon
-                        icon={faWind}
-                        style={{ marginRight: "0.5rem" }}
-                      />
-                      View Weather
-                    </button>
+                    <Link href={`/spot/${spot.id}`} passHref>
+                      <button
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          color: "blue",
+                          textDecoration: "underline",
+                          cursor: "pointer",
+                          fontSize: "1.1rem",
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faWind}
+                          style={{ marginRight: "0.5rem" }}
+                        />
+                        View Weather
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </Popup>

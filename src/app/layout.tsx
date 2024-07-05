@@ -1,6 +1,5 @@
-import type { Metadata } from "next"
+import { Metadata } from "next"
 import { Inter } from "next/font/google"
-import Head from "next/head"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -8,6 +7,9 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Kitesurf Ninja",
   description: "Your ultimate kitesurfing guide",
+  icons: {
+    icon: "/favicon.ico",
+  },
 }
 
 const RootLayout = ({
@@ -17,11 +19,6 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <Head>
-        <title>Kitesurf Ninja</title>
-        <meta name="description" content={metadata.description ?? undefined} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <body className={inter.className}>
         <header>
           <nav>
@@ -29,7 +26,8 @@ const RootLayout = ({
               <li>
                 <a href="/">Home</a>
               </li>
-              {/* <li>
+              {/* Uncomment if needed
+              <li>
                 <a href="/about">About</a>
               </li>
               <li>
@@ -37,7 +35,8 @@ const RootLayout = ({
               </li>
               <li>
                 <a href="/blog">Blog</a>
-              </li> */}
+              </li>
+              */}
             </ul>
           </nav>
         </header>
