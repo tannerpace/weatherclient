@@ -5,9 +5,9 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Informed Dining- Allergy-Friendly Food Finder",
+  title: "Kitesurf Ninja - Find Your Perfect Kitesurf Spot",
   description:
-    "Find restaurants and food options that cater to your allergy needs.",
+    "Discover the best kitesurfing spots and get real-time weather updates.",
 }
 
 export default function RootLayout({
@@ -22,18 +22,18 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
           name="description"
-          content="Find restaurants and food options that cater to your allergy needs."
+          content="Discover the best kitesurfing spots and get real-time weather updates."
         />
         <meta
           name="keywords"
-          content="allergy, food, restaurant, finder, health, management"
+          content="kitesurf, kitesurfing, spots, weather, wind, surfing, kite"
         />
-        <meta name="author" content="Dine Safe Team" />
-        <title>Informed Dining - Allergy-Friendly Food Finder</title>
+        <meta name="author" content="Kitesurf Ninja Team" />
+        <title>Kitesurf Ninja - Find Your Perfect Kitesurf Spot</title>
       </head>
       <body className={inter.className}>
         <div id="__next">
-          <main className="bg-teal-200">{children}</main>
+          <main className="bg-slate-400">{children}</main>
         </div>
       </body>
     </html>
