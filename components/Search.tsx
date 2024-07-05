@@ -2,8 +2,6 @@
 
 import Input from "@/app/shared/Input"
 import React, { useState } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch } from "@fortawesome/free-solid-svg-icons"
 
 type SearchProps = {
   onSearch: (query: string) => void
