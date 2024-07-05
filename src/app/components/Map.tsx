@@ -48,11 +48,6 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
             <Marker
               key={spot.id}
               position={[spot.latitude as number, spot.longitude as number]}
-              eventHandlers={{
-                click: () => {
-                  handleWeatherClick(spot.id)
-                },
-              }}
             >
               <Popup>
                 <div>
@@ -84,6 +79,9 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                     </a>
                     <Link href={`/spot/${spot.id}`} passHref>
                       <button
+                        onClick={() => {
+                          handleWeatherClick(spot.id)
+                        }}
                         style={{
                           display: "flex",
                           alignItems: "center",
