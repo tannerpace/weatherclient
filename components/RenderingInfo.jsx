@@ -3,41 +3,9 @@
 import useWeather from "@/app/hooks/useWeather"
 import React, { useState } from "react"
 
-interface WeatherPeriod {
-  number: number
-  startTime: string
-  endTime: string
-  isDaytime: boolean
-  temperature: number
-  temperatureUnit: string
-  temperatureTrend: string | null
-  probabilityOfPrecipitation: {
-    unitCode: string
-    value: number
-  }
-  dewpoint: {
-    unitCode: string
-    value: number
-  }
-  relativeHumidity: {
-    unitCode: string
-    value: number
-  }
-  windSpeed: string
-  windDirection: string
-  icon: string
-  shortForecast: string
-  detailedForecast: string
-}
-
-interface WeatherProps {
-  latitude: string
-  longitude: string
-}
-
-export function RenderingInfo({ latitude, longitude }: WeatherProps) {
+export function RenderingInfo({ latitude, longitude }) {
   const { weatherData, error } = useWeather({ latitude, longitude })
-  const [selectedPeriod, setSelectedPeriod] = useState<number | null>(null)
+  const [selectedPeriod, setSelectedPeriod] = useState(null > null)
 
   if (error) {
     return <div>Error fetching weather data</div>
@@ -47,14 +15,27 @@ export function RenderingInfo({ latitude, longitude }: WeatherProps) {
     return <div>No data available</div>
   }
 
-  const handlePeriodSelect = (periodNumber: number) => {
+  const handlePeriodSelect = (periodNumber) => {
     setSelectedPeriod(periodNumber)
   }
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleString("en-US", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    })
+  }
+
   return (
-    <div className="space-y-3 rounded-lg bg-gray-900 p-3">
+    <div className="space-y-3 rounded-lg bg-gray-900 p-3 m-2">
       <div className="text-sm text-gray-300">
-        {weatherData.properties.periods.map((period: any) => (
+        {weatherData.properties.periods.map((period) => (
           <div
             key={period.number}
             className={`p-2 cursor-pointer ${
@@ -63,7 +44,8 @@ export function RenderingInfo({ latitude, longitude }: WeatherProps) {
             onClick={() => handlePeriodSelect(period.number)}
           >
             <div>
-              <strong>{period.startTime}</strong>: {period.shortForecast}
+              <strong>{formatDate(period.startTime)}</strong>:{" "}
+              {period.shortForecast}
             </div>
             {selectedPeriod === period.number && (
               <div>
