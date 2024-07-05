@@ -23,11 +23,11 @@ const FilteredApp: React.FC = () => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
 
   return (
-    <div className="flex flex-col h-screen p-9">
+    <div className="flex flex-col h-screen p-6">
       <input
         type="text"
         placeholder="Search by name"
-        className="mb-4 border border-gray-300 rounded"
+        className="mb-4 p-2 border border-gray-300 rounded"
         style={{
           maxHeight: "3rem",
         }}

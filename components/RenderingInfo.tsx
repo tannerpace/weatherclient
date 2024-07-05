@@ -36,18 +36,14 @@ interface WeatherProps {
 }
 
 export function RenderingInfo({ latitude, longitude }: WeatherProps) {
-  const { data, isLoading, error } = useWeather({ latitude, longitude })
+  const { weatherData, error } = useWeather({ latitude, longitude })
   const [selectedPeriod, setSelectedPeriod] = useState<number | null>(null)
 
-  if (isLoading) {
-    return <div>Loading weather data...</div>
-  }
-
   if (error) {
-    return <div>Error fetching weather data: {error.message}</div>
+    return <div>Error fetching weather data</div>
   }
 
-  if (!data) {
+  if (!weatherData) {
     return <div>No data available</div>
   }
 
@@ -58,7 +54,7 @@ export function RenderingInfo({ latitude, longitude }: WeatherProps) {
   return (
     <div className="space-y-3 rounded-lg bg-gray-900 p-3">
       <div className="text-sm text-gray-300">
-        {data.properties.periods.map((period: any) => (
+        {weatherData.properties.periods.map((period: any) => (
           <div
             key={period.number}
             className={`p-2 cursor-pointer ${
@@ -77,7 +73,7 @@ export function RenderingInfo({ latitude, longitude }: WeatherProps) {
                 <div>
                   Wind: {period.windSpeed} {period.windDirection}
                 </div>
-                <div>Humidity: {period.relativeHumidity.value}%</div>
+                <div>Humidity: {period?.relativeHumidity?.value}%</div>
                 <div>Forecast: {period.detailedForecast}</div>
               </div>
             )}

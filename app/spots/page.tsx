@@ -24,9 +24,6 @@ export default function Page() {
           session.
         </li>
       </ul>
-
-      <div className="flex gap-2">Docs Code</div>
-
       <div className="weather mt-4">
         <h2 className="text-lg font-bold">Current Weather in Charleston</h2>
         {isLoading && <p>Loading weather data...</p>}
