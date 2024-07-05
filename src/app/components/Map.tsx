@@ -7,8 +7,6 @@ import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 import { useRouter } from "next/navigation" // Correct import for App Router
-import Image from "next/image"
-import { WindDirection } from "../context/FilterContext"
 import { KitesurfSpot } from "../../../mock"
 import SpotImage from "./SpotImage"
 import Link from "next/link"
@@ -29,7 +27,7 @@ interface MapProps {
 }
 
 const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
-  const router = useRouter() // Use Next.js router
+  const router = useRouter()
 
   const handleWeatherClick = (spotId: number) => {
     router.push(`/spot/${spotId}`)
