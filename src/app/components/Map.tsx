@@ -28,11 +28,7 @@ interface MapProps {
   kitesurfSpots: KitesurfSpot[]
 }
 
-const Map: React.FC<MapProps> = ({
-  position,
-  kitesurfSpots,
-  onLocationClick,
-}) => {
+const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   const router = useRouter() // Use Next.js router
 
   const handleWeatherClick = (spotId: number) => {
@@ -40,7 +36,7 @@ const Map: React.FC<MapProps> = ({
   }
 
   return (
-    <div className="map-container" style={{ height: "500px", width: "100%" }}>
+    <div className="map-container" style={{ height: "100%", width: "100%" }}>
       {position && kitesurfSpots.length ? (
         <MapContainer
           center={position}
@@ -54,7 +50,7 @@ const Map: React.FC<MapProps> = ({
               position={[spot.latitude as number, spot.longitude as number]}
               eventHandlers={{
                 click: () => {
-                  onLocationClick(spot.id)
+                  handleWeatherClick(spot.id)
                 },
               }}
             >
