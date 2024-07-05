@@ -1,5 +1,5 @@
 import { WindDirection } from "@/app/context/FilterContext";
-const capersIslandImageUrl = '/public/party.jpg'
+const capersIslandImageUrl = '/party.jpg'
 const birdKeyLat = "32.62833267361373"
 const birdKeyLong = "-79.98719329863708"
 export interface KitesurfSpot {
@@ -154,7 +154,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     longitude: "-79.71980425914779",
     name: "North IOP",
     description: "Wild Dunes is a private, gated community located on the Isle of Palms, just outside of Charleston, South Carolina. Known for its picturesque beaches and lush landscapes, Wild Dunes is a popular destination for kiteboarders from around the world. The community boasts miles of pristine beaches, perfect for launching and landing kites, as well as a variety of challenging waves and winds for experienced riders. The private nature of the community means that kiteboarding spots are less crowded, allowing for more open space and greater freedom to ride. In addition to the natural beauty and kiteboarding opportunities, Wild Dunes also offers a variety of amenities, including tennis courts, swimming pools, and bike rentals, as well as restaurants and shops. For those looking for a secluded kiteboarding paradise, Wild Dunes is the perfect destination.",
-    location_img_url: "public/WD-Links-17-18-7-1140x600-1-1140x605.jpg",
+    location_img_url: "/WD-Links-17-18-7-1140x600-1-1140x605.jpg",
     waves: "1",
     island: "Sullivan's Island",
     references: "https://en.wikipedia.org/wiki/Fort_Moultrie",

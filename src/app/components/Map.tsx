@@ -30,7 +30,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   const router = useRouter()
 
   const handleWeatherClick = (spotId: number) => {
-    router.push(`/spot/${spotId}`)
+    router.push(`/spots/${spotId}`)
   }
 
   return (
@@ -75,11 +75,8 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                       />
                       Go
                     </a>
-                    <Link href={`/spot/${spot.id}`} passHref>
+                    <Link href={`/spots/${spot.id}`} passHref>
                       <button
-                        onClick={() => {
-                          handleWeatherClick(spot.id)
-                        }}
                         style={{
                           display: "flex",
                           alignItems: "center",

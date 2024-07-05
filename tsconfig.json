@@ -18,8 +18,12 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/components/*": ["src/components/*"],
+      "@/pages/*": ["src/app/pages/*"]
+    },
+    "baseUrl": "."
   },
   "include": [
     "next-env.d.ts",

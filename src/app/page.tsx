@@ -46,7 +46,7 @@ const FilteredApp: React.FC = () => {
   )
 }
 
-const App: React.FC = () => {
+const Home: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <FilterProvider>
@@ -56,6 +56,6 @@ const App: React.FC = () => {
   )
 }
 
-App.displayName = "Kite Surf Ninja"
+Home.displayName = "Kite Surf Ninja"
 
-export default App
+export default Home
