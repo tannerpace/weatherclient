@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from './useDebounce';
-import WeatherService from '@/api/weatherService';
+import WeatherService from '../api/weatherService';
+
 
 
 /**
