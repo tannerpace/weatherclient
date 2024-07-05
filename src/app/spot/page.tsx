@@ -1,12 +1,13 @@
 import BottomNavBar from "@/app/shared/BottomNavBar"
+import SpotComponent from "@/app/components/Spot"
 
-const Spot = () => {
+const Page = () => {
   return (
     <main className="main">
-      <h1>Spot</h1>
+      <SpotComponent />
       <BottomNavBar />
     </main>
   )
 }
 
-export default Spot
+export default Page

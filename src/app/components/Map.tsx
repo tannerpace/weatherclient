@@ -1,12 +1,13 @@
-"use client"
-
+import React from "react"
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faLocationArrow, faGlobe } from "@fortawesome/free-solid-svg-icons"
+import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
+import { useRouter } from "next/navigation" // Correct import for App Router
+import Image from "next/image"
 import { WindDirection } from "../context/FilterContext"
 import { KitesurfSpot } from "../../../mock"
 
@@ -32,6 +33,12 @@ const Map: React.FC<MapProps> = ({
   kitesurfSpots,
   onLocationClick,
 }) => {
+  const router = useRouter() // Use Next.js router
+
+  const handleWeatherClick = (spotId: number) => {
+    router.push(`/spot/${spotId}`)
+  }
+
   return (
     <div className="map-container" style={{ height: "500px", width: "100%" }}>
       {position && kitesurfSpots.length ? (
@@ -54,9 +61,11 @@ const Map: React.FC<MapProps> = ({
               <Popup>
                 <div>
                   {spot.location_img_url ? (
-                    <img
+                    <Image
                       src={spot.location_img_url}
                       alt={spot.name}
+                      width={300}
+                      height={200}
                       style={{ width: "100%", marginBottom: "0.5rem" }}
                     />
                   ) : null}
@@ -64,7 +73,9 @@ const Map: React.FC<MapProps> = ({
                     {spot.name}
                   </div>
                   <p>{spot.description}</p>
-                  <div>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
                     <a
                       href={`https://www.google.com/maps/dir/?api=1&destination=${spot.latitude},${spot.longitude}`}
                       target="_blank"
@@ -74,7 +85,6 @@ const Map: React.FC<MapProps> = ({
                         alignItems: "center",
                         color: "green",
                         textDecoration: "underline",
-                        marginTop: "0.7rem",
                         fontSize: "1.1rem",
                       }}
                     >
@@ -84,6 +94,25 @@ const Map: React.FC<MapProps> = ({
                       />
                       Go
                     </a>
+                    <button
+                      onClick={() => handleWeatherClick(spot.id)}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        color: "blue",
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                        fontSize: "1.1rem",
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faWind}
+                        style={{ marginRight: "0.5rem" }}
+                      />
+                      View Weather
+                    </button>
                   </div>
                 </div>
               </Popup>
