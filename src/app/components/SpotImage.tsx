@@ -1,7 +1,7 @@
-import Image from "next/image"
+"use client"
 import React from "react"
 import { KitesurfSpot } from "../../../mock"
-
+import Box from "@mui/material/Box"
 interface SpotImageProps {
   spot: KitesurfSpot
 }
