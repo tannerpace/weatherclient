@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import locations, { KitesurfSpot } from "../../../mock";
+import locations, { KitesurfSpot } from "../api/mock";
+
 
 
 const initialLocations: KitesurfSpot[] = locations.map((location) => ({

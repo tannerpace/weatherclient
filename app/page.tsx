@@ -8,12 +8,13 @@ import useKiteSurfSpots from "./hooks/useKiteSurfSpots"
 
 import { QueryClientProvider } from "@tanstack/react-query"
 import { FilterProvider } from "./context/FilterContext"
-import { queryClient } from "@/app/queryClient"
-import { KitesurfSpot } from "../../mock"
+
+import { KitesurfSpot } from "./api/mock"
+import { queryClient } from "./queryClient"
 
 config.autoAddCss = false
 
-const Map = dynamic(() => import("@/app/components/Map"), { ssr: false })
+const Map = dynamic(() => import("@/components/Map"), { ssr: false })
 
 const lat = Number("32.78621094914123")
 const long = Number("-79.9387649781444")
@@ -46,7 +47,7 @@ const FilteredApp: React.FC = () => {
   )
 }
 
-const Home: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <FilterProvider>
@@ -56,6 +57,6 @@ const Home: React.FC = () => {
   )
 }
 
-Home.displayName = "Kite Surf Ninja"
+Page.displayName = "Kite Surf Ninja"
 
-export default Home
+export default Page

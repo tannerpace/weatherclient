@@ -9,7 +9,7 @@ import React, {
 } from "react"
 
 import useKiteSurfSpots from "../hooks/useKiteSurfSpots"
-import { KitesurfSpot } from "../../../mock"
+import { KitesurfSpot } from "../api/mock"
 
 export type WindDirection = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
 

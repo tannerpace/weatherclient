@@ -1,4 +1,4 @@
-import { WindDirection } from "@/app/context/FilterContext";
+import { WindDirection } from "@/context/FilterContext";
 const capersIslandImageUrl = '/party.jpg'
 const birdKeyLat = "32.62833267361373"
 const birdKeyLong = "-79.98719329863708"

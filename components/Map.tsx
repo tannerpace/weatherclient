@@ -7,9 +7,11 @@ import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 import { useRouter } from "next/navigation" // Correct import for App Router
-import { KitesurfSpot } from "../../../mock"
+
 import SpotImage from "./SpotImage"
 import Link from "next/link"
+import { KitesurfSpot } from "../app/api/mock"
+
 config.autoAddCss = false
 
 L.Icon.Default.mergeOptions({

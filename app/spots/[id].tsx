@@ -1,10 +1,12 @@
-import React from "react"
-import { useRouter } from "next/router"
-import Image from "next/image" // Import Image from next/image
-import useKiteSurfSpots from "../hooks/useKiteSurfSpots" // Adjust the import path
-import useWeather from "@/app/hooks/useWeather"
+// File: app/spots/[id].tsx
 
-const Page: React.FC = () => {
+import { useRouter } from "next/router"
+
+import Image from "next/image"
+import useWeather from "../hooks/useWeather"
+import useKiteSurfSpots from "../hooks/useKiteSurfSpots"
+
+const SpotPage = () => {
   const router = useRouter()
   const { id } = router.query
   const { data: kitesurfSpots = [] } = useKiteSurfSpots()
@@ -40,7 +42,6 @@ const Page: React.FC = () => {
       <div>Wind Direction: {spot.winddirections}</div>
       <div>
         <h2>Weather Forecast</h2>
-        {isLoading && <p>Loading weather data...</p>}
         {error && <p>Error loading weather data</p>}
         {weatherData && (
           <div>
@@ -54,4 +55,4 @@ const Page: React.FC = () => {
   )
 }
 
-export default Page
+export default SpotPage

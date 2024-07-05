@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 import Image from "next/image"
-import { KitesurfSpot } from "../../../mock"
+import { KitesurfSpot } from "../app/api/mock"
 
 interface SpotImageProps {
   spot: KitesurfSpot

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from './useDebounce';
-import WeatherService from '@/app/api/weatherService';
+import WeatherService from '@/api/weatherService';
+
 
 /**
  * Interface representing the query parameters for fetching weather data.
@@ -45,7 +46,7 @@ export const getWeatherData = async (latitude: string, longitude: string): Promi
  * @param {GetWeatherQuery} data - The query parameters containing latitude and longitude.
  * @returns {Object} The result of the useQuery hook, including status and data.
  */
-const useGetWeather = (data: GetWeatherQuery) => {
+const useWeather = (data: GetWeatherQuery) => {
   const debouncedLatitude = useDebounce(data.latitude, 800);
   const debouncedLongitude = useDebounce(data.longitude, 800);
 
@@ -58,4 +59,4 @@ const useGetWeather = (data: GetWeatherQuery) => {
   return query;
 };
 
-export default useGetWeather;
+export default useWeather;

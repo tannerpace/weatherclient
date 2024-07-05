@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react"
 import Confetti from 'react-confetti'
-import { FaAddressBook, FaPaperPlane } from "react-icons/fa"
+
 
 import { title } from "@/app/contact/config"
 import Input from "@/app/shared/Input"
@@ -113,7 +113,7 @@ export default function ContactForm() {
                 padding: "0.5rem 1rem",
               }}
             >
-              {!message ? <FaPaperPlane /> : <FaAddressBook />} {message ? 'Sent!' : 'Send'}
+              Send
             </button>
           </div>
         </form>
