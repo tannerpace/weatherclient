@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="space-y-9">
       <TabGroup
-        path="/ssr"
+        path="/spots"
         items={[
           {
             text: "Home",

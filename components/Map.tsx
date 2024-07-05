@@ -77,7 +77,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                       />
                       Go
                     </a>
-                    <Link href={`/ssr/${spot.id}`} passHref>
+                    <Link href={`/spots/${spot.id}`} passHref>
                       <button
                         style={{
                           display: "flex",
