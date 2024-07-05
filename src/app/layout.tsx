@@ -29,7 +29,7 @@ const RootLayout = ({
               <li>
                 <a href="/">Home</a>
               </li>
-              <li>
+              {/* <li>
                 <a href="/about">About</a>
               </li>
               <li>
@@ -37,7 +37,7 @@ const RootLayout = ({
               </li>
               <li>
                 <a href="/blog">Blog</a>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </header>

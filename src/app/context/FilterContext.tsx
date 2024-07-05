@@ -7,8 +7,9 @@ import React, {
   useState,
   ReactNode,
 } from "react"
-import { KitesurfSpot } from "../components/Map"
+
 import useKiteSurfSpots from "../hooks/useKiteSurfSpots"
+import { KitesurfSpot } from "../../../mock"
 
 export type WindDirection = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
 
@@ -40,16 +41,19 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const { data: initialKitesurfSpots } = useKiteSurfSpots()
-  const [kitesurfSpots] = useState<KitesurfSpot[]>(initialKitesurfSpots)
-  const [filteredKitesurfSpots, setFilteredKitesurfSpots] =
-    useState(initialKitesurfSpots)
+  const [kitesurfSpots, setKitesurfSpots] = useState<KitesurfSpot[]>(
+    initialKitesurfSpots || []
+  )
+  const [filteredKitesurfSpots, setFilteredKitesurfSpots] = useState<
+    KitesurfSpot[]
+  >(initialKitesurfSpots || [])
   const [selectedWindDirections, setSelectedWindDirections] = useState<
     WindDirection[]
   >([])
   const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
-    let filtered = kitesurfSpots
+    let filtered: KitesurfSpot[] = kitesurfSpots
 
     if (selectedWindDirections.length > 0) {
       filtered = filtered.filter((spot) =>
@@ -61,7 +65,7 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
 
     if (searchTerm) {
       filtered = filtered.filter((spot) =>
-        spot.location_name.toLowerCase().includes(searchTerm.toLowerCase())
+        spot.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
 

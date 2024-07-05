@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import locations from "../../../mock";
-import { KitesurfSpot } from "../components/Map";
+import locations, { KitesurfSpot } from "../../../mock";
 
-const initialLocations = locations.map((location) => ({
+
+const initialLocations: KitesurfSpot[] = locations.map((location) => ({
   ...location,
   latitude: parseFloat(location.latitude),
   longitude: parseFloat(location.longitude),
-}))
+}));
+
 
 
 

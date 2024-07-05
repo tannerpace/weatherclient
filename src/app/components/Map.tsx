@@ -44,7 +44,7 @@ const Map: React.FC<MapProps> = ({
           {kitesurfSpots.map((spot) => (
             <Marker
               key={spot.id}
-              position={[spot.latitude, spot.longitude]}
+              position={[spot.latitude as number, spot.longitude as number]}
               eventHandlers={{
                 click: () => {
                   onLocationClick(spot.id)

@@ -45,7 +45,6 @@ const FilteredApp: React.FC = () => {
             onLocationClick={handleLocationClick}
           />
         )}
-        {JSON.stringify(kitesurfSpots, null, 2)}
       </div>
       <div className="w-full p-4 overflow-y-auto h-1/3">Filter</div>
       item cards
