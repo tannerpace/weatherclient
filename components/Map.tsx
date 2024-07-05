@@ -24,6 +24,14 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 })
 
+// Custom icon for user's current location
+const userIcon = new L.Icon({
+  iconUrl: "https://example.com/user-location-icon.png", // Replace with your custom icon URL
+  iconSize: [32, 32], // Size of the icon
+  iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
+  popupAnchor: [0, -32], // Point from which the popup should open relative to the iconAnchor
+})
+
 interface MapProps {
   position: [number, number] | null
   kitesurfSpots: KitesurfSpot[]
@@ -37,7 +45,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   }
 
   return (
-    <div className="map-container" style={{ height: "100%", width: "100%" }}>
+    <div style={{ height: "100%", width: "100%" }}>
       {position && kitesurfSpots.length ? (
         <MapContainer
           center={position}
@@ -103,6 +111,13 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
               </Popup>
             </Marker>
           ))}
+          <Marker position={position} icon={userIcon}>
+            <Popup>
+              <div>
+                <strong>Your Current Location</strong>
+              </div>
+            </Popup>
+          </Marker>
         </MapContainer>
       ) : (
         <div style={{ height: "100%", width: "100%" }}>

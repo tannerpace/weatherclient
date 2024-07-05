@@ -5,7 +5,7 @@ import React, { useState } from "react"
 
 export function RenderingInfo({ latitude, longitude }) {
   const { weatherData, error } = useWeather({ latitude, longitude })
-  const [selectedPeriod, setSelectedPeriod] = useState(null > null)
+  const [selectedPeriod, setSelectedPeriod] = useState(null)
 
   if (error) {
     return <div>Error fetching weather data</div>
@@ -48,21 +48,40 @@ export function RenderingInfo({ latitude, longitude }) {
               {period.shortForecast}
             </div>
             {selectedPeriod === period.number && (
-              <div>
+              <div className="mt-2">
                 <div>
-                  Temperature: {period.temperature} {period.temperatureUnit}
+                  <strong>Date:</strong> {formatDate(period.startTime)}
                 </div>
                 <div>
-                  Wind: {period.windSpeed} {period.windDirection}
+                  <strong>Temperature:</strong> {period.temperature}{" "}
+                  {period.temperatureUnit}
                 </div>
-                <div>Humidity: {period?.relativeHumidity?.value}%</div>
-                <div>Forecast: {period?.detailedForecast}</div>
+                <div>
+                  <strong>Wind:</strong> {period.windSpeed}{" "}
+                  {period.windDirection}
+                </div>
+                <div>
+                  <strong>Humidity:</strong> {period?.relativeHumidity?.value}%
+                </div>
+                <div>
+                  <strong>Probability of Precipitation:</strong>{" "}
+                  {period.probabilityOfPrecipitation?.value}%
+                </div>
+                <div>
+                  <strong>Forecast:</strong> {period.detailedForecast}
+                </div>
+                <div>
+                  <strong>Full Data:</strong>{" "}
+                  <pre>{JSON.stringify(period, null, 2)}</pre>
+                </div>
               </div>
             )}
           </div>
         ))}
       </div>
-      <div className="flex">Stay safe and have fun!</div>
+      <div className="flex justify-center text-white">
+        Stay safe and have fun!
+      </div>
     </div>
   )
 }
