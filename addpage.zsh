@@ -14,7 +14,7 @@ mkdir -p $PAGE_DIR
 
 # Create the page.tsx file with a basic template
 cat <<EOF > $PAGE_DIR/page.tsx
-import BottomNavBar from "../shared/BottomNavBar"
+import BottomNavBar from "@/app/shared/BottomNavBar"
 
 const ${PAGE_COMPONENT_NAME} = () => {
   return (
