@@ -2,13 +2,12 @@
 
 import React from "react"
 import dynamic from "next/dynamic"
-import { QueryClientProvider } from "@tanstack/react-query"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 import useKiteSurfSpots from "./hooks/useKiteSurfSpots"
 import { KitesurfSpot } from "./api/mock"
-import { queryClient } from "./queryClient"
 import { FilterProvider } from "./context/FilterContext"
 import { RenderingInfo } from "@/components/RenderingInfo"
 
@@ -47,7 +46,7 @@ const FilteredApp: React.FC = () => {
 
 const Page: React.FC = () => {
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={new QueryClient()}>
       <FilterProvider>
         <div className="prose prose-sm prose-invert max-w-none">
           <h1 className="text-xl font-bold">Kitesurf Ninja</h1>
