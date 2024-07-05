@@ -37,7 +37,7 @@ body {
 
 .map-container {
   width: 100%;
-  height: 80vh;
+  height: 100vh;
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--box-shadow);
@@ -96,9 +96,6 @@ body {
 /* Example Media Query for Smaller Screens */
 @media (max-width: 48rem) {
   /* 768px */
-  .map-container {
-    max-height: 12.5rem; /* 200px */
-  }
 
   .search-container {
     padding: 0.9375rem; /* 15px */

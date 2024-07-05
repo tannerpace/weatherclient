@@ -23,11 +23,11 @@ const FilteredApp: React.FC = () => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen p-9">
       <input
         type="text"
         placeholder="Search by name"
-        className="mb-4 p-2 border border-gray-300 rounded"
+        className="mb-4 border border-gray-300 rounded"
         style={{
           maxHeight: "3rem",
         }}
@@ -48,9 +48,8 @@ const Page: React.FC = () => {
   return (
     <QueryClientProvider client={new QueryClient()}>
       <FilterProvider>
-        <div className="prose prose-sm prose-invert max-w-none">
+        <div className="prose prose-sm prose-invert max-w-none p-2">
           <h1 className="text-xl font-bold">Kitesurf Ninja</h1>
-
           <ul>
             <li>
               Kitesurf Ninja helps kiteboarders find the best times to
@@ -65,16 +64,12 @@ const Page: React.FC = () => {
               session.
             </li>
           </ul>
-
-          <div className="flex gap-2">Docs Code</div>
-
           <div className="weather mt-4">
             <h2 className="text-lg font-bold">Current Weather in Charleston</h2>
             <RenderingInfo latitude={lat} longitude={long} />
           </div>
-
-          <FilteredApp />
         </div>
+        <FilteredApp />
       </FilterProvider>
     </QueryClientProvider>
   )
