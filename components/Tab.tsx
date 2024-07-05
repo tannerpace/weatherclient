@@ -77,6 +77,7 @@ export const Tab = ({
       const data = await response.json()
       setWeatherData(data)
     } catch (err) {
+      // @ts-ignore
       setError(err.message)
     } finally {
       setLoading(false)

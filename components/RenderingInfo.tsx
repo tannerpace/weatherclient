@@ -74,7 +74,7 @@ export function RenderingInfo({ latitude, longitude }: WeatherProps) {
                   Wind: {period.windSpeed} {period.windDirection}
                 </div>
                 <div>Humidity: {period?.relativeHumidity?.value}%</div>
-                <div>Forecast: {period.detailedForecast}</div>
+                <div>Forecast: {period?.detailedForecast}</div>
               </div>
             )}
           </div>
