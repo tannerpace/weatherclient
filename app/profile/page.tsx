@@ -1,5 +1,15 @@
-import Profile from "@/components/Profile"
+import dynamic from "next/dynamic"
 
-export default function Page() {
-  return <Profile />
+const ProfileComponent = dynamic(() => import("@/components/Profile"), {
+  ssr: false,
+})
+
+const ProfilePage: React.FC = () => {
+  return (
+    <div>
+      <ProfileComponent />
+    </div>
+  )
 }
+
+export default ProfilePage
