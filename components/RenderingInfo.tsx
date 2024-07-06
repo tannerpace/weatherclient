@@ -3,6 +3,12 @@
 import useWeather from "@/app/hooks/useWeather"
 import React, { useState, useEffect, useMemo } from "react"
 import { FormControl, FormControlLabel, RadioGroup, Radio } from "@mui/material"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faTemperatureHigh,
+  faWind,
+  faTint,
+} from "@fortawesome/free-solid-svg-icons"
 
 interface RenderingInfoProps {
   latitude: number
@@ -46,11 +52,11 @@ export default function RenderingInfo({
   }, [weatherData, minWindspeed, viableDirections])
 
   if (error) {
-    return <div>Error fetching weather data</div>
+    return <div className="text-red-500">Error fetching weather data</div>
   }
 
   if (!weatherData) {
-    return <div>No data available</div>
+    return <div className="text-gray-500">No data available</div>
   }
 
   const handlePeriodSelect = (periodNumber: number) => {
@@ -74,7 +80,7 @@ export default function RenderingInfo({
     viewMode === "all" ? weatherData.properties.periods : suitablePeriods
 
   return (
-    <div className="space-y-3 rounded-lg bg-gray-900 p-3 m-2 text-green-500 font-mono">
+    <div className="space-y-4 bg-gray-900 p-4 m-2 rounded-lg text-green-500 font-mono">
       <FormControl component="fieldset">
         <RadioGroup
           row
@@ -97,12 +103,12 @@ export default function RenderingInfo({
       </FormControl>
       <div className="text-sm text-gray-300">
         {periodsToShow.length === 0 ? (
-          <div>No periods found</div>
+          <div className="text-gray-500">No periods found</div>
         ) : (
           periodsToShow.map((period: any) => (
             <div
               key={period.number}
-              className={`p-2 cursor-pointer font ${
+              className={`p-3 mb-2 cursor-pointer rounded-md transition-colors duration-300 ${
                 selectedPeriod === period.number ? "bg-gray-700" : "bg-gray-800"
               } ${
                 suitablePeriods.includes(period)
@@ -111,84 +117,35 @@ export default function RenderingInfo({
               }`}
               onClick={() => handlePeriodSelect(period.number)}
             >
-              <div>
-                <strong>{formatDate(period.startTime)}</strong>:{" "}
-                {period.shortForecast}
+              <div className="font-semibold">
+                {formatDate(period.startTime)}: {period.shortForecast}
               </div>
               {selectedPeriod === period.number && (
                 <div className="mt-2 space-y-2 bg-blend-color-dodge">
-                  <div>
-                    <strong>Date:</strong> {formatDate(period.startTime)}
-                  </div>
-                  <div>
+                  <div className="flex items-center">
+                    <FontAwesomeIcon
+                      icon={faTemperatureHigh}
+                      className="mr-2"
+                    />
                     <strong>Temperature:</strong> {period.temperature}{" "}
                     {period.temperatureUnit}
                   </div>
-                  <div>
+                  <div className="flex items-center">
+                    <FontAwesomeIcon icon={faWind} className="mr-2" />
                     <strong>Wind:</strong> {period.windSpeed}{" "}
                     {period.windDirection}
                   </div>
-                  <div>
+                  <div className="flex items-center">
+                    <FontAwesomeIcon icon={faTint} className="mr-2" />
                     <strong>Humidity:</strong> {period?.relativeHumidity?.value}
                     %
                   </div>
-                  <div>
-                    <strong>Probability of Precipitation:</strong>{" "}
+                  <div className="flex items-center">
+                    <strong>Precipitation Probability:</strong>{" "}
                     {period.probabilityOfPrecipitation?.value}%
                   </div>
-                  <div>
+                  <div className="flex items-center">
                     <strong>Forecast:</strong> {period.detailedForecast}
-                  </div>
-                  <div>
-                    <strong>Full Data:</strong>
-                    <div className="bg-gray-800 p-2 rounded">
-                      <div>
-                        <strong>Number:</strong> {period.number}
-                      </div>
-                      <div>
-                        <strong>Name:</strong> {period.name}
-                      </div>
-                      <div>
-                        <strong>Start Time:</strong> {period.startTime}
-                      </div>
-                      <div>
-                        <strong>End Time:</strong> {period.endTime}
-                      </div>
-                      <div>
-                        <strong>Is Daytime:</strong>{" "}
-                        {period.isDaytime ? "Yes" : "No"}
-                      </div>
-                      <div>
-                        <strong>Temperature:</strong> {period.temperature}{" "}
-                        {period.temperatureUnit}
-                      </div>
-                      <div>
-                        <strong>Temperature Trend:</strong>{" "}
-                        {period.temperatureTrend || "N/A"}
-                      </div>
-                      <div>
-                        <strong>Probability of Precipitation:</strong>{" "}
-                        {period.probabilityOfPrecipitation?.value}%
-                      </div>
-                      <div>
-                        <strong>Wind Speed:</strong> {period.windSpeed}
-                      </div>
-                      <div>
-                        <strong>Wind Direction:</strong> {period.windDirection}
-                      </div>
-                      <div>
-                        <strong>Icon:</strong>{" "}
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={period.icon} alt="Weather Icon" />
-                      </div>
-                      <div>
-                        <strong>Short Forecast:</strong> {period.shortForecast}
-                      </div>
-                      <div>
-                        <strong>Detailed Forecast:</strong>{" "}
-                        {period.detailedForecast}
-                      </div>
-                    </div>
                   </div>
                 </div>
               )}
