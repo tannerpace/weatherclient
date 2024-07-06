@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useState, useEffect } from "react"
 import ProfileMap from "@/components/ProfileMap"
 import { KitesurfSpot, ViableDirections } from "@/app/api/mock"
@@ -28,6 +29,7 @@ const Profile: React.FC = () => {
     null
   )
   const [open, setOpen] = useState<boolean>(false)
+  const [locationName, setLocationName] = useState<string>("")
 
   useEffect(() => {
     const savedLocations = JSON.parse(
@@ -41,16 +43,21 @@ const Profile: React.FC = () => {
   }, [locations])
 
   const handleAddLocation = (lat: number, lng: number) => {
+    setSelectedLocation({
+      ...selectedLocation,
+      latitude: lat,
+      longitude: lng,
+    } as KitesurfSpot)
     setOpen(true)
   }
 
-  const handleSaveLocation = (name: string) => {
-    if (!name) return
+  const handleSaveLocation = () => {
+    if (!locationName) return
     const newSpot: KitesurfSpot = {
       id: Date.now(),
       latitude: selectedLocation?.latitude || 0,
       longitude: selectedLocation?.longitude || 0,
-      name,
+      name: locationName,
       island: "",
       winddirections: "",
       waves: "",
@@ -65,6 +72,9 @@ const Profile: React.FC = () => {
     setLocations((prevLocations) => [...prevLocations, newSpot])
     setOpen(false)
     setSelectedLocation(null)
+    setLocationName("")
+    setMinWindspeed(0)
+    setViableDirections(defaultViableDirections)
   }
 
   const handleDeleteLocation = (id: number) => {
@@ -111,41 +121,6 @@ const Profile: React.FC = () => {
           </li>
         ))}
       </ul>
-      <div>
-        <label className="block text-lg font-bold mb-2" htmlFor="minWindspeed">
-          Minimum Windspeed
-        </label>
-        <Slider
-          value={minWindspeed}
-          onChange={(e, value) => setMinWindspeed(value as number)}
-          aria-labelledby="minWindspeed"
-          min={0}
-          max={100}
-          valueLabelDisplay="auto"
-        />
-      </div>
-      <div className="mt-4">
-        <h2 className="text-lg font-bold mb-2">Viable Wind Directions</h2>
-        {Object.keys(defaultViableDirections).map((direction) => (
-          <FormControlLabel
-            key={direction}
-            control={
-              <Checkbox
-                checked={
-                  viableDirections[direction as keyof ViableDirections] === 1
-                }
-                onChange={() =>
-                  handleViableDirectionChange(
-                    direction as keyof ViableDirections
-                  )
-                }
-                name={direction}
-              />
-            }
-            label={direction}
-          />
-        ))}
-      </div>
       {selectedLocation && (
         <div className="mt-4">
           <h2 className="text-xl font-bold">
@@ -160,17 +135,58 @@ const Profile: React.FC = () => {
         </div>
       )}
       {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-gray-800 p-4 rounded-lg">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 p-4 rounded-lg w-80">
             <h2 className="text-xl font-bold mb-4">Add New Location</h2>
             <input
               type="text"
               placeholder="Enter location name"
               className="mb-4 p-2 border border-gray-300 rounded bg-gray-800 text-white w-full"
+              value={locationName}
               onChange={(e) => setLocationName(e.target.value)}
             />
+            <div className="mb-4">
+              <label
+                className="block text-lg font-bold mb-2"
+                htmlFor="minWindspeed"
+              >
+                Minimum Windspeed
+              </label>
+              <Slider
+                value={minWindspeed}
+                onChange={(e, value) => setMinWindspeed(value as number)}
+                aria-labelledby="minWindspeed"
+                min={0}
+                max={100}
+                valueLabelDisplay="auto"
+              />
+            </div>
+            <div className="mb-4">
+              <h2 className="text-lg font-bold mb-2">Viable Wind Directions</h2>
+              {Object.keys(defaultViableDirections).map((direction) => (
+                <FormControlLabel
+                  key={direction}
+                  control={
+                    <Checkbox
+                      checked={
+                        viableDirections[
+                          direction as keyof ViableDirections
+                        ] === 1
+                      }
+                      onChange={() =>
+                        handleViableDirectionChange(
+                          direction as keyof ViableDirections
+                        )
+                      }
+                      name={direction}
+                    />
+                  }
+                  label={direction}
+                />
+              ))}
+            </div>
             <button
-              onClick={() => handleSaveLocation(locationName)}
+              onClick={handleSaveLocation}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 w-full"
             >
               Save
