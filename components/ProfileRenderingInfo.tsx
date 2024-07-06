@@ -7,7 +7,8 @@ import { FormControl, FormControlLabel, RadioGroup, Radio } from "@mui/material"
 interface RenderingInfoProps {
   latitude: number
   longitude: number
-  minWindspeed: number
+  minWindspeed?: number
+  maxWindspeed?: number
   viableDirections: { [key: string]: number }
 }
 
@@ -33,7 +34,9 @@ export default function ProfileRenderingInfo({
             .split(" ")
             .some((speed: string) => {
               const parsedSpeed = parseInt(speed)
-              return !isNaN(parsedSpeed) && parsedSpeed >= minWindspeed
+              if (minWindspeed) {
+                return !isNaN(parsedSpeed) && parsedSpeed >= minWindspeed
+              }
             })
 
           const windDirection = period.windDirection?.toUpperCase()

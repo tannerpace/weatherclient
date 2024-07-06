@@ -10,9 +10,9 @@ import {
 } from "react-leaflet"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
-import { KitesurfSpot } from "@/app/api/mock"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
+import { SurfSpot } from "@/types"
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -24,7 +24,7 @@ L.Icon.Default.mergeOptions({
 })
 
 interface MapProps {
-  locations: KitesurfSpot[]
+  locations: SurfSpot[]
   onLocationAdd: (lat: number, lng: number) => void
   onLocationDelete: (id: number) => void
 }
@@ -60,7 +60,7 @@ const SurfProfileMap: React.FC<MapProps> = ({
               <div className="font-bold">{location.name}</div>
               <div className="text-sm">
                 <p>
-                  <strong>Max Windspeed:</strong> {location.maxWindspeed} mph
+                  <strong>Max Windspeed:</strong> {location.windSpeed} mph
                 </p>
                 <p>
                   <strong>Wave Height:</strong> {location.waveHeight} ft
