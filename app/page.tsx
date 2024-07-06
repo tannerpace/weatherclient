@@ -136,9 +136,11 @@ const Page: React.FC = () => {
 
 const AppPage: React.FC = () => {
   return (
-    <ClientProviders>
-      <Page />
-    </ClientProviders>
+    <div className="bg-gray-900 min-h-screen">
+      <ClientProviders>
+        <Page />
+      </ClientProviders>
+    </div>
   )
 }
 
