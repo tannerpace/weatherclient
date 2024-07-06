@@ -7,9 +7,11 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ title, children }) => {
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 w-full md:w-1/3">
-      <h2 className="text-2xl font-bold mb-4">{title}</h2>
-      {children}
+    <div className="bg-white shadow-lg rounded-lg p-4 mb-4 w-full">
+      <div className="flex items-center">
+        <h2 className="text-xl font-bold text-gray-800 flex-grow">{title}</h2>
+        <div className="text-gray-600">{children}</div>
+      </div>
     </div>
   )
 }

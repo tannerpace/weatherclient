@@ -65,57 +65,42 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             className="w-full h-auto rounded-lg"
           />
           <p className="mt-4 text-center">{selectedLocation.description}</p>
-          <div className="mt-4 space-y-2 w-full">
+          <div className="mt-4 space-y-4 w-full">
             <Card title="Island">
-              <div className="flex items-center">
-                <FontAwesomeIcon
-                  icon={faMapMarkedAlt}
-                  className="mr-2 text-blue-500"
-                />
-                <span className="text-black">{selectedLocation.island}</span>
-              </div>
+              <FontAwesomeIcon
+                icon={faMapMarkedAlt}
+                className="mr-2 text-blue-500"
+              />
+              <span className="text-gray-700">{selectedLocation.island}</span>
             </Card>
             <Card title="Wind Directions">
-              <div className="flex items-center">
-                <FontAwesomeIcon icon={faWind} className="mr-2 text-blue-500" />
-                <span className="text-black">
-                  {selectedLocation.winddirections}
-                </span>
-              </div>
+              <FontAwesomeIcon icon={faWind} className="mr-2 text-blue-500" />
+              <span className="text-gray-700">
+                {selectedLocation.winddirections}
+              </span>
             </Card>
             <Card title="Waves">
-              <div className="flex items-center">
-                <FontAwesomeIcon
-                  icon={faWater}
-                  className="mr-2 text-blue-500"
-                />
-                <span className="text-black">{selectedLocation.waves}</span>
-              </div>
+              <FontAwesomeIcon icon={faWater} className="mr-2 text-blue-500" />
+              <span className="text-gray-700">{selectedLocation.waves}</span>
             </Card>
             <Card title="Depth">
-              <div className="flex items-center">
-                <FontAwesomeIcon
-                  icon={faRulerVertical}
-                  className="mr-2 text-blue-500"
-                />
-                <span className="text-black">{selectedLocation.depth}</span>
-              </div>
+              <FontAwesomeIcon
+                icon={faRulerVertical}
+                className="mr-2 text-blue-500"
+              />
+              <span className="text-gray-700">{selectedLocation.depth}</span>
             </Card>
             <Card title="Experience">
-              <div className="flex items-center">
-                <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-500" />
-                <span className="text-black">
-                  {selectedLocation.experience}
-                </span>
-              </div>
+              <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-500" />
+              <span className="text-gray-700">
+                {selectedLocation.experience}
+              </span>
             </Card>
             <Card title="References">
-              <div className="flex items-center">
-                <FontAwesomeIcon icon={faBook} className="mr-2 text-blue-500" />
-                <span className="text-black">
-                  {selectedLocation.references}
-                </span>
-              </div>
+              <FontAwesomeIcon icon={faBook} className="mr-2 text-blue-500" />
+              <span className="text-gray-700">
+                {selectedLocation.references}
+              </span>
             </Card>
           </div>
           <div className="mt-4 w-full">
