@@ -127,7 +127,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                   ) : (
                     <div>Loading weather data...</div>
                   )}
-                  <div className="flex justify-between mt-2">
+                  <div className="flex space-x-4 mt-2">
                     <a
                       href={`https://www.google.com/maps/dir/?api=1&destination=${spot.latitude},${spot.longitude}`}
                       target="_blank"
