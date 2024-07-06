@@ -7,6 +7,27 @@ import {
   faWind,
   faTint,
 } from "@fortawesome/free-solid-svg-icons"
+import { Line } from "react-chartjs-2"
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js"
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
 
 interface RenderingInfoProps {
   latitude: number
@@ -77,6 +98,34 @@ export default function RenderingInfo({
     return <div className="text-gray-500">No data available</div>
   }
 
+  const chartData = {
+    labels: periodsToShow.map((period: any) => formatDate(period.startTime)),
+    datasets: [
+      {
+        label: "Wind Speed (mph)",
+        data: periodsToShow.map((period: any) =>
+          parseInt(period.windSpeed.split(" ")[0])
+        ),
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: true,
+      },
+    ],
+  }
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Wind Speed Over Time",
+      },
+    },
+  }
+
   return (
     <div className="space-y-4 bg-black bg-opacity-40 p-4 m-2 rounded-lg text-green-300">
       <FormControl component="fieldset">
@@ -103,57 +152,60 @@ export default function RenderingInfo({
         {periodsToShow.length === 0 ? (
           <div className="text-gray-500">No periods found</div>
         ) : (
-          periodsToShow.map((period: any) => (
-            <div
-              key={period.number}
-              className={`p-3 mb-2 cursor-pointer rounded-md transition-colors duration-300 ${
-                selectedPeriod === period.number
-                  ? "bg-black bg-opacity-90"
-                  : "bg-black bg-opacity-60"
-              } ${
-                suitablePeriods.includes(period)
-                  ? "border-l-4 border-green-500"
-                  : ""
-              }`}
-              onClick={() => handlePeriodSelect(period.number)}
-            >
-              <div className="font-semibold text-lime-900">
-                {formatDate(period.startTime)}: {period.shortForecast}
-              </div>
-              {selectedPeriod === period.number && (
-                <div className="mt-2 space-y-2">
-                  <div className="flex items-center text-lime-500">
-                    <FontAwesomeIcon
-                      icon={faTemperatureHigh}
-                      className="mr-2"
-                    />
-                    <strong className="text-lime-700">Temperature:</strong>{" "}
-                    {period.temperature} {period.temperatureUnit}
-                  </div>
-                  <div className="flex items-center text-lime-500">
-                    <FontAwesomeIcon icon={faWind} className="mr-2" />
-                    <strong className="text-lime-700">Wind:</strong>{" "}
-                    {period.windSpeed} {period.windDirection}
-                  </div>
-                  <div className="flex items-center text-lime-500">
-                    <FontAwesomeIcon icon={faTint} className="mr-2" />
-                    <strong className="text-lime-700">Humidity:</strong>{" "}
-                    {period?.relativeHumidity?.value}%
-                  </div>
-                  <div className="flex items-center text-lime-500 bg-black bg-opacity-40">
-                    <strong className="text-lime-700">
-                      Precipitation Probability:
-                    </strong>{" "}
-                    {period.probabilityOfPrecipitation?.value}%
-                  </div>
-                  <div className="flex items-center text-lime-500">
-                    <strong className="text-lime-700">Forecast:</strong>{" "}
-                    {period.detailedForecast}
-                  </div>
+          <>
+            <Line data={chartData} options={chartOptions} />
+            {periodsToShow.map((period: any) => (
+              <div
+                key={period.number}
+                className={`p-3 mb-2 cursor-pointer rounded-md transition-colors duration-300 ${
+                  selectedPeriod === period.number
+                    ? "bg-black bg-opacity-90"
+                    : "bg-black bg-opacity-60"
+                } ${
+                  suitablePeriods.includes(period)
+                    ? "border-l-4 border-green-500"
+                    : ""
+                }`}
+                onClick={() => handlePeriodSelect(period.number)}
+              >
+                <div className="font-semibold text-lime-900">
+                  {formatDate(period.startTime)}: {period.shortForecast}
                 </div>
-              )}
-            </div>
-          ))
+                {selectedPeriod === period.number && (
+                  <div className="mt-2 space-y-2">
+                    <div className="flex items-center text-lime-500">
+                      <FontAwesomeIcon
+                        icon={faTemperatureHigh}
+                        className="mr-2"
+                      />
+                      <strong className="text-lime-700">Temperature:</strong>{" "}
+                      {period.temperature} {period.temperatureUnit}
+                    </div>
+                    <div className="flex items-center text-lime-500">
+                      <FontAwesomeIcon icon={faWind} className="mr-2" />
+                      <strong className="text-lime-700">Wind:</strong>{" "}
+                      {period.windSpeed} {period.windDirection}
+                    </div>
+                    <div className="flex items-center text-lime-500">
+                      <FontAwesomeIcon icon={faTint} className="mr-2" />
+                      <strong className="text-lime-700">Humidity:</strong>{" "}
+                      {period?.relativeHumidity?.value}%
+                    </div>
+                    <div className="flex items-center text-lime-500 bg-black bg-opacity-40">
+                      <strong className="text-lime-700">
+                        Precipitation Probability:
+                      </strong>{" "}
+                      {period.probabilityOfPrecipitation?.value}%
+                    </div>
+                    <div className="flex items-center text-lime-500">
+                      <strong className="text-lime-700">Forecast:</strong>{" "}
+                      {period.detailedForecast}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </>
         )}
       </div>
     </div>
