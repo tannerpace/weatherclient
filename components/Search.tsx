@@ -1,7 +1,7 @@
 "use client"
 
-import Input from "@/app/shared/Input"
 import React, { useState } from "react"
+import Input from "./Input"
 
 type SearchProps = {
   onSearch: (query: string) => void

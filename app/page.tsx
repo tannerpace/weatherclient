@@ -74,7 +74,7 @@ const Page: React.FC = () => {
           const newLong = position.coords.longitude.toString()
           setCoordinates(newLat, newLong)
           setCenter([parseFloat(newLat), parseFloat(newLong)])
-          fetchLocationName(newLat, newLong)
+          // fetchLocationName(newLat, newLong)
           setLoading(false)
         },
         (error) => {
@@ -88,24 +88,24 @@ const Page: React.FC = () => {
     }
   }
 
-  const fetchLocationName = async (lat: string, lon: string) => {
-    try {
-      const benchmark = "Public_AR_Current"
-      const response = await axios.get(
-        `https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=${lat},${lon}&benchmark=${benchmark}&format=json`
-      )
-      const location = response.data.result.addressMatches[0].matchedAddress
-      setLocationName(location)
-    } catch (error) {
-      console.error("Error fetching location name: ", error)
-    }
-  }
+  // const fetchLocationName = async (lat: string, lon: string) => {
+  //   try {
+  //     const benchmark = "Public_AR_Current"
+  //     const response = await axios.get(
+  //       `https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=${lat},${lon}&benchmark=${benchmark}&format=json`
+  //     )
+  //     const location = response.data.result.addressMatches[0].matchedAddress
+  //     setLocationName(location)
+  //   } catch (error) {
+  //     console.error("Error fetching location name: ", error)
+  //   }
+  // }
 
   useEffect(() => {
     if (latitude === DEFAULT_LATITUDE && longitude === DEFAULT_LONGITUDE) {
       setLocationName("Charleston")
     } else {
-      fetchLocationName(latitude, longitude)
+      // fetchLocationName(latitude, longitude)
     }
     setCenter([parseFloat(latitude), parseFloat(longitude)])
   }, [latitude, longitude])
