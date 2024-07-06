@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
+import axios from "axios"
 import RenderingInfo from "@/components/RenderingInfo"
 import { KitesurfSpot } from "@/app/api/mock"
 import "@fortawesome/fontawesome-svg-core/styles.css"
@@ -45,6 +46,7 @@ const Page: React.FC = () => {
     parseFloat(latitude),
     parseFloat(longitude),
   ])
+  const [locationName, setLocationName] = useState<string>("")
 
   const handleButtonClick = () => {
     setLoading(true)
@@ -57,6 +59,7 @@ const Page: React.FC = () => {
           const newLong = position.coords.longitude.toString()
           setCoordinates(newLat, newLong)
           setCenter([parseFloat(newLat), parseFloat(newLong)])
+          fetchLocationName(newLat, newLong)
           setLoading(false)
         },
         (error) => {
@@ -82,14 +85,26 @@ const Page: React.FC = () => {
     )
   }
 
+  const fetchLocationName = async (lat: string, lon: string) => {
+    try {
+      const response = await axios.get(
+        `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=YOUR_API_KEY`
+      )
+      const location = response.data.results[0].formatted
+      setLocationName(location)
+    } catch (error) {
+      console.error("Error fetching location name: ", error)
+    }
+  }
+
   useEffect(() => {
     setCenter([parseFloat(latitude), parseFloat(longitude)])
+    fetchLocationName(latitude, longitude)
   }, [latitude, longitude])
 
-  const title =
-    latitude === "32.78621094914123" && longitude === "-79.9387649781444"
-      ? "Current Weather in Charleston, SC"
-      : "Weather Update for Your Location"
+  const title = locationName
+    ? `Weather Update for ${locationName}`
+    : "Weather Update for Your Location"
 
   return (
     <div className="flex flex-col items-center space-y-6 p-4 md:p-8 bg-gray-900 text-white rounded-lg h-screen">
@@ -125,8 +140,8 @@ const Page: React.FC = () => {
           longitude={Number(longitude)}
         />
         <p className="mt-4 text-md text-gray-500 text-center md:text-left">
-          {latitude === "32.78621094914123" && longitude === "-79.9387649781444"
-            ? "Showing weather for Charleston, SC"
+          {locationName
+            ? `Showing weather for ${locationName}`
             : "Showing weather for your current location"}
         </p>
       </div>

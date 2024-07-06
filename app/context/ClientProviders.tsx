@@ -3,6 +3,7 @@
 import React from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { FilterProvider } from "../context/FilterContext"
+import { SelectedLocationProvider } from "../context/SelectedLocationContext" // Import the SelectedLocationProvider
 
 const queryClient = new QueryClient()
 
@@ -11,7 +12,9 @@ const ClientProviders: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <FilterProvider>{children}</FilterProvider>
+      <FilterProvider>
+        <SelectedLocationProvider>{children}</SelectedLocationProvider>
+      </FilterProvider>
     </QueryClientProvider>
   )
 }

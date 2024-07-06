@@ -55,10 +55,12 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
     let filtered: KitesurfSpot[] = kitesurfSpots
 
     if (selectedWindDirections.length > 0) {
-      filtered = filtered.filter((spot) =>
-        selectedWindDirections.every(
-          (direction) => spot.viable_directions[direction]
-        )
+      filtered = filtered.filter(
+        (spot) =>
+          spot.viable_directions &&
+          selectedWindDirections.every(
+            (direction) => spot.viable_directions![direction]
+          )
       )
     }
 

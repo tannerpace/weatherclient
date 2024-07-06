@@ -29,3 +29,14 @@ interface WeatherProps {
   latitude: string
   longitude: string
 }
+
+export interface SurfSpot {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  description: string;
+  waveHeight: string;
+  windSpeed: string;
+}
+

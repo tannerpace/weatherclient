@@ -1,9 +1,8 @@
 import { Metadata } from "next"
 import { Inter } from "next/font/google"
 import React, { ReactNode } from "react"
-import "./globals.css"
-import Navbar from "@/components/NavBar"
-import BottomNavBar from "./shared/BottomNavBar"
+// import "./globals.css"
+import BottomNavBar from "@/app/shared/BottomNavBar"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -36,10 +35,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body className={inter.className}>
         <div id="__next">
-          <main className="bg-slate-400 flex-1">{children}</main>
-          <BottomNavBar />
+          <main className="bg-slate-400 flex-1 p-4">{children}</main>
         </div>
       </body>
+      <BottomNavBar />
     </html>
   )
 }

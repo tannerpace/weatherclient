@@ -20,77 +20,79 @@ body,
   padding: 0;
   display: flex;
   flex-direction: column;
-}
-
-main {
-  background-color: rgb(57, 190, 185);
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-body {
   font-family: "Inter", sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr)); /* 300px */
-  padding: 1.25rem; /* 20px */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.grid-item {
+nav {
+  flex-shrink: 0;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 1rem;
+  background-color: var(--background-color);
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card {
   background-color: #ffffff;
-  padding: 1.25rem; /* 20px */
+  padding: 2rem;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   transition: transform 0.2s, box-shadow 0.2s;
+  text-align: center;
+  width: 15rem;
 }
 
-.grid-item:hover {
+.card:hover {
   transform: translateY(-0.3125rem); /* -5px */
   box-shadow: var(--box-shadow-hover);
 }
 
-.grid-item h3 {
+.card h3 {
   margin-top: 0;
   color: var(--primary-color);
 }
 
-.grid-item p {
+.card p {
   color: #555;
 }
 
-/* Example Media Query for Smaller Screens */
-@media (max-width: 48rem) {
-  /* 768px */
-
-  .search-container {
-    padding: 0.9375rem; /* 15px */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
   }
 
-  .grid {
-    gap: 0.9375rem;
-    padding: 0.9375rem;
+  .card-container {
+    gap: 0.5rem;
   }
-}
 
-/* Adjust height for screen fitting */
-.flex {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  max-height: 100%;
-}
-
-@media (min-width: 768px) {
-  .flex-row {
-    flex-direction: row;
+  .card {
+    padding: 1rem;
+    width: 100%;
   }
-}
-
-.overflow-y-auto {
-  overflow-y: auto;
 }

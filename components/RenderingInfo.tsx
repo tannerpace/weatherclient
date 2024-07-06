@@ -118,6 +118,7 @@ export default function RenderingInfo({
                     </div>
                     <div>
                       <strong>Icon:</strong>{" "}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={period.icon} alt="Weather Icon" />
                     </div>
                     <div>

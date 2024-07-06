@@ -1,4 +1,3 @@
-"use client"
 import { useState, useEffect } from 'react';
 import locations, { KitesurfSpot } from '../api/mock';
 
@@ -9,7 +8,8 @@ const initialLocations: KitesurfSpot[] = locations.map((location) => ({
 }));
 
 const fetchKitesurfSpots = async (): Promise<KitesurfSpot[]> => {
-  return initialLocations;
+  const userLocations = JSON.parse(localStorage.getItem("userLocations") || "[]");
+  return [...initialLocations, ...userLocations];
 };
 
 const useKiteSurfSpots = () => {

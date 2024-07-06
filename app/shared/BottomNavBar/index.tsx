@@ -1,11 +1,7 @@
 "use client"
-
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import HomeIcon from "@mui/icons-material/Home"
-import SearchIcon from "@mui/icons-material/Search"
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import PersonIcon from "@mui/icons-material/Person"
+import { Home, Person, Favorite } from "@mui/icons-material"
 
 interface Route {
   path: string
@@ -14,10 +10,21 @@ interface Route {
 }
 
 const routes: Route[] = [
-  { path: "/", icon: <HomeIcon />, label: "Home" },
-  { path: "/app/search-restaurants", icon: <SearchIcon />, label: "Search" },
-  { path: "/menu", icon: <FavoriteIcon />, label: "Menu" },
-  { path: "/profile", icon: <PersonIcon />, label: "Profile" },
+  {
+    path: "/",
+    icon: <Home />,
+    label: "Home",
+  },
+  {
+    path: "/profile",
+    icon: <Person />,
+    label: "Profile",
+  },
+  {
+    path: "/surf-profile",
+    icon: <Favorite />,
+    label: "Surf Profile",
+  },
 ]
 
 interface NavButtonProps {
@@ -70,7 +77,7 @@ const BottomNavBar: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-0 w-full text-white shadow-md flex justify-around mb-2 bg-teal-400">
+    <div className="fixed bottom-0 w-full text-white shadow-md flex justify-around mb-2 bg-teal-400 rounded-t-lg">
       {routes.map((route, index) => (
         <NavButton
           key={index}
