@@ -1,11 +1,20 @@
 "use client"
-import useWeather from "../hooks/useWeather"
+
+import useWeather from "../context/WeatherContext"
 
 const latitude = "32.78621094914123"
 const longitude = "-79.9387649781444"
 
 export default function Page() {
-  const { weatherData, error } = useWeather({ latitude, longitude })
+  const {
+    weatherData,
+    errorForecast,
+    errorObservation,
+    errorForecastGrid,
+    loadingForecast,
+    loadingObservation,
+    loadingForecastGrid,
+  } = useWeather({ latitude, longitude })
 
   return (
     <div className="prose prose-sm prose-invert max-w-none">
@@ -24,16 +33,31 @@ export default function Page() {
           session.
         </li>
       </ul>
+
       <div className="weather mt-4">
         <h2 className="text-lg font-bold">Current Weather in Charleston</h2>
-        {error && <p>Error fetching weather weatherData</p>}
-        {weatherData && (
-          <div className="weather-weatherData">
-            <p>
-              Detailed Forecast:{" "}
-              {weatherData.properties.periods[0].detailedForecast}
-            </p>
-          </div>
+        {loadingForecast || loadingObservation || loadingForecastGrid ? (
+          <p>Loading weather data...</p>
+        ) : (
+          <>
+            {errorForecast && (
+              <p>Error fetching forecast data: {errorForecast}</p>
+            )}
+            {errorObservation && (
+              <p>Error fetching observation data: {errorObservation}</p>
+            )}
+            {errorForecastGrid && (
+              <p>Error fetching forecast grid data: {errorForecastGrid}</p>
+            )}
+            {weatherData && (
+              <div className="weather-data">
+                <p>
+                  Detailed Forecast:{" "}
+                  {weatherData.properties.periods[0].detailedForecast}
+                </p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
