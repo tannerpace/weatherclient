@@ -1,5 +1,3 @@
-"use client"
-
 import useWeather from "@/app/hooks/useWeather"
 import React, { useState } from "react"
 
@@ -59,7 +57,7 @@ export default function RenderingInfo({
               {period.shortForecast}
             </div>
             {selectedPeriod === period.number && (
-              <div className="mt-2">
+              <div className="mt-2 space-y-2">
                 <div>
                   <strong>Date:</strong> {formatDate(period.startTime)}
                 </div>
@@ -82,8 +80,56 @@ export default function RenderingInfo({
                   <strong>Forecast:</strong> {period.detailedForecast}
                 </div>
                 <div>
-                  <strong>Full Data:</strong>{" "}
-                  <pre>{JSON.stringify(period, null, 2)}</pre>
+                  <strong>Full Data:</strong>
+                  <div>
+                    <div>
+                      <strong>Number:</strong> {period.number}
+                    </div>
+                    <div>
+                      <strong>Name:</strong> {period.name}
+                    </div>
+                    <div>
+                      <strong>Start Time:</strong> {period.startTime}
+                    </div>
+                    <div>
+                      <strong>End Time:</strong> {period.endTime}
+                    </div>
+                    <div>
+                      <strong>Is Daytime:</strong>{" "}
+                      {period.isDaytime ? "Yes" : "No"}
+                    </div>
+                    <div>
+                      <strong>Temperature:</strong> {period.temperature}{" "}
+                      {period.temperatureUnit}
+                    </div>
+                    <div>
+                      <strong>Temperature Trend:</strong>{" "}
+                      {period.temperatureTrend || "N/A"}
+                    </div>
+                    <div>
+                      <strong>Probability of Precipitation:</strong>{" "}
+                      {period.probabilityOfPrecipitation?.value}%
+                    </div>
+                    <div>
+                      <strong>Wind Speed:</strong> {period.windSpeed}
+                    </div>
+                    <div>
+                      <strong>Wind Direction:</strong> {period.windDirection}
+                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <div>
+                      <strong>Icon:</strong>{" "}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={period.icon} alt="Weather Icon" />
+                    </div>
+                    <div>
+                      <strong>Short Forecast:</strong> {period.shortForecast}
+                    </div>
+                    <div>
+                      <strong>Detailed Forecast:</strong>{" "}
+                      {period.detailedForecast}
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
