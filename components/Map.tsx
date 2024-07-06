@@ -1,19 +1,20 @@
-"use client"
-import React from "react"
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
-import L from "leaflet"
-import "leaflet/dist/leaflet.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
-import "@fortawesome/fontawesome-svg-core/styles.css"
-import { config } from "@fortawesome/fontawesome-svg-core"
-import { useRouter } from "next/navigation" // Correct import for App Router
+"use client";
 
-import SpotImage from "./SpotImage"
-import Link from "next/link"
-import { KitesurfSpot } from "../app/api/mock"
+import React from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import { useRouter } from "next/navigation"; // Correct import for App Router
 
-config.autoAddCss = false
+import SpotImage from "./SpotImage";
+import Link from "next/link";
+import { KitesurfSpot } from "../app/api/mock";
+
+config.autoAddCss = false;
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -22,27 +23,27 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-})
+});
 
 // Custom icon for user's current location
 const userIcon = new L.Icon({
-  iconUrl: "https://example.com/user-location-icon.png", // Replace with your custom icon URL
+  iconUrl: "/user-location-icon.svg", // Use the path relative to the public folder
   iconSize: [32, 32], // Size of the icon
   iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
   popupAnchor: [0, -32], // Point from which the popup should open relative to the iconAnchor
-})
+});
 
 interface MapProps {
-  position: [number, number] | null
-  kitesurfSpots: KitesurfSpot[]
+  position: [number, number] | null;
+  kitesurfSpots: KitesurfSpot[];
 }
 
 const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
-  const router = useRouter()
+  const router = useRouter();
 
   const handleWeatherClick = (spotId: number) => {
-    router.push(`/spots/${spotId}`)
-  }
+    router.push(`/spots/${spotId}`);
+  };
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
@@ -61,7 +62,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
               <Popup>
                 <div>
                   <SpotImage spot={spot} />
-                  <div style={{ fontWeight: "bold", fontSize: "1.1rem" }}>
+                  <div style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
                     {spot.name}
                   </div>
                   <p>{spot.description}</p>
@@ -77,12 +78,12 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                         alignItems: "center",
                         color: "green",
                         textDecoration: "underline",
-                        fontSize: "1.1rem",
+                        fontSize: "1.3rem",
                       }}
                     >
                       <FontAwesomeIcon
                         icon={faLocationArrow}
-                        style={{ marginRight: "0.5rem" }}
+                        style={{ margin: "0.5rem" }}
                       />
                       Go
                     </a>
@@ -96,12 +97,12 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                           color: "blue",
                           textDecoration: "underline",
                           cursor: "pointer",
-                          fontSize: "1.1rem",
+                          fontSize: "1.3rem",
                         }}
                       >
                         <FontAwesomeIcon
                           icon={faWind}
-                          style={{ marginRight: "0.5rem" }}
+                          style={{ margin: "0.5rem" }}
                         />
                         View Weather
                       </button>
@@ -125,7 +126,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Map
+export default Map;
