@@ -1,4 +1,5 @@
 "use client"
+
 import React from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTimes } from "@fortawesome/free-solid-svg-icons"
@@ -14,23 +15,23 @@ const LocationModal: React.FC = () => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-grey rounded-lg p-4 w-full max-w-lg">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-gray-800 text-white rounded-lg p-4 w-full max-w-lg shadow-lg">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">{selectedLocation.name}</h2>
           <button
             onClick={closeModal}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-gray-400 hover:text-gray-200"
           >
             <FontAwesomeIcon icon={faTimes} />
           </button>
         </div>
-        <p>{selectedLocation.description}</p>
+        <p className="mt-2">{selectedLocation.description}</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={selectedLocation.location_img_url}
           alt={selectedLocation.name}
-          className="w-full h-auto mt-4"
+          className="w-full h-auto mt-4 rounded"
         />
         <div className="mt-4 space-y-2">
           <div>
