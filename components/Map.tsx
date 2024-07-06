@@ -103,7 +103,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
               eventHandlers={{ click: () => setSelectedSpot(spot) }}
             >
               <Popup>
-                <div className="p-4 max-w-xs md:max-w-sm bg-white shadow-lg rounded-lg">
+                <div>
                   <div className="font-bold text-xl text-gray-800 mb-2">
                     {spot.name}
                   </div>
@@ -144,7 +144,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                     </a>
                     <button
                       onClick={() => handleShowModal(spot)}
-                      className="flex items-center text-blue-600 underline text-lg hover:text-blue-800"
+                      className="flex items-center text-white-900 underline text-lg hover:text-blue-800"
                     >
                       <FontAwesomeIcon icon={faWind} className="mr-2" />
                       More Info
@@ -156,7 +156,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
           ))}
           <Marker position={position} icon={userIcon}>
             <Popup>
-              <div className="p-4 bg-white shadow-lg rounded-lg">
+              <div>
                 <strong className="text-gray-800">
                   Showing Weather for this location
                 </strong>
