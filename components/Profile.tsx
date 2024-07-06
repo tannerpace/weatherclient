@@ -5,26 +5,59 @@ import ProfileMap from "@/components/ProfileMap"
 import { KitesurfSpot } from "@/app/api/mock"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
-import RenderingInfo from "@/components/RenderingInfo"
+import ProfileRenderingInfo from "@/components/ProfileRenderingInfo"
+import {
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Slider,
+  Typography,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from "@mui/material"
 
 const Profile: React.FC = () => {
   const [locations, setLocations] = useState<KitesurfSpot[]>([])
-  const [minWindspeed, setMinWindspeed] = useState<number | null>(null)
+  const [minWindspeed, setMinWindspeed] = useState<number>(0)
+  const [viableDirections, setViableDirections] = useState<{
+    [key: string]: number
+  }>({
+    N: 0,
+    NE: 0,
+    E: 0,
+    SE: 0,
+    S: 0,
+    SW: 0,
+    W: 0,
+    NW: 0,
+  })
   const [selectedLocation, setSelectedLocation] = useState<KitesurfSpot | null>(
     null
   )
+  const [open, setOpen] = useState(false)
+  const [newLocation, setNewLocation] = useState<{
+    lat: number
+    lng: number
+  } | null>(null)
+  const [locationName, setLocationName] = useState("")
 
   useEffect(() => {
     const savedLocations = JSON.parse(
       localStorage.getItem("userLocations") || "[]"
     )
     const savedMinWindspeed = JSON.parse(
-      localStorage.getItem("minWindspeed") || "null"
+      localStorage.getItem("minWindspeed") || "0"
+    )
+    const savedViableDirections = JSON.parse(
+      localStorage.getItem("viableDirections") || "{}"
     )
     setLocations(savedLocations)
-    if (savedMinWindspeed !== null) {
-      setMinWindspeed(savedMinWindspeed)
-    }
+    setMinWindspeed(savedMinWindspeed)
+    setViableDirections(savedViableDirections)
   }, [])
 
   useEffect(() => {
@@ -32,13 +65,17 @@ const Profile: React.FC = () => {
   }, [locations])
 
   const handleAddLocation = (lat: number, lng: number) => {
-    const name = prompt("Enter a name for this location:")
-    if (name) {
+    setNewLocation({ lat, lng })
+    setOpen(true)
+  }
+
+  const handleSaveLocation = () => {
+    if (locationName && newLocation) {
       const newSpot: KitesurfSpot = {
         id: Date.now(),
-        latitude: lat,
-        longitude: lng,
-        name,
+        latitude: newLocation.lat,
+        longitude: newLocation.lng,
+        name: locationName,
         island: "",
         winddirections: "",
         waves: "",
@@ -47,18 +84,13 @@ const Profile: React.FC = () => {
         experience: "",
         references: "",
         location_img_url: "",
-        viable_directions: {
-          N: false,
-          NE: false,
-          E: false,
-          SE: false,
-          S: false,
-          SW: false,
-          W: false,
-          NW: false,
-        },
+        viable_directions: viableDirections,
+        minWindspeed: minWindspeed,
       }
       setLocations((prevLocations) => [...prevLocations, newSpot])
+      setOpen(false)
+      setLocationName("")
+      setNewLocation(null)
     }
   }
 
@@ -68,16 +100,30 @@ const Profile: React.FC = () => {
     )
   }
 
-  const handleMinWindspeedChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = parseInt(event.target.value, 10)
-    setMinWindspeed(value)
-    localStorage.setItem("minWindspeed", JSON.stringify(value))
+  const handleMinWindspeedChange = (event: Event, value: number | number[]) => {
+    if (typeof value === "number") {
+      setMinWindspeed(value)
+      localStorage.setItem("minWindspeed", JSON.stringify(value))
+    }
+  }
+
+  const handleViableDirectionChange = (direction: string) => {
+    setViableDirections((prevDirections) => {
+      const newDirections = { ...prevDirections }
+      newDirections[direction] = newDirections[direction] ? 0 : 1
+      localStorage.setItem("viableDirections", JSON.stringify(newDirections))
+      return newDirections
+    })
   }
 
   const handleLocationSelect = (location: KitesurfSpot) => {
     setSelectedLocation(location)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+    setLocationName("")
+    setNewLocation(null)
   }
 
   return (
@@ -96,6 +142,7 @@ const Profile: React.FC = () => {
         <FontAwesomeIcon
           icon={faPlus}
           className="text-green-500 cursor-pointer"
+          onClick={() => setOpen(true)}
         />
       </div>
       <ul className="mb-4">
@@ -111,29 +158,71 @@ const Profile: React.FC = () => {
           </li>
         ))}
       </ul>
-      <div>
-        <label className="block text-lg font-bold mb-2" htmlFor="minWindspeed">
-          Minimum Windspeed
-        </label>
-        <input
-          type="number"
-          id="minWindspeed"
-          value={minWindspeed ?? ""}
-          onChange={handleMinWindspeedChange}
-          className="p-2 border border-gray-300 rounded bg-gray-800 text-white w-full"
-        />
-      </div>
       {selectedLocation && (
         <div className="mt-4">
           <h2 className="text-xl font-bold">
             Weather Information for {selectedLocation.name}
           </h2>
-          <RenderingInfo
+          <ProfileRenderingInfo
             latitude={selectedLocation.latitude}
             longitude={selectedLocation.longitude}
+            minWindspeed={selectedLocation.minWindspeed || minWindspeed}
+            viableDirections={
+              selectedLocation.viable_directions || viableDirections
+            }
           />
         </div>
       )}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Add New Location</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Location Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={locationName}
+            onChange={(e) => setLocationName(e.target.value)}
+          />
+          <Typography id="min-windspeed-slider" gutterBottom>
+            Minimum Windspeed
+          </Typography>
+          <Slider
+            value={minWindspeed}
+            onChange={handleMinWindspeedChange}
+            aria-labelledby="min-windspeed-slider"
+            valueLabelDisplay="auto"
+            step={1}
+            marks
+            min={0}
+            max={40}
+          />
+          <FormGroup>
+            {Object.keys(viableDirections).map((direction) => (
+              <FormControlLabel
+                key={direction}
+                control={
+                  <Checkbox
+                    checked={!!viableDirections[direction]}
+                    onChange={() => handleViableDirectionChange(direction)}
+                  />
+                }
+                label={direction}
+              />
+            ))}
+          </FormGroup>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSaveLocation} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }

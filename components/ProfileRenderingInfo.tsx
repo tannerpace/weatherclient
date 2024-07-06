@@ -2,6 +2,7 @@
 
 import useWeather from "@/app/hooks/useWeather"
 import React, { useState, useEffect } from "react"
+import { FormControl, FormControlLabel, RadioGroup, Radio } from "@mui/material"
 
 interface RenderingInfoProps {
   latitude: number
@@ -22,6 +23,7 @@ export default function ProfileRenderingInfo({
   })
   const [selectedPeriod, setSelectedPeriod] = useState<number | null>(null)
   const [suitablePeriods, setSuitablePeriods] = useState<any[]>([])
+  const [viewMode, setViewMode] = useState<string>("all")
 
   useEffect(() => {
     if (weatherData) {
@@ -71,17 +73,44 @@ export default function ProfileRenderingInfo({
     })
   }
 
+  const periodsToShow =
+    viewMode === "all" ? weatherData.properties.periods : suitablePeriods
+
   return (
     <div className="space-y-3 rounded-lg bg-gray-900 p-3 m-2 text-green-500 font-mono">
+      <FormControl component="fieldset">
+        <RadioGroup
+          row
+          aria-label="viewMode"
+          name="viewMode"
+          value={viewMode}
+          onChange={(e) => setViewMode(e.target.value)}
+        >
+          <FormControlLabel
+            value="all"
+            control={<Radio color="primary" />}
+            label="All Periods"
+          />
+          <FormControlLabel
+            value="suitable"
+            control={<Radio color="primary" />}
+            label="Suitable Periods"
+          />
+        </RadioGroup>
+      </FormControl>
       <div className="text-sm text-gray-300">
-        {suitablePeriods.length === 0 ? (
-          <div>No suitable periods found</div>
+        {periodsToShow.length === 0 ? (
+          <div>No periods found</div>
         ) : (
-          suitablePeriods.map((period: any) => (
+          periodsToShow.map((period: any) => (
             <div
               key={period.number}
               className={`p-2 cursor-pointer font ${
                 selectedPeriod === period.number ? "bg-gray-700" : "bg-gray-800"
+              } ${
+                suitablePeriods.includes(period)
+                  ? "border-l-4 border-green-500"
+                  : ""
               }`}
               onClick={() => handlePeriodSelect(period.number)}
             >
@@ -116,9 +145,6 @@ export default function ProfileRenderingInfo({
                   <div>
                     <strong>Full Data:</strong>
                     <div className="bg-gray-800 p-2 rounded">
-                      <div>
-                        <strong>Number:</strong> {period.number}
-                      </div>
                       <div>
                         <strong>Name:</strong> {period.name}
                       </div>
