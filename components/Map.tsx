@@ -60,12 +60,12 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   }
 
   return (
-    <div style={{ height: "100%", width: "100%" }}>
+    <div style={{ height: "100%", width: "100%", position: "relative", zIndex: 0 }}>
       {position && kitesurfSpots.length ? (
         <MapContainer
           center={position}
           zoom={12}
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: "100%", width: "100%", zIndex: 1 }}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {kitesurfSpots.map((spot) => (
