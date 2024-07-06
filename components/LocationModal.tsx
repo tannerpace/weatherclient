@@ -14,7 +14,7 @@ const LocationModal: React.FC = () => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-grey rounded-lg p-4 w-full max-w-lg">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">{selectedLocation.name}</h2>
