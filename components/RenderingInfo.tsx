@@ -7,13 +7,25 @@ import {
   faWind,
   faTint,
 } from "@fortawesome/free-solid-svg-icons"
-import { Line } from "react-chartjs-2"
+import {
+  Line,
+  Bar,
+  Radar,
+  Doughnut,
+  PolarArea,
+  Bubble,
+  Pie,
+  Scatter,
+} from "react-chartjs-2"
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
+  ArcElement,
+  RadialLinearScale,
   Title,
   Tooltip,
   Legend,
@@ -25,6 +37,9 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
+  ArcElement,
+  RadialLinearScale,
   Title,
   Tooltip,
   Legend
@@ -48,10 +63,6 @@ interface Period {
   icon: string
   shortForecast: string
   detailedForecast: string
-  relativeHumidity?: {
-    unitCode: string
-    value: number
-  }
 }
 
 interface RenderingInfoProps {
@@ -74,6 +85,7 @@ export default function RenderingInfo({
   const [selectedPeriod, setSelectedPeriod] = useState<number | null>(null)
   const [viewMode, setViewMode] = useState<string>("all")
   const [dataType, setDataType] = useState<string>("windspeed")
+  const [chartType, setChartType] = useState<string>("line")
 
   const suitablePeriods = useMemo(() => {
     if (weatherData && weatherData.properties) {
@@ -142,16 +154,12 @@ export default function RenderingInfo({
             ? "Wind Speed (mph)"
             : dataType === "temperature"
             ? "Temperature (°F)"
-            : dataType === "humidity"
-            ? "Humidity (%)"
             : "Precipitation Probability (%)",
         data: periodsToShow.map((period: Period) =>
           dataType === "windspeed"
             ? parseInt(period.windSpeed.split(" ")[0])
             : dataType === "temperature"
             ? period.temperature
-            : dataType === "humidity"
-            ? period.relativeHumidity?.value
             : period.probabilityOfPrecipitation?.value
         ),
         borderColor: "rgba(75, 192, 192, 1)",
@@ -161,7 +169,7 @@ export default function RenderingInfo({
     ],
   }
 
-  const chartOptions: ChartOptions<"line"> = {
+  const chartOptions: ChartOptions<any> = {
     responsive: true,
     plugins: {
       legend: {
@@ -174,18 +182,27 @@ export default function RenderingInfo({
             ? "Wind Speed Over Time"
             : dataType === "temperature"
             ? "Temperature Over Time"
-            : dataType === "humidity"
-            ? "Humidity Over Time"
             : "Precipitation Probability Over Time",
       },
     },
-    onClick: (event, elements) => {
+    onClick: (event: any, elements: any[]) => {
       if (elements.length > 0) {
         const index = elements[0].index
         handlePeriodSelect(index)
       }
     },
   }
+
+  const ChartComponent = {
+    line: Line,
+    bar: Bar,
+    radar: Radar,
+    doughnut: Doughnut,
+    polarArea: PolarArea,
+    bubble: Bubble,
+    pie: Pie,
+    scatter: Scatter,
+  }[chartType] as unknown as React.ElementType
 
   return (
     <div className="space-y-4 bg-black bg-opacity-40 p-4 m-2 rounded-lg text-green-300">
@@ -208,14 +225,57 @@ export default function RenderingInfo({
             label="Temperature"
           />
           <FormControlLabel
-            value="humidity"
-            control={<Radio color="primary" />}
-            label="Humidity"
-          />
-          <FormControlLabel
             value="precipitation"
             control={<Radio color="primary" />}
             label="Precipitation"
+          />
+        </RadioGroup>
+        <RadioGroup
+          row
+          aria-label="chartType"
+          name="chartType"
+          value={chartType}
+          onChange={(e) => setChartType(e.target.value)}
+        >
+          <FormControlLabel
+            value="line"
+            control={<Radio color="primary" />}
+            label="Line"
+          />
+          <FormControlLabel
+            value="bar"
+            control={<Radio color="primary" />}
+            label="Bar"
+          />
+          <FormControlLabel
+            value="radar"
+            control={<Radio color="primary" />}
+            label="Radar"
+          />
+          <FormControlLabel
+            value="doughnut"
+            control={<Radio color="primary" />}
+            label="Doughnut"
+          />
+          <FormControlLabel
+            value="polarArea"
+            control={<Radio color="primary" />}
+            label="Polar Area"
+          />
+          <FormControlLabel
+            value="bubble"
+            control={<Radio color="primary" />}
+            label="Bubble"
+          />
+          <FormControlLabel
+            value="pie"
+            control={<Radio color="primary" />}
+            label="Pie"
+          />
+          <FormControlLabel
+            value="scatter"
+            control={<Radio color="primary" />}
+            label="Scatter"
           />
         </RadioGroup>
       </FormControl>
@@ -224,7 +284,7 @@ export default function RenderingInfo({
           <div className="text-gray-500">No periods found</div>
         ) : (
           <>
-            <Line data={chartData} options={chartOptions} />
+            <ChartComponent data={chartData} options={chartOptions} />
             {periodsToShow.map((period: Period, index: number) => (
               <div
                 key={period.number}
@@ -256,11 +316,6 @@ export default function RenderingInfo({
                       <FontAwesomeIcon icon={faWind} className="mr-2" />
                       <strong className="text-lime-700">Wind:</strong>{" "}
                       {period.windSpeed} {period.windDirection}
-                    </div>
-                    <div className="flex items-center text-lime-500">
-                      <FontAwesomeIcon icon={faTint} className="mr-2" />
-                      <strong className="text-lime-700">Humidity:</strong>{" "}
-                      {period?.relativeHumidity?.value}%
                     </div>
                     <div className="flex items-center text-lime-500 bg-black bg-opacity-40">
                       <strong className="text-lime-700">

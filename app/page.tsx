@@ -53,7 +53,7 @@ const Page: React.FC = () => {
     parseFloat(longitude),
   ])
   const [locationName, setLocationName] = useState<string>("")
-  const [clipboardStatus, setClipboardStatus] = useState<string | null>(null)
+  // const [clipboardStatus, setClipboardStatus] = useState<string | null>(null)
 
   const handleButtonClick = () => {
     setLoading(true)

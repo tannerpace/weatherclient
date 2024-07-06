@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDebounce } from './useDebounce';
-import { Key, ReactNode } from 'react';
 
 /**
  * Interface representing the query parameters for fetching weather data.
@@ -15,17 +14,31 @@ interface GetWeatherQuery {
  */
 interface WeatherData {
   properties: {
-    periods: Array<{
-      windSpeed: ReactNode;
-      windDirection: ReactNode;
-      temperature: ReactNode;
-      startTime: ReactNode;
-      shortForecast: ReactNode;
-      number: Key | null | undefined;
-      relativeHumidity: any;
-      detailedForecast: string;
-    }>;
+    periods: Period[];
   };
+}
+
+/**
+ * Interface representing a period of weather data.
+ */
+interface Period {
+  number: number;
+  name: string;
+  startTime: string;
+  endTime: string;
+  isDaytime: boolean;
+  temperature: number;
+  temperatureUnit: string;
+  temperatureTrend: string;
+  probabilityOfPrecipitation: {
+    unitCode: string;
+    value: number | null;
+  };
+  windSpeed: string;
+  windDirection: string;
+  icon: string;
+  shortForecast: string;
+  detailedForecast: string;
 }
 
 /**
