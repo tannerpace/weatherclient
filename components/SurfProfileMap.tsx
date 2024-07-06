@@ -60,7 +60,7 @@ const SurfProfileMap: React.FC<MapProps> = ({
               <div className="font-bold">{location.name}</div>
               <div className="text-sm">
                 <p>
-                  <strong>Max Windspeed:</strong> {location.maxWindSpeed} mph
+                  <strong>Max Windspeed:</strong> {location.maxWindspeed} mph
                 </p>
                 <p>
                   <strong>Wave Height:</strong> {location.waveHeight} ft
