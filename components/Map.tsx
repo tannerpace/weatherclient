@@ -1,20 +1,27 @@
-"use client";
+"use client"
 
-import React from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { config } from "@fortawesome/fontawesome-svg-core";
-import { useRouter } from "next/navigation"; // Correct import for App Router
+import React from "react"
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+} from "react-leaflet"
+import L from "leaflet"
+import "leaflet/dist/leaflet.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
+import "@fortawesome/fontawesome-svg-core/styles.css"
+import { config } from "@fortawesome/fontawesome-svg-core"
+import { useRouter } from "next/navigation"
 
-import SpotImage from "./SpotImage";
-import Link from "next/link";
-import { KitesurfSpot } from "../app/api/mock";
+import SpotImage from "./SpotImage"
+import Link from "next/link"
+import { KitesurfSpot } from "../app/api/mock"
+import { useFilterContext } from "@/app/context/FilterContext"
 
-config.autoAddCss = false;
+config.autoAddCss = false
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -23,27 +30,33 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-});
+})
 
-// Custom icon for user's current location
 const userIcon = new L.Icon({
-  iconUrl: "/user-location-icon.svg", // Use the path relative to the public folder
-  iconSize: [32, 32], // Size of the icon
-  iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
-  popupAnchor: [0, -32], // Point from which the popup should open relative to the iconAnchor
-});
+  iconUrl: "/user-location-icon.svg",
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+})
 
 interface MapProps {
-  position: [number, number] | null;
-  kitesurfSpots: KitesurfSpot[];
+  position: [number, number] | null
+  kitesurfSpots: KitesurfSpot[]
 }
 
 const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
-  const router = useRouter();
+  const router = useRouter()
+  const { setCoordinates } = useFilterContext()
 
-  const handleWeatherClick = (spotId: number) => {
-    router.push(`/spots/${spotId}`);
-  };
+  const MapEvents = () => {
+    useMapEvents({
+      click(e) {
+        const { lat, lng } = e.latlng
+        setCoordinates(lat.toString(), lng.toString())
+      },
+    })
+    return null
+  }
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
@@ -119,6 +132,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
               </div>
             </Popup>
           </Marker>
+          <MapEvents />
         </MapContainer>
       ) : (
         <div style={{ height: "100%", width: "100%" }}>
@@ -126,7 +140,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Map;
+export default Map
