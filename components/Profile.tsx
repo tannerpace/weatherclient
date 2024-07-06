@@ -1,3 +1,4 @@
+// pages/profile.tsx
 "use client"
 
 import React, { useState, useEffect } from "react"
@@ -90,6 +91,10 @@ const Profile: React.FC = () => {
     }))
   }
 
+  const handleLocationSelect = (location: KitesurfSpot) => {
+    setSelectedLocation(location)
+  }
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4">
       <h1 className="text-2xl font-bold mb-4">My Kitesurf Locations</h1>
@@ -98,6 +103,7 @@ const Profile: React.FC = () => {
           locations={locations}
           onLocationAdd={handleAddLocation}
           onLocationDelete={handleDeleteLocation}
+          onLocationSelect={handleLocationSelect}
         />
       </div>
       <div className="flex justify-between items-center mb-4">

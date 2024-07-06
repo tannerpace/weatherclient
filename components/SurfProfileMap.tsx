@@ -1,4 +1,5 @@
-// components/ProfileMap.tsx
+"use client"
+
 import React from "react"
 import {
   MapContainer,
@@ -26,14 +27,12 @@ interface MapProps {
   locations: KitesurfSpot[]
   onLocationAdd: (lat: number, lng: number) => void
   onLocationDelete: (id: number) => void
-  onLocationSelect: (location: KitesurfSpot) => void
 }
 
-const ProfileMap: React.FC<MapProps> = ({
+const SurfProfileMap: React.FC<MapProps> = ({
   locations,
   onLocationAdd,
   onLocationDelete,
-  onLocationSelect,
 }) => {
   const MapEvents = () => {
     useMapEvents({
@@ -48,30 +47,25 @@ const ProfileMap: React.FC<MapProps> = ({
     <MapContainer
       center={[32.7765, -79.9311]}
       zoom={10}
-      style={{ height: "100%", width: "100%", zIndex: 1 }}
+      style={{ height: "100%", width: "100%" }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {locations.map((location) => (
         <Marker
           key={location.id}
           position={[location.latitude, location.longitude]}
-          eventHandlers={{
-            click: () => {
-              onLocationSelect(location)
-            },
-          }}
         >
           <Popup>
             <div className="p-2">
               <div className="font-bold">{location.name}</div>
-              <div>Min Windspeed: {location.minWindspeed} mph</div>
-              <div>Viable Directions:</div>
-              <ul>
-                {Object.entries(location.viable_directions || {}).map(
-                  ([direction, isViable]) =>
-                    isViable === 1 && <li key={direction}>{direction}</li>
-                )}
-              </ul>
+              <div className="text-sm">
+                <p>
+                  <strong>Max Windspeed:</strong> {location.maxWindspeed} mph
+                </p>
+                <p>
+                  <strong>Wave Height:</strong> {location.waveHeight} ft
+                </p>
+              </div>
               <button
                 onClick={() => onLocationDelete(location.id)}
                 className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
@@ -88,4 +82,4 @@ const ProfileMap: React.FC<MapProps> = ({
   )
 }
 
-export default ProfileMap
+export default SurfProfileMap

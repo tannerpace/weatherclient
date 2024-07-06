@@ -142,17 +142,7 @@ const Page: React.FC = () => {
           latitude={Number(latitude)}
           longitude={Number(longitude)}
         />
-        <div className="mt-4 text-center md:text-left">
-          <label className="text-lg font-bold">
-            <input
-              type="checkbox"
-              checked={showSuitablePeriods}
-              onChange={() => setShowSuitablePeriods(!showSuitablePeriods)}
-              className="mr-2"
-            />
-            Show Suitable Periods Only
-          </label>
-        </div>
+
         <p className="mt-4 text-md text-gray-500 text-center md:text-left">
           {locationName
             ? `Showing weather for ${locationName}`

@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Home, Person, Favorite } from "@mui/icons-material"
@@ -21,7 +22,7 @@ const routes: Route[] = [
     label: "Saved Locations",
   },
   {
-    path: "/surf-profile",
+    path: "/surfprofile",
     icon: <Favorite />,
     label: "Surf Profile",
   },
@@ -44,8 +45,8 @@ const NavButton: React.FC<NavButtonProps> = ({
 }) => {
   const isActive = value === index
   const buttonClass = `flex flex-col items-center py-2 ${
-    isActive ? "text-white" : "text-gray-400"
-  }`
+    isActive ? "text-blue-500" : "text-gray-400"
+  } hover:text-blue-300 transition duration-200 ease-in-out`
 
   return (
     <button
@@ -54,7 +55,7 @@ const NavButton: React.FC<NavButtonProps> = ({
       aria-label={label}
     >
       {icon}
-      <span className="text-xs">{label}</span>
+      <span className="text-xs mt-1">{label}</span>
     </button>
   )
 }
@@ -77,7 +78,7 @@ const BottomNavBar: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-0 w-full text-white shadow-md flex justify-around mb-2 bg-black rounded-t-lg">
+    <div className="fixed bottom-0 w-full bg-gray-900 text-white shadow-md flex justify-around py-2 rounded-t-lg border-t border-gray-700">
       {routes.map((route, index) => (
         <NavButton
           key={index}
