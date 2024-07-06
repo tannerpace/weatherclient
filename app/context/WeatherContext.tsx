@@ -73,6 +73,8 @@ const getForecastUrls = async (
 const getWeatherData = async (forecastUrl: string): Promise<WeatherData> => {
   const response = await fetch(forecastUrl)
   if (!response.ok) {
+    const errorText = await response.text()
+    console.error("Error fetching weather data:", errorText)
     throw new Error("Error fetching weather data")
   }
   return response.json()
@@ -92,12 +94,16 @@ const getAdditionalData = async (
 ): Promise<{ observationData: any; forecastGridData: any }> => {
   const observationResponse = await fetch(observationStationsUrl)
   if (!observationResponse.ok) {
+    const errorText = await observationResponse.text()
+    console.error("Error fetching observation stations data:", errorText)
     throw new Error("Error fetching observation stations data")
   }
   const observationData = await observationResponse.json()
 
   const forecastGridDataResponse = await fetch(forecastGridDataUrl)
   if (!forecastGridDataResponse.ok) {
+    const errorText = await forecastGridDataResponse.text()
+    console.error("Error fetching forecast grid data:", errorText)
     throw new Error("Error fetching forecast grid data")
   }
   const forecastGridData = await forecastGridDataResponse.json()
@@ -140,30 +146,43 @@ const useWeather = (data: GetWeatherQuery) => {
         } = await getForecastUrls(debouncedLatitude, debouncedLongitude)
         const forecastData = await getWeatherData(forecast)
         setWeatherData(forecastData)
+        setLoadingForecast(false)
 
-        setLoadingObservation(true)
-        setErrorObservation(null)
-        const { observationData } = await getAdditionalData(
-          observationStations,
-          ""
-        )
-        setWeatherData((prevData) =>
-          prevData ? { ...prevData, observationData } : null
-        )
-        setLoadingObservation(false)
+        try {
+          setLoadingObservation(true)
+          setErrorObservation(null)
+          const { observationData } = await getAdditionalData(
+            observationStations,
+            forecastGridData
+          )
+          setWeatherData((prevData) =>
+            prevData ? { ...prevData, observationData } : null
+          )
+          setLoadingObservation(false)
+        } catch (err) {
+          console.error("Error fetching observation stations data:", err)
+          setErrorObservation(err.message)
+          setLoadingObservation(false)
+        }
 
-        setLoadingForecastGrid(true)
-        setErrorForecastGrid(null)
-        const { forecastGridData: gridData } = await getAdditionalData(
-          "",
-          forecastGridData
-        )
-        setWeatherData((prevData) =>
-          prevData ? { ...prevData, forecastGridData: gridData } : null
-        )
-        setLoadingForecastGrid(false)
+        try {
+          setLoadingForecastGrid(true)
+          setErrorForecastGrid(null)
+          const { forecastGridData: gridData } = await getAdditionalData(
+            observationStations,
+            forecastGridData
+          )
+          setWeatherData((prevData) =>
+            prevData ? { ...prevData, forecastGridData: gridData } : null
+          )
+          setLoadingForecastGrid(false)
+        } catch (err) {
+          console.error("Error fetching forecast grid data:", err)
+          setErrorForecastGrid(err.message)
+          setLoadingForecastGrid(false)
+        }
       } catch (err) {
-        //@ts-ignore
+        console.error("Error fetching forecast office information:", err)
         setErrorForecast(err.message)
         setLoadingForecast(false)
         setLoadingObservation(false)

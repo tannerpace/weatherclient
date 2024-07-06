@@ -1,8 +1,8 @@
 "use client"
 
-import useWeather from "@/app/hooks/useWeather"
 import React, { useState, useEffect, useMemo } from "react"
 import { FormControl, FormControlLabel, RadioGroup, Radio } from "@mui/material"
+import useWeather from "@/app/context/WeatherContext"
 
 interface RenderingInfoProps {
   latitude: number
@@ -17,7 +17,15 @@ export default function RenderingInfo({
   minWindspeed = 0,
   viableDirections = {},
 }: RenderingInfoProps) {
-  const { weatherData, error } = useWeather({
+  const {
+    weatherData,
+    loadingForecast,
+    loadingObservation,
+    loadingForecastGrid,
+    errorForecast,
+    errorObservation,
+    errorForecastGrid,
+  } = useWeather({
     latitude: latitude.toString(),
     longitude: longitude.toString(),
   })
@@ -45,8 +53,22 @@ export default function RenderingInfo({
     return []
   }, [weatherData, minWindspeed, viableDirections])
 
-  if (error) {
-    return <div>Error fetching weather data</div>
+  if (loadingForecast || loadingObservation || loadingForecastGrid) {
+    return <div>Loading weather data...</div>
+  }
+
+  if (errorForecast || errorObservation || errorForecastGrid) {
+    return (
+      <div>
+        {errorForecast && <p>Error fetching forecast: {errorForecast}</p>}
+        {errorObservation && (
+          <p>Error fetching observation: {errorObservation}</p>
+        )}
+        {errorForecastGrid && (
+          <p>Error fetching forecast grid data: {errorForecastGrid}</p>
+        )}
+      </div>
+    )
   }
 
   if (!weatherData) {
