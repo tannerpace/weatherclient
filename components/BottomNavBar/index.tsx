@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { useRouter } from "next/navigation"
 import { Home, Person, Favorite } from "@mui/icons-material"
 
@@ -28,69 +28,29 @@ const routes: Route[] = [
   },
 ]
 
-interface NavButtonProps {
-  index: number
-  value: number
-  onClick: (index: number) => void
-  icon: JSX.Element
-  label: string
-}
-
-const NavButton: React.FC<NavButtonProps> = ({
-  index,
-  value,
-  onClick,
-  icon,
-  label,
-}) => {
-  const isActive = value === index
-  const buttonClass = `flex flex-col items-center py-2 ${
-    isActive ? "text-blue-500" : "text-gray-400"
-  } hover:text-blue-300 transition duration-200 ease-in-out`
-
-  return (
-    <button
-      className={buttonClass}
-      onClick={() => onClick(index)}
-      aria-label={label}
-    >
-      {icon}
-      <span className="text-xs mt-1">{label}</span>
-    </button>
-  )
-}
-
-const BottomNavBar: React.FC = () => {
+const BottomNavigationBar = () => {
   const router = useRouter()
-  const [value, setValue] = useState(0)
 
-  useEffect(() => {
-    const path = window.location.pathname
-    const index = routes.findIndex((route) => route.path === path)
-    if (index !== -1) {
-      setValue(index)
-    }
-  }, [])
-
-  const handleNavigation = (index: number) => {
-    setValue(index)
-    router.push(routes[index].path)
+  const handleNavigation = (path: string) => {
+    router.push(path)
   }
 
   return (
-    <div className="fixed bottom-0 w-full bg-gray-900 text-white shadow-md flex justify-around py-2 rounded-t-lg border-t border-gray-700">
-      {routes.map((route, index) => (
-        <NavButton
-          key={index}
-          index={index}
-          value={value}
-          onClick={handleNavigation}
-          icon={route.icon}
-          label={route.label}
-        />
-      ))}
+    <div className="fixed bottom-0 w-full bg-white shadow-lg">
+      <div className="flex justify-around py-2">
+        {routes.map((route, index) => (
+          <div
+            key={index}
+            className="flex flex-col items-center cursor-pointer"
+            onClick={() => handleNavigation(route.path)}
+          >
+            {route.icon}
+            <span className="text-xs text-gray-700">{route.label}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
 
-export default BottomNavBar
+export default BottomNavigationBar
