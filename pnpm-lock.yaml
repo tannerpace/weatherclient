@@ -19,6 +19,7 @@ specifiers:
   eslint: ^8
   eslint-config-next: 14.2.4
   leaflet: ^1.9.4
+  lodash: ^4.17.21
   next: 14.2.4
   next-pwa: ^5.6.0
   postcss: ^8
@@ -42,6 +43,7 @@ dependencies:
   axios: 1.7.2
   clsx: 2.1.1
   leaflet: 1.9.4
+  lodash: 4.17.21
   next: 14.2.4_nnrd3gsncyragczmpvfhocinkq
   next-pwa: 5.6.0_next@14.2.4
   react: 18.3.1

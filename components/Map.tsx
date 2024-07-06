@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react"
+
 import {
   MapContainer,
   TileLayer,
@@ -18,6 +18,8 @@ import { KitesurfSpot } from "../app/api/mock"
 import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useWeatherContext } from "@/app/context/WeatherContext"
+import React, { useEffect, useState, useRef } from "react"
+import { debounce } from "@mui/material"
 
 config.autoAddCss = false
 
@@ -48,14 +50,25 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   const { weatherData, setLocation } = useWeatherContext()
   const [selectedSpot, setSelectedSpot] = useState<KitesurfSpot | null>(null)
 
+  const debouncedSetLocationRef = useRef<any>()
+
+  useEffect(() => {
+    debouncedSetLocationRef.current = debounce(
+      (latitude: string, longitude: string) => {
+        setLocation(latitude, longitude)
+      },
+      300
+    )
+  }, [setLocation])
+
   useEffect(() => {
     if (selectedSpot) {
-      setLocation(
+      debouncedSetLocationRef.current(
         selectedSpot.latitude.toString(),
         selectedSpot.longitude.toString()
       )
     }
-  }, [selectedSpot, setLocation])
+  }, [selectedSpot])
 
   const handleShowModal = (spot: KitesurfSpot) => {
     setSelectedLocation(spot)
@@ -87,11 +100,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
             <Marker
               key={spot.id}
               position={[spot.latitude as number, spot.longitude as number]}
-              eventHandlers={{
-                click: () => {
-                  setSelectedSpot(spot)
-                },
-              }}
+              eventHandlers={{ click: () => setSelectedSpot(spot) }}
             >
               <Popup>
                 <div className="p-4 max-w-xs md:max-w-sm">
@@ -162,9 +171,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
           <MapEvents />
         </MapContainer>
       ) : (
-        <div style={{ height: "100%", width: "100%" }}>
-          {/* <Skeleton height="100%" /> */}
-        </div>
+        <div style={{ height: "100%", width: "100%" }}></div>
       )}
     </div>
   )
