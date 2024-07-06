@@ -98,9 +98,14 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Card>
             <Card title="References">
               <FontAwesomeIcon icon={faBook} className="mr-2 text-blue-500" />
-              <span className="text-gray-700">
+              <a
+                href="https://en.wikipedia.org/wiki/Fort_Moultrie"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
                 {selectedLocation.references}
-              </span>
+              </a>
             </Card>
           </div>
           <div className="mt-4 w-full">
