@@ -1,10 +1,10 @@
+"use client"
 import { ViableDirections } from "@/app/api/mock"
 import { Checkbox, FormControlLabel, Slider } from "@mui/material"
 import { useEffect, useState } from "react"
 import SurfProfileMap from "./SurfProfileMap"
 import ProfileRenderingInfo from "./ProfileRenderingInfo"
 
-// Define a new interface for SurfSpot
 export interface SurfSpot {
   id: number
   latitude: number
@@ -16,7 +16,6 @@ export interface SurfSpot {
   viable_directions: ViableDirections
 }
 
-// Default values for viable directions
 const defaultViableDirections: ViableDirections = {
   N: 0,
   NE: 0,
@@ -134,7 +133,7 @@ const SurfProfile: React.FC = () => {
           <ProfileRenderingInfo
             latitude={selectedLocation.latitude}
             longitude={selectedLocation.longitude}
-            minWindspeed={selectedLocation.minWindspeed || 0}
+            minWindspeed={selectedLocation.minWindSpeed || 0}
             viableDirections={selectedLocation.viable_directions || {}}
           />
         </div>
