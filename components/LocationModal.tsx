@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faTimes,
@@ -10,11 +10,25 @@ import {
   faRulerVertical,
   faUser,
   faBook,
+  faThermometerHalf,
+  faTint,
+  faCloudSunRain,
 } from "@fortawesome/free-solid-svg-icons"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
+import { useWeatherContext } from "@/app/context/WeatherContext"
 
 const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { selectedLocation, setSelectedLocation } = useSelectedLocationContext()
+  const { weatherData, loading, error, setLocation } = useWeatherContext()
+
+  useEffect(() => {
+    if (selectedLocation) {
+      setLocation(
+        selectedLocation.latitude.toString(),
+        selectedLocation.longitude.toString()
+      )
+    }
+  }, [selectedLocation, setLocation])
 
   if (!selectedLocation) return null
 
@@ -78,6 +92,63 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               <FontAwesomeIcon icon={faBook} className="mr-2 text-blue-500" />
               <strong>References:</strong> {selectedLocation.references}
             </div>
+          </div>
+          <div className="mt-4 w-full">
+            {loading ? (
+              <p>Loading weather data...</p>
+            ) : error ? (
+              <p>Error fetching weather data: {error}</p>
+            ) : weatherData ? (
+              <div>
+                <h3 className="text-lg font-bold">Weather Forecast:</h3>
+                {weatherData.properties.periods.map(
+                  (
+                    period: {
+                      startTime:
+                        | string
+                        | number
+                        | bigint
+                        | boolean
+                        | React.ReactElement<
+                            any,
+                            string | React.JSXElementConstructor<any>
+                          >
+                        | Iterable<React.ReactNode>
+                        | React.ReactPortal
+                        | Promise<React.AwaitedReactNode>
+                        | null
+                        | undefined
+                      detailedForecast:
+                        | string
+                        | number
+                        | bigint
+                        | boolean
+                        | React.ReactElement<
+                            any,
+                            string | React.JSXElementConstructor<any>
+                          >
+                        | Iterable<React.ReactNode>
+                        | React.ReactPortal
+                        | Promise<React.AwaitedReactNode>
+                        | null
+                        | undefined
+                    },
+                    index: React.Key | null | undefined
+                  ) => (
+                    <div key={index} className="mt-2">
+                      <strong>{period.startTime}</strong>
+                      <p>{period.detailedForecast}</p>
+                    </div>
+                  )
+                )}
+                <h3 className="text-lg font-bold mt-4">
+                  Observation Stations:
+                </h3>
+                <p>{weatherData.observationStations}</p>
+                <h3 className="text-lg font-bold mt-4">Radar Station:</h3>
+                <p>{weatherData.radarStation}</p>
+              </div>
+            ) : null}
           </div>
           <div className="mt-6">
             <a

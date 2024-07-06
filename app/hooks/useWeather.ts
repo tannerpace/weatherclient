@@ -5,7 +5,7 @@ import { Key, ReactNode } from 'react';
 /**
  * Interface representing the query parameters for fetching weather data.
  */
-interface GetWeatherQuery {
+export interface GetWeatherQuery {
   latitude: string;
   longitude: string;
 }
@@ -13,7 +13,7 @@ interface GetWeatherQuery {
 /**
  * Interface representing the structure of the weather data returned by the API.
  */
-interface WeatherData {
+export interface WeatherData {
   properties: {
     periods: Array<{
       windSpeed: ReactNode;
@@ -26,6 +26,8 @@ interface WeatherData {
       detailedForecast: string;
     }>;
   };
+  observationStations: string;
+  radarStation: string;
 }
 
 /**
@@ -33,16 +35,20 @@ interface WeatherData {
  *
  * @param {string} latitude - The latitude coordinate.
  * @param {string} longitude - The longitude coordinate.
- * @returns {Promise<string>} The URL of the forecast endpoint.
+ * @returns {Promise<object>} The URLs of the relevant endpoints.
  * @throws Will throw an error if the request fails.
  */
-const getForecastUrl = async (latitude: string, longitude: string): Promise<string> => {
+const getForecastUrls = async (latitude: string, longitude: string): Promise<{ forecast: string, observationStations: string, radarStation: string }> => {
   const response = await fetch(`https://api.weather.gov/points/${latitude},${longitude}`);
   if (!response.ok) {
     throw new Error('Error fetching forecast office information');
   }
   const data = await response.json();
-  return data.properties.forecast;
+  return {
+    forecast: data.properties.forecast,
+    observationStations: data.properties.observationStations,
+    radarStation: data.properties.radarStation,
+  };
 };
 
 /**
@@ -58,6 +64,30 @@ const getWeatherData = async (forecastUrl: string): Promise<WeatherData> => {
     throw new Error('Error fetching weather data');
   }
   return response.json();
+};
+
+/**
+ * Fetches additional data from observation stations and radar station.
+ *
+ * @param {string} observationStationsUrl - The URL of the observation stations endpoint.
+ * @param {string} radarStationUrl - The URL of the radar station endpoint.
+ * @returns {Promise<{ observationData: any; radarData: any }>} The additional data fetched from the API.
+ * @throws Will throw an error if the request fails.
+ */
+const getAdditionalData = async (observationStationsUrl: string, radarStationUrl: string): Promise<{ observationData: any; radarData: any }> => {
+  const observationResponse = await fetch(observationStationsUrl);
+  if (!observationResponse.ok) {
+    throw new Error('Error fetching observation stations data');
+  }
+  const observationData = await observationResponse.json();
+
+  const radarResponse = await fetch(radarStationUrl);
+  if (!radarResponse.ok) {
+    throw new Error('Error fetching radar data');
+  }
+  const radarData = await radarResponse.json();
+
+  return { observationData, radarData };
 };
 
 /**
@@ -80,9 +110,10 @@ const useWeather = (data: GetWeatherQuery) => {
       setLoading(true);
       setError(null);
       try {
-        const forecastUrl = await getForecastUrl(debouncedLatitude, debouncedLongitude);
-        const data = await getWeatherData(forecastUrl);
-        setWeatherData(data);
+        const { forecast, observationStations, radarStation } = await getForecastUrls(debouncedLatitude, debouncedLongitude);
+        const data = await getWeatherData(forecast);
+        const additionalData = await getAdditionalData(observationStations, radarStation);
+        setWeatherData({ ...data, ...additionalData });
       } catch (err) {
         //@ts-ignore
         setError(err.message);
