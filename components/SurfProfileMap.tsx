@@ -12,7 +12,6 @@ import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
-import { SurfSpot } from "@/types"
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
