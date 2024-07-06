@@ -1,4 +1,4 @@
-// components/ProfileMap.tsx
+"use client"
 import React from "react"
 import {
   MapContainer,
