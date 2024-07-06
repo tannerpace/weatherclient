@@ -21,6 +21,19 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/**/*",
+    "components/**/*",
+    "hooks/**/*",
+    "shared/**/*",
+    "styles/**/*",
+    "utils/**/*",
+    "pages/**/*",
+    "public/**/*"
+  ],
   "exclude": ["node_modules"]
 }
