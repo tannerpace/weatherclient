@@ -2,7 +2,7 @@
 import React from "react"
 
 import useKiteSurfSpots from "@/app/hooks/useKiteSurfSpots"
-import { RenderingInfo } from "@/components/RenderingInfo"
+import RenderingInfo from "@/components/RenderingInfo"
 
 interface PageProps {
   params: { id: string }
@@ -38,8 +38,8 @@ export default function Page({ params }: PageProps) {
       </div>
       <div className="-order-1 col-span-full lg:order-none lg:col-span-2">
         <RenderingInfo
-          latitude={kiteSurfSpot.latitude.toString()}
-          longitude={kiteSurfSpot.longitude.toString()}
+          latitude={kiteSurfSpot.latitude}
+          longitude={kiteSurfSpot.longitude}
         />
       </div>
     </div>
