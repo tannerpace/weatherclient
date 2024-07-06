@@ -1,34 +1,30 @@
-import { TabGroup } from "@/components/TabGroup"
+"use client"
+
 import React from "react"
+import { TabGroup } from "@/components/TabGroup"
+import locations from "../api/mock"
 
-const title = "Dynamic Data"
-
-export const metadata = {
-  title,
-  openGraph: {
-    title,
-    images: [`/api/og?title=${title}`],
-  },
-}
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const ids = [{ id: "1" }, { id: "2" }, { id: "3" }]
+  const items = locations.map(
+    (location: { name: any; id: any; latitude: any; longitude: any }) => ({
+      text: location.name,
+      slug: `${location.id}`,
+      weatherUrl: `https://api.weather.gov/points/${location.latitude},${location.longitude}/forecast`,
+    })
+  )
 
   return (
-    <div className="space-y-9">
+    <div className="flex flex-col h-screen overflow-hidden">
       <TabGroup
-        path="/spots"
+        path="/"
         items={[
           {
             text: "Home",
           },
-          ...ids.map((x) => ({
-            text: `spots ${x.id}`,
-            slug: x.id,
-          })),
+          ...items,
         ]}
       />
-
-      <div>{children}</div>
+      <div className="flex-1 overflow-auto p-4">{children}</div>
     </div>
   )
 }

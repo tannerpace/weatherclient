@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import locations, { KitesurfSpot } from "../api/mock";
+import { useState, useEffect } from 'react';
+import locations, { KitesurfSpot } from '../api/mock';
 
 const initialLocations: KitesurfSpot[] = locations.map((location) => ({
   ...location,
@@ -8,14 +8,31 @@ const initialLocations: KitesurfSpot[] = locations.map((location) => ({
 }));
 
 const fetchKitesurfSpots = async (): Promise<KitesurfSpot[]> => {
-  return initialLocations;
+  const userLocations = JSON.parse(localStorage.getItem("userLocations") || "[]");
+  return [...initialLocations, ...userLocations];
 };
 
 const useKiteSurfSpots = () => {
-  return useQuery<KitesurfSpot[], Error>({
-    queryKey: ["kitesurfSpots"],
-    queryFn: fetchKitesurfSpots,
-  });
+  const [data, setData] = useState<KitesurfSpot[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<any>(null);
+
+  useEffect(() => {
+    const getKitesurfSpots = async () => {
+      try {
+        const spots = await fetchKitesurfSpots();
+        setData(spots);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getKitesurfSpots();
+  }, []);
+
+  return { data, isLoading, error };
 };
 
 export default useKiteSurfSpots;

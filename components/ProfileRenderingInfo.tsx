@@ -1,48 +1,54 @@
 "use client"
 
 import useWeather from "@/app/hooks/useWeather"
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect } from "react"
 import { FormControl, FormControlLabel, RadioGroup, Radio } from "@mui/material"
 
 interface RenderingInfoProps {
   latitude: number
   longitude: number
   minWindspeed?: number
-  viableDirections?: { [key: string]: number }
+  maxWindspeed?: number
+  viableDirections: { [key: string]: number }
 }
 
-export default function RenderingInfo({
+export default function ProfileRenderingInfo({
   latitude,
   longitude,
-  minWindspeed = 0,
-  viableDirections = {},
+  minWindspeed,
+  viableDirections,
 }: RenderingInfoProps) {
   const { weatherData, error } = useWeather({
     latitude: latitude.toString(),
     longitude: longitude.toString(),
   })
   const [selectedPeriod, setSelectedPeriod] = useState<number | null>(null)
+  const [suitablePeriods, setSuitablePeriods] = useState<any[]>([])
   const [viewMode, setViewMode] = useState<string>("all")
 
-  const suitablePeriods = useMemo(() => {
+  useEffect(() => {
     if (weatherData) {
-      return weatherData.properties.periods.filter((period: any) => {
-        const windSpeedMatch = period.windSpeed
-          .split(" ")
-          .some((speed: string) => {
-            const parsedSpeed = parseInt(speed)
-            return !isNaN(parsedSpeed) && parsedSpeed >= minWindspeed
-          })
+      const filteredPeriods = weatherData.properties.periods.filter(
+        (period: any) => {
+          const windSpeedMatch = period.windSpeed
+            .split(" ")
+            .some((speed: string) => {
+              const parsedSpeed = parseInt(speed)
+              if (minWindspeed) {
+                return !isNaN(parsedSpeed) && parsedSpeed >= minWindspeed
+              }
+            })
 
-        const windDirection = period.windDirection?.toUpperCase()
-        const windDirectionMatch = windDirection
-          ? viableDirections[windDirection] === 1
-          : false
+          const windDirection = period.windDirection?.toUpperCase()
+          const windDirectionMatch = windDirection
+            ? viableDirections[windDirection] === 1
+            : false
 
-        return windSpeedMatch && windDirectionMatch
-      })
+          return windSpeedMatch && windDirectionMatch
+        }
+      )
+      setSuitablePeriods(filteredPeriods)
     }
-    return []
   }, [weatherData, minWindspeed, viableDirections])
 
   if (error) {
@@ -142,9 +148,6 @@ export default function RenderingInfo({
                   <div>
                     <strong>Full Data:</strong>
                     <div className="bg-gray-800 p-2 rounded">
-                      <div>
-                        <strong>Number:</strong> {period.number}
-                      </div>
                       <div>
                         <strong>Name:</strong> {period.name}
                       </div>

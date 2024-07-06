@@ -1,44 +1,38 @@
 "use client"
-
-import React from "react"
+import React, { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
-import { QueryClientProvider } from "@tanstack/react-query"
-
+import axios from "axios"
+import RenderingInfo from "@/components/RenderingInfo"
+import ProfileRenderingInfo from "@/components/ProfileRenderingInfo"
+import { KitesurfSpot } from "@/app/api/mock"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
+import ClientProviders from "./context/ClientProviders"
 import useKiteSurfSpots from "./hooks/useKiteSurfSpots"
-import { KitesurfSpot } from "./api/mock"
-import { queryClient } from "./queryClient"
-import { FilterProvider } from "./context/FilterContext"
-import { RenderingInfo } from "@/components/RenderingInfo"
+import { useFilterContext } from "./context/FilterContext"
 
 config.autoAddCss = false
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false })
 
-const lat = "32.78621094914123"
-const long = "-79.9387649781444"
-const center: [number, number] = [parseFloat(lat), parseFloat(long)]
-
-const FilteredApp: React.FC = () => {
+const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-full">
       <input
         type="text"
         placeholder="Search by name"
-        className="mb-4 p-2 border border-gray-300 rounded"
-        style={{
-          maxHeight: "3rem",
-        }}
+        className="mb-4 p-2 border border-gray-300 rounded bg-gray-800 text-white max-h-12"
       />
-      <div className="w-full p-4 h-full">
+      <div className="w-full flex-grow p-4 bg-gray-800 rounded-lg">
         {!isLoading && (
-          <Map
-            position={center}
-            kitesurfSpots={kitesurfSpots as KitesurfSpot[]}
-          />
+          <div className="h-96 md:h-[600px] w-full">
+            <Map
+              position={center}
+              kitesurfSpots={kitesurfSpots as KitesurfSpot[]}
+            />
+          </div>
         )}
       </div>
     </div>
@@ -46,41 +40,129 @@ const FilteredApp: React.FC = () => {
 }
 
 const Page: React.FC = () => {
+  const { latitude, longitude, setCoordinates } = useFilterContext()
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+  const [center, setCenter] = useState<[number, number]>([
+    parseFloat(latitude),
+    parseFloat(longitude),
+  ])
+  const [locationName, setLocationName] = useState<string>("")
+  const [showSuitablePeriods, setShowSuitablePeriods] = useState<boolean>(false)
+
+  const handleButtonClick = () => {
+    setLoading(true)
+    setError(null)
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const newLat = position.coords.latitude.toString()
+          const newLong = position.coords.longitude.toString()
+          setCoordinates(newLat, newLong)
+          setCenter([parseFloat(newLat), parseFloat(newLong)])
+          fetchLocationName(newLat, newLong)
+          setLoading(false)
+        },
+        (error) => {
+          setError("Error fetching location data: " + error.message)
+          setLoading(false)
+        }
+      )
+    } else {
+      setError("Geolocation is not supported by your browser")
+      setLoading(false)
+    }
+  }
+
+  const handleCopyToClipboard = () => {
+    const coords = `Latitude: ${latitude}, Longitude: ${longitude}`
+    navigator.clipboard.writeText(coords).then(
+      () => {
+        console.log("Coordinates copied to clipboard!")
+      },
+      (err) => {
+        console.error("Failed to copy coordinates: ", err)
+      }
+    )
+  }
+
+  const fetchLocationName = async (lat: string, lon: string) => {
+    try {
+      const benchmark = "Public_AR_Current" // Example benchmark, adjust as needed
+      const response = await axios.get(
+        `https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=${lat},${lon}&benchmark=${benchmark}&format=json`
+      )
+      const location = response.data.result.addressMatches[0].matchedAddress
+      setLocationName(location)
+    } catch (error) {
+      console.error("Error fetching location name: ", error)
+    }
+  }
+
+  useEffect(() => {
+    setCenter([parseFloat(latitude), parseFloat(longitude)])
+    fetchLocationName(latitude, longitude)
+  }, [latitude, longitude])
+
+  const title = locationName
+    ? `Weather Update for ${locationName}`
+    : "Weather Update for Your Location"
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <FilterProvider>
-        <div className="prose prose-sm prose-invert max-w-none">
-          <h1 className="text-xl font-bold">Kitesurf Ninja</h1>
-
-          <ul>
-            <li>
-              Kitesurf Ninja helps kiteboarders find the best times to
-              kiteboard.
-            </li>
-            <li>
-              We provide up-to-date weather information for optimal kiteboarding
-              conditions.
-            </li>
-            <li>
-              Check the weather forecast below to plan your next kiteboarding
-              session.
-            </li>
-          </ul>
-
-          <div className="flex gap-2">Docs Code</div>
-
-          <div className="weather mt-4">
-            <h2 className="text-lg font-bold">Current Weather in Charleston</h2>
-            <RenderingInfo latitude={lat} longitude={long} />
-          </div>
-
-          <FilteredApp />
+    <div className="flex flex-col items-center space-y-6 p-4 md:p-8 bg-gray-900 text-white rounded-lg h-screen">
+      <div className="w-full max-w-5xl space-y-6 bg-gray-900 text-white rounded-lg">
+        <FilteredApp center={center} />
+      </div>
+      <div className="w-full max-w-3xl space-y-4">
+        <h2 className="text-lg font-bold text-center md:text-left">{title}</h2>
+        <button
+          onClick={handleButtonClick}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 w-full md:w-auto"
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Update to Current Location"}
+        </button>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+        <div className="mt-4 text-center md:text-left">
+          <p>
+            <strong>Latitude:</strong> {latitude}
+          </p>
+          <p>
+            <strong>Longitude:</strong> {longitude}
+          </p>
+          <button
+            onClick={handleCopyToClipboard}
+            className="mt-2 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-500 w-full md:w-auto"
+          >
+            Copy Coordinates to Clipboard
+          </button>
         </div>
-      </FilterProvider>
-    </QueryClientProvider>
+        <RenderingInfo
+          latitude={Number(latitude)}
+          longitude={Number(longitude)}
+        />
+
+        <p className="mt-4 text-md text-gray-500 text-center md:text-left">
+          {locationName
+            ? `Showing weather for ${locationName}`
+            : "Showing weather for your current location"}
+        </p>
+      </div>
+    </div>
   )
 }
 
-Page.displayName = "Kite Surf Ninja"
+const AppPage: React.FC = () => {
+  return (
+    <div className="min-h-screen bg-gray-900 overflow-scroll">
+      <ClientProviders>
+        <Page />
+      </ClientProviders>
+    </div>
+  )
+}
 
-export default Page
+AppPage.displayName = "Kite Surf Ninja"
+
+export default AppPage

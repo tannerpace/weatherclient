@@ -1,11 +1,10 @@
-"use client"
-
 import React, {
   createContext,
   useContext,
   useEffect,
   useState,
   ReactNode,
+  useMemo,
 } from "react"
 
 import useKiteSurfSpots from "../hooks/useKiteSurfSpots"
@@ -14,17 +13,15 @@ import { KitesurfSpot } from "../api/mock"
 export type WindDirection = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
 
 // Define the context state
-interface WindContextState {
-  filter: WindDirection | ""
-  setWindFilter: (direction: WindDirection | "") => void
-}
-
 interface FilterContextType {
   filteredKitesurfSpots: KitesurfSpot[]
   selectedWindDirections: WindDirection[]
   searchTerm: string
+  latitude: string
+  longitude: string
   handleWindDirectionChange: (value: WindDirection) => void
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  setCoordinates: (lat: string, long: string) => void
 }
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined)
@@ -51,15 +48,19 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
     WindDirection[]
   >([])
   const [searchTerm, setSearchTerm] = useState("")
+  const [latitude, setLatitude] = useState("32.78621094914123")
+  const [longitude, setLongitude] = useState("-79.9387649781444")
 
   useEffect(() => {
     let filtered: KitesurfSpot[] = kitesurfSpots
 
     if (selectedWindDirections.length > 0) {
-      filtered = filtered.filter((spot) =>
-        selectedWindDirections.every(
-          (direction) => spot.viable_directions[direction]
-        )
+      filtered = filtered.filter(
+        (spot) =>
+          spot.viable_directions &&
+          selectedWindDirections.every(
+            (direction) => spot.viable_directions![direction]
+          )
       )
     }
 
@@ -84,16 +85,33 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
     setSearchTerm(e.target.value)
   }
 
+  const setCoordinates = (lat: string, long: string) => {
+    setLatitude(lat)
+    setLongitude(long)
+  }
+
+  const contextValue = useMemo(
+    () => ({
+      filteredKitesurfSpots,
+      selectedWindDirections,
+      searchTerm,
+      latitude,
+      longitude,
+      handleWindDirectionChange,
+      handleSearchChange,
+      setCoordinates,
+    }),
+    [
+      filteredKitesurfSpots,
+      selectedWindDirections,
+      searchTerm,
+      latitude,
+      longitude,
+    ]
+  )
+
   return (
-    <FilterContext.Provider
-      value={{
-        filteredKitesurfSpots,
-        selectedWindDirections,
-        searchTerm,
-        handleWindDirectionChange,
-        handleSearchChange,
-      }}
-    >
+    <FilterContext.Provider value={contextValue}>
       {children}
     </FilterContext.Provider>
   )

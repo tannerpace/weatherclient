@@ -1,3 +1,6 @@
+"use client"
+
+import React from "react"
 import { Tab } from "./Tab"
 
 export type Item = {
@@ -5,6 +8,7 @@ export type Item = {
   slug?: string
   segment?: string
   parallelRoutesKey?: string
+  weatherUrl?: string
 }
 
 export const TabGroup = ({
@@ -20,7 +24,7 @@ export const TabGroup = ({
     <div className="flex flex-wrap items-center gap-2">
       {items.map((item) => (
         <Tab
-          key={path + item.slug}
+          key={`${path}${item.slug}`}
           item={item}
           path={path}
           parallelRoutesKey={parallelRoutesKey}
