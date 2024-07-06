@@ -30,6 +30,30 @@ ChartJS.register(
   Legend
 )
 
+interface Period {
+  number: number
+  name: string
+  startTime: string
+  endTime: string
+  isDaytime: boolean
+  temperature: number
+  temperatureUnit: string
+  temperatureTrend: string
+  probabilityOfPrecipitation: {
+    unitCode: string
+    value: number | null
+  }
+  windSpeed: string
+  windDirection: string
+  icon: string
+  shortForecast: string
+  detailedForecast: string
+  relativeHumidity?: {
+    unitCode: string
+    value: number
+  }
+}
+
 interface RenderingInfoProps {
   latitude: number
   longitude: number
@@ -53,28 +77,39 @@ export default function RenderingInfo({
 
   const suitablePeriods = useMemo(() => {
     if (weatherData && weatherData.properties) {
-      return weatherData.properties.periods.filter((period: any) => {
-        const windSpeedMatch = period.windSpeed
-          .split(" ")
-          .some((speed: string) => {
-            const parsedSpeed = parseInt(speed)
-            return !isNaN(parsedSpeed) && parsedSpeed >= minWindspeed
-          })
+      return (weatherData.properties.periods as Period[]).filter(
+        (period: Period) => {
+          const windSpeedMatch = period.windSpeed
+            .split(" ")
+            .some((speed: string) => {
+              const parsedSpeed = parseInt(speed)
+              return !isNaN(parsedSpeed) && parsedSpeed >= minWindspeed
+            })
 
-        const windDirection = period.windDirection?.toUpperCase()
-        const windDirectionMatch = windDirection
-          ? viableDirections[windDirection] === 1
-          : false
+          const windDirection = period.windDirection?.toUpperCase()
+          const windDirectionMatch = windDirection
+            ? viableDirections[windDirection] === 1
+            : false
 
-        return windSpeedMatch && windDirectionMatch
-      })
+          return windSpeedMatch && windDirectionMatch
+        }
+      )
     }
     return []
   }, [weatherData, minWindspeed, viableDirections])
 
+  const periodsToShow: Period[] =
+    viewMode === "all"
+      ? (weatherData?.properties?.periods as Period[]) || []
+      : suitablePeriods
+
   const handlePeriodSelect = (index: number) => {
     const selected = periodsToShow[index]
-    setSelectedPeriod(selected.number)
+    if (selected) {
+      setSelectedPeriod(selected.number)
+    } else {
+      setSelectedPeriod(null)
+    }
   }
 
   const formatDate = (dateString: string) => {
@@ -90,11 +125,6 @@ export default function RenderingInfo({
     })
   }
 
-  const periodsToShow =
-    viewMode === "all"
-      ? weatherData?.properties?.periods || []
-      : suitablePeriods
-
   if (error) {
     return <div className="text-red-500">Error fetching weather data</div>
   }
@@ -104,7 +134,7 @@ export default function RenderingInfo({
   }
 
   const chartData = {
-    labels: periodsToShow.map((period: any) => formatDate(period.startTime)),
+    labels: periodsToShow.map((period: Period) => formatDate(period.startTime)),
     datasets: [
       {
         label:
@@ -113,7 +143,7 @@ export default function RenderingInfo({
             : dataType === "temperature"
             ? "Temperature (°F)"
             : "Humidity (%)",
-        data: periodsToShow.map((period: any) =>
+        data: periodsToShow.map((period: Period) =>
           dataType === "windspeed"
             ? parseInt(period.windSpeed.split(" ")[0])
             : dataType === "temperature"
@@ -153,7 +183,7 @@ export default function RenderingInfo({
 
   return (
     <div className="space-y-4 bg-black bg-opacity-40 p-4 m-2 rounded-lg text-green-300">
-      {/* <FormControl component="fieldset">
+      <FormControl component="fieldset">
         <RadioGroup
           row
           aria-label="viewMode"
@@ -172,7 +202,7 @@ export default function RenderingInfo({
             label="Suitable Periods"
           />
         </RadioGroup>
-      </FormControl> */}
+      </FormControl>
       <FormControl component="fieldset">
         <RadioGroup
           row
@@ -204,7 +234,7 @@ export default function RenderingInfo({
         ) : (
           <>
             <Line data={chartData} options={chartOptions} />
-            {periodsToShow.map((period: any, index: number) => (
+            {periodsToShow.map((period: Period, index: number) => (
               <div
                 key={period.number}
                 className={`p-3 mb-2 cursor-pointer rounded-md transition-colors duration-300 ${
