@@ -1,4 +1,6 @@
-module.exports = withPWA({
+import withPWA from 'next-pwa';
+
+const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   compiler: {
@@ -19,4 +21,6 @@ module.exports = withPWA({
       },
     ];
   },
-});
+};
+
+export default withPWA(nextConfig);
