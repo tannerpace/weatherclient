@@ -6,8 +6,9 @@ import ProfileMap from "@/components/ProfileMap"
 import { KitesurfSpot, ViableDirections } from "@/app/api/mock"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
-import ProfileRenderingInfo from "@/components/ProfileRenderingInfo"
+
 import { Checkbox, FormControlLabel, Slider } from "@mui/material"
+import ProfileRenderingInfo from "./ProfileRenderingInfo"
 
 const defaultViableDirections: ViableDirections = {
   N: 0,
