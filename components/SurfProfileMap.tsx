@@ -12,6 +12,7 @@ import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
+import { SurfSpot } from "./SurfProfile"
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -59,7 +60,7 @@ const SurfProfileMap: React.FC<MapProps> = ({
               <div className="font-bold">{location.name}</div>
               <div className="text-sm">
                 <p>
-                  <strong>Max Windspeed:</strong> {location.windSpeed} mph
+                  <strong>Max Windspeed:</strong> {location.maxWindSpeed} mph
                 </p>
                 <p>
                   <strong>Wave Height:</strong> {location.waveHeight} ft
