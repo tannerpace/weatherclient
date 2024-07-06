@@ -103,10 +103,12 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
               eventHandlers={{ click: () => setSelectedSpot(spot) }}
             >
               <Popup>
-                <div className="p-4 max-w-xs md:max-w-sm">
-                  <div className="font-bold text-xl">{spot.name}</div>
+                <div>
+                  <div className="font-bold text-xl text-gray-800 mb-2">
+                    {spot.name}
+                  </div>
                   {weatherData ? (
-                    <div>
+                    <div className="text-gray-700">
                       <div>
                         <strong>Temperature:</strong>{" "}
                         {weatherData.properties.periods[0].temperature}°C
@@ -125,14 +127,14 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                       </div>
                     </div>
                   ) : (
-                    <div>Loading weather data...</div>
+                    <div className="text-gray-500">Loading weather data...</div>
                   )}
-                  <div className="flex space-x-4 mt-2">
+                  <div className="flex space-x-4 mt-4">
                     <a
                       href={`https://www.google.com/maps/dir/?api=1&destination=${spot.latitude},${spot.longitude}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center text-green-600 underline text-lg"
+                      className="flex items-center text-green-600 underline text-lg hover:text-green-800"
                     >
                       <FontAwesomeIcon
                         icon={faLocationArrow}
@@ -142,7 +144,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                     </a>
                     <button
                       onClick={() => handleShowModal(spot)}
-                      className="flex items-center text-blue-600 underline text-lg"
+                      className="flex items-center text-white-900 underline text-lg hover:text-blue-800"
                     >
                       <FontAwesomeIcon icon={faWind} className="mr-2" />
                       More Info
@@ -155,12 +157,14 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
           <Marker position={position} icon={userIcon}>
             <Popup>
               <div>
-                <strong>Showing Weather for this location</strong>
+                <strong className="text-gray-800">
+                  Showing Weather for this location
+                </strong>
                 <a
                   href={`https://www.google.com/maps/dir/?api=1&destination=${position[0]},${position[1]}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center text-green-600 underline text-lg mt-2"
+                  className="flex items-center text-green-600 underline text-lg mt-2 hover:text-green-800"
                 >
                   <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
                   Drive to this location
