@@ -10,16 +10,22 @@ import {
   faRulerVertical,
   faUser,
   faBook,
-  faThermometerHalf,
-  faTint,
-  faCloudSunRain,
 } from "@fortawesome/free-solid-svg-icons"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useWeatherContext } from "@/app/context/WeatherContext"
 
 const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { selectedLocation, setSelectedLocation } = useSelectedLocationContext()
-  const { weatherData, loading, error, setLocation } = useWeatherContext()
+  const {
+    weatherData,
+    loadingForecast,
+    loadingObservation,
+    loadingForecastGrid,
+    errorForecast,
+    errorObservation,
+    errorForecastGrid,
+    setLocation,
+  } = useWeatherContext()
 
   useEffect(() => {
     if (selectedLocation) {
@@ -94,44 +100,28 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </div>
           </div>
           <div className="mt-4 w-full">
-            {loading ? (
+            {loadingForecast || loadingObservation || loadingForecastGrid ? (
               <p>Loading weather data...</p>
-            ) : error ? (
-              <p>Error fetching weather data: {error}</p>
+            ) : errorForecast || errorObservation || errorForecastGrid ? (
+              <div>
+                {errorForecast && (
+                  <p>Error fetching forecast: {errorForecast}</p>
+                )}
+                {errorObservation && (
+                  <p>Error fetching observation: {errorObservation}</p>
+                )}
+                {errorForecastGrid && (
+                  <p>Error fetching forecast grid data: {errorForecastGrid}</p>
+                )}
+              </div>
             ) : weatherData ? (
               <div>
                 <h3 className="text-lg font-bold">Weather Forecast:</h3>
                 {weatherData.properties.periods.map(
                   (
                     period: {
-                      startTime:
-                        | string
-                        | number
-                        | bigint
-                        | boolean
-                        | React.ReactElement<
-                            any,
-                            string | React.JSXElementConstructor<any>
-                          >
-                        | Iterable<React.ReactNode>
-                        | React.ReactPortal
-                        | Promise<React.AwaitedReactNode>
-                        | null
-                        | undefined
-                      detailedForecast:
-                        | string
-                        | number
-                        | bigint
-                        | boolean
-                        | React.ReactElement<
-                            any,
-                            string | React.JSXElementConstructor<any>
-                          >
-                        | Iterable<React.ReactNode>
-                        | React.ReactPortal
-                        | Promise<React.AwaitedReactNode>
-                        | null
-                        | undefined
+                      startTime: React.ReactNode
+                      detailedForecast: React.ReactNode
                     },
                     index: React.Key | null | undefined
                   ) => (
