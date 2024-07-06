@@ -115,7 +115,6 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
           {/* <Skeleton height="100%" /> */}
         </div>
       )}
-      <LocationModal />
     </div>
   )
 }
