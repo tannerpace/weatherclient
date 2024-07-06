@@ -15,6 +15,7 @@ import ClientProviders from "./context/ClientProviders"
 import useKiteSurfSpots from "./hooks/useKiteSurfSpots"
 import { useFilterContext } from "./context/FilterContext"
 import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "./context/FilterContext"
+import LocationModal from "@/components/LocationModal"
 
 config.autoAddCss = false
 
@@ -105,7 +106,7 @@ const Page: React.FC = () => {
     center[0] === parseFloat(DEFAULT_LATITUDE) &&
     center[1] === parseFloat(DEFAULT_LONGITUDE)
       ? "Location: Charleston"
-      : `Location: ${locationName || `${latitude}, ${longitude}`}`
+      : `Showing Weather for : ${latitude}, ${longitude}`
 
   return (
     <div className="flex flex-col items-center space-y-6 p-4 md:p-8 bg-gray-900 text-white rounded-lg h-screen">
@@ -147,6 +148,7 @@ const Page: React.FC = () => {
             : "Showing weather for your current location"}
         </p>
       </div>
+      <LocationModal />
     </div>
   )
 }
