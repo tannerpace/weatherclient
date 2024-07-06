@@ -161,7 +161,7 @@ const useWeather = (data: GetWeatherQuery) => {
           setLoadingObservation(false)
         } catch (err) {
           console.error("Error fetching observation stations data:", err)
-          setErrorObservation(err.message)
+          setErrorObservation((err as Error).message)
           setLoadingObservation(false)
         }
 
@@ -178,12 +178,12 @@ const useWeather = (data: GetWeatherQuery) => {
           setLoadingForecastGrid(false)
         } catch (err) {
           console.error("Error fetching forecast grid data:", err)
-          setErrorForecastGrid(err.message)
+          setErrorForecastGrid((err as Error).message)
           setLoadingForecastGrid(false)
         }
       } catch (err) {
         console.error("Error fetching forecast office information:", err)
-        setErrorForecast(err.message)
+        setErrorForecast((err as Error).message)
         setLoadingForecast(false)
         setLoadingObservation(false)
         setLoadingForecastGrid(false)
