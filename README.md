@@ -1,4 +1,4 @@
-WeatherClient
+# WeatherClient
 Welcome to the WeatherClient repository! This project is designed to provide a seamless and intuitive interface for viewing weather information, specifically for kitesurfing spots. It leverages modern web technologies to create a responsive and interactive user experience.
 
 Features
@@ -21,47 +21,45 @@ Node.js (version 14.x or later)
 npm (version 6.x or later)
 Installation
 Clone the repository:
-
-bash
-Copy code
+```
 git clone https://github.com/your-username/weatherclient.git
 cd weatherclient
+```
 Install dependencies:
 
-bash
-Copy code
-npm install
+```
+pnpm install
+```
 Running the Development Server
 To start the development server, run:
 
-bash
-Copy code
-npm run dev
+```
+pnpm run dev
+```
 Open your browser and navigate to http://localhost:3000 to view the application.
 
 Building for Production
 To build the project for production, run:
 
-bash
-Copy code
-npm run build
+```
+pnpm run build
+```
 This will create an optimized production build in the .next directory.
 
 Starting the Production Server
 To start the production server, run:
 
-bash
-Copy code
-npm start
-Configuration
-Tailwind CSS
+```
+pnpm start
+```
+## Configuration
+### Tailwind CSS
 The Tailwind CSS configuration file is located at tailwind.config.ts. It is set up to scan the pages, components, and app directories for class names.
 
-PWA Configuration
+## PWA Configuration
 The PWA configuration is set up in next.config.js using next-pwa. It includes settings for caching strategies and service worker registration.
 
-javascript
-Copy code
+```
 import withPWA from 'next-pwa';
 
 const nextConfig = {
@@ -71,14 +69,17 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV !== 'development',
   },
 };
-
+```
+```
 export default withPWA({
   dest: 'public',
   disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
 })(nextConfig);
-Project Structure
+```
+
+# Project Structure
 components/: Reusable React components.
 pages/: Next.js pages.
 app/: Application-specific files, including context providers and hooks.
@@ -88,13 +89,13 @@ hooks/: Custom React hooks.
 Environment Variables
 Ensure you have a .env.local file in the root directory with the necessary environment variables.
 
-Contributing
+## Contributing
 Contributions are welcome! Please feel free to submit a pull request or open an issue if you have any suggestions or bug reports.
 
-License
+## License
 This project is licensed under the MIT License.
 
-Acknowledgements
+### Acknowledgements
 Next.js
 React
 Tailwind CSS
