@@ -27,8 +27,7 @@ const Map = dynamic(() => import("@/components/Map"), { ssr: false })
 
 const FilteredApp: React.FC<{
   center: [number, number]
-  onCloseModal: () => void
-}> = ({ center, onCloseModal }) => {
+}> = ({ center }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
 
   return (
@@ -44,7 +43,6 @@ const FilteredApp: React.FC<{
             <Map
               position={center}
               kitesurfSpots={kitesurfSpots as KitesurfSpot[]}
-              onCloseModal={onCloseModal}
             />
           </div>
         )}
@@ -55,7 +53,8 @@ const FilteredApp: React.FC<{
 
 const Page: React.FC = () => {
   const { latitude, longitude, setCoordinates } = useFilterContext()
-  const { selectedLocation } = useSelectedLocationContext()
+  const { selectedLocation, showModal, setShowModal } =
+    useSelectedLocationContext()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [center, setCenter] = useState<[number, number]>([
@@ -63,7 +62,6 @@ const Page: React.FC = () => {
     parseFloat(longitude),
   ])
   const [locationName, setLocationName] = useState<string>("")
-  const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleButtonClick = () => {
     setLoading(true)
@@ -120,18 +118,10 @@ const Page: React.FC = () => {
 
   const handleCloseModal = () => setShowModal(false)
 
-  useEffect(() => {
-    if (selectedLocation) {
-      setShowModal(true)
-    }
-  }, [selectedLocation])
-
   return (
-    <div className="flex flex-col items-center space-y-6 p-4 md:p-8 bg-gray-900 text-white rounded-lg h-screen">
+    <div className="flex flex-col items-center space-y-6 p-4 md:p-8 bg-gray-900 text-white rounded-lg h-screen relative">
       <div className="w-full max-w-5xl space-y-6 bg-gray-900 text-white rounded-lg">
-        {!showModal && (
-          <FilteredApp center={center} onCloseModal={handleCloseModal} />
-        )}
+        <FilteredApp center={center} />
       </div>
       <div className="w-full max-w-3xl space-y-4">
         <h2 className="text-lg font-bold text-center md:text-left">{title}</h2>
@@ -168,7 +158,11 @@ const Page: React.FC = () => {
             : "Showing weather for your current location"}
         </p>
       </div>
-      {showModal && <LocationModal onClose={handleCloseModal} />}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <LocationModal onClose={handleCloseModal} />
+        </div>
+      )}
     </div>
   )
 }

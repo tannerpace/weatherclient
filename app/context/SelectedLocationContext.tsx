@@ -5,6 +5,8 @@ import { KitesurfSpot } from "../api/mock"
 interface SelectedLocationContextType {
   selectedLocation: KitesurfSpot | null
   setSelectedLocation: (location: KitesurfSpot | null) => void
+  showModal: boolean
+  setShowModal: (show: boolean) => void
 }
 
 const SelectedLocationContext = createContext<
@@ -24,13 +26,14 @@ export const useSelectedLocationContext = () => {
 export const SelectedLocationProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const [showModal, setShowModal] = useState(false)
   const [selectedLocation, setSelectedLocation] = useState<KitesurfSpot | null>(
     null
   )
 
   return (
     <SelectedLocationContext.Provider
-      value={{ selectedLocation, setSelectedLocation }}
+      value={{ selectedLocation, setSelectedLocation, showModal, setShowModal }}
     >
       {children}
     </SelectedLocationContext.Provider>

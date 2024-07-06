@@ -13,13 +13,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
-import { useRouter } from "next/navigation"
 
 import SpotImage from "./SpotImage"
 import { KitesurfSpot } from "../app/api/mock"
 import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
-import LocationModal from "@/components/LocationModal"
 
 config.autoAddCss = false
 
@@ -42,13 +40,16 @@ const userIcon = new L.Icon({
 interface MapProps {
   position: [number, number] | null
   kitesurfSpots: KitesurfSpot[]
-  onCloseModal: () => void
 }
 
-const Map: React.FC<MapProps> = ({ position, kitesurfSpots, onCloseModal }) => {
-  const router = useRouter()
+const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   const { setCoordinates } = useFilterContext()
-  const { setSelectedLocation } = useSelectedLocationContext()
+  const { setSelectedLocation, setShowModal } = useSelectedLocationContext()
+
+  const handleShowModal = (spot: KitesurfSpot) => {
+    setSelectedLocation(spot)
+    setShowModal(true)
+  }
 
   const MapEvents = () => {
     useMapEvents({
@@ -94,7 +95,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots, onCloseModal }) => {
                       Go
                     </a>
                     <button
-                      onClick={() => setSelectedLocation(spot)}
+                      onClick={() => handleShowModal(spot)}
                       className="flex items-center text-blue-600 underline text-lg"
                     >
                       <FontAwesomeIcon icon={faWind} className="mr-2" />
@@ -108,7 +109,16 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots, onCloseModal }) => {
           <Marker position={position} icon={userIcon}>
             <Popup>
               <div>
-                <strong>Your Current Location</strong>
+                <strong>Showing Weather for this location</strong>
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${position[0]},${position[1]}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-green-600 underline text-lg mt-2"
+                >
+                  <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
+                  Drive to this location
+                </a>
               </div>
             </Popup>
           </Marker>
@@ -119,7 +129,6 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots, onCloseModal }) => {
           {/* <Skeleton height="100%" /> */}
         </div>
       )}
-      <LocationModal onClose={onCloseModal} />
     </div>
   )
 }
