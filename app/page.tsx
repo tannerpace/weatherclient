@@ -119,7 +119,10 @@ const Page: React.FC = () => {
             Copy Coordinates to Clipboard
           </button>
         </div>
-        <RenderingInfo latitude={latitude} longitude={longitude} />
+        <RenderingInfo
+          latitude={Number(latitude)}
+          longitude={Number(longitude)}
+        />
         <p className="mt-4 text-md text-gray-500">
           {latitude === "32.78621094914123" && longitude === "-79.9387649781444"
             ? "Showing weather for Charleston, SC"
