@@ -42,12 +42,12 @@ export default function RenderingInfo({
   }
 
   return (
-    <div className="space-y-3 rounded-lg bg-gray-900 p-3 m-2">
+    <div className="space-y-3 rounded-lg bg-gray-900 p-3 m-2 text-green-500 font-mono">
       <div className="text-sm text-gray-300">
         {weatherData.properties.periods.map((period: any) => (
           <div
             key={period.number}
-            className={`p-2 cursor-pointer ${
+            className={`p-2 cursor-pointer font ${
               selectedPeriod === period.number ? "bg-gray-700" : "bg-gray-800"
             }`}
             onClick={() => handlePeriodSelect(period.number)}
@@ -57,7 +57,7 @@ export default function RenderingInfo({
               {period.shortForecast}
             </div>
             {selectedPeriod === period.number && (
-              <div className="mt-2 space-y-2">
+              <div className="mt-2 space-y-2 bg-blend-color-dodge">
                 <div>
                   <strong>Date:</strong> {formatDate(period.startTime)}
                 </div>
@@ -81,7 +81,7 @@ export default function RenderingInfo({
                 </div>
                 <div>
                   <strong>Full Data:</strong>
-                  <div>
+                  <div className="bg-gray-800 p-2 rounded">
                     <div>
                       <strong>Number:</strong> {period.number}
                     </div>
@@ -116,10 +116,8 @@ export default function RenderingInfo({
                     <div>
                       <strong>Wind Direction:</strong> {period.windDirection}
                     </div>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <div>
                       <strong>Icon:</strong>{" "}
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={period.icon} alt="Weather Icon" />
                     </div>
                     <div>

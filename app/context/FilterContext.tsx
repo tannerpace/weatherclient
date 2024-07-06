@@ -1,11 +1,10 @@
-"use client"
-
 import React, {
   createContext,
   useContext,
   useEffect,
   useState,
   ReactNode,
+  useMemo,
 } from "react"
 
 import useKiteSurfSpots from "../hooks/useKiteSurfSpots"
@@ -89,19 +88,28 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
     setLongitude(long)
   }
 
+  const contextValue = useMemo(
+    () => ({
+      filteredKitesurfSpots,
+      selectedWindDirections,
+      searchTerm,
+      latitude,
+      longitude,
+      handleWindDirectionChange,
+      handleSearchChange,
+      setCoordinates,
+    }),
+    [
+      filteredKitesurfSpots,
+      selectedWindDirections,
+      searchTerm,
+      latitude,
+      longitude,
+    ]
+  )
+
   return (
-    <FilterContext.Provider
-      value={{
-        filteredKitesurfSpots,
-        selectedWindDirections,
-        searchTerm,
-        latitude,
-        longitude,
-        handleWindDirectionChange,
-        handleSearchChange,
-        setCoordinates,
-      }}
-    >
+    <FilterContext.Provider value={contextValue}>
       {children}
     </FilterContext.Provider>
   )
