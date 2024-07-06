@@ -14,17 +14,15 @@ import { KitesurfSpot } from "../api/mock"
 export type WindDirection = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
 
 // Define the context state
-interface WindContextState {
-  filter: WindDirection | ""
-  setWindFilter: (direction: WindDirection | "") => void
-}
-
 interface FilterContextType {
   filteredKitesurfSpots: KitesurfSpot[]
   selectedWindDirections: WindDirection[]
   searchTerm: string
+  latitude: string
+  longitude: string
   handleWindDirectionChange: (value: WindDirection) => void
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  setCoordinates: (lat: string, long: string) => void
 }
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined)
@@ -51,6 +49,8 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
     WindDirection[]
   >([])
   const [searchTerm, setSearchTerm] = useState("")
+  const [latitude, setLatitude] = useState("32.78621094914123")
+  const [longitude, setLongitude] = useState("-79.9387649781444")
 
   useEffect(() => {
     let filtered: KitesurfSpot[] = kitesurfSpots
@@ -84,14 +84,22 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
     setSearchTerm(e.target.value)
   }
 
+  const setCoordinates = (lat: string, long: string) => {
+    setLatitude(lat)
+    setLongitude(long)
+  }
+
   return (
     <FilterContext.Provider
       value={{
         filteredKitesurfSpots,
         selectedWindDirections,
         searchTerm,
+        latitude,
+        longitude,
         handleWindDirectionChange,
         handleSearchChange,
+        setCoordinates,
       }}
     >
       {children}

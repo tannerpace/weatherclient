@@ -3,9 +3,20 @@
 import useWeather from "@/app/hooks/useWeather"
 import React, { useState } from "react"
 
-export function RenderingInfo({ latitude, longitude }) {
-  const { weatherData, error } = useWeather({ latitude, longitude })
-  const [selectedPeriod, setSelectedPeriod] = useState(null)
+interface RenderingInfoProps {
+  latitude: number
+  longitude: number
+}
+
+export default function RenderingInfo({
+  latitude,
+  longitude,
+}: RenderingInfoProps) {
+  const { weatherData, error } = useWeather({
+    latitude: latitude.toString(),
+    longitude: longitude.toString(),
+  })
+  const [selectedPeriod, setSelectedPeriod] = useState<number | null>(null)
 
   if (error) {
     return <div>Error fetching weather data</div>
@@ -15,11 +26,11 @@ export function RenderingInfo({ latitude, longitude }) {
     return <div>No data available</div>
   }
 
-  const handlePeriodSelect = (periodNumber) => {
+  const handlePeriodSelect = (periodNumber: number) => {
     setSelectedPeriod(periodNumber)
   }
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleString("en-US", {
       weekday: "short",
@@ -35,7 +46,7 @@ export function RenderingInfo({ latitude, longitude }) {
   return (
     <div className="space-y-3 rounded-lg bg-gray-900 p-3 m-2">
       <div className="text-sm text-gray-300">
-        {weatherData.properties.periods.map((period) => (
+        {weatherData.properties.periods.map((period: any) => (
           <div
             key={period.number}
             className={`p-2 cursor-pointer ${
