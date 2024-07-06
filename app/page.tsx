@@ -1,5 +1,4 @@
 "use client"
-
 import React, { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
 import axios from "axios"
@@ -15,6 +14,7 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 import ClientProviders from "./context/ClientProviders"
 import useKiteSurfSpots from "./hooks/useKiteSurfSpots"
 import { useFilterContext } from "./context/FilterContext"
+import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "./context/FilterContext"
 
 config.autoAddCss = false
 
@@ -53,7 +53,6 @@ const Page: React.FC = () => {
     parseFloat(longitude),
   ])
   const [locationName, setLocationName] = useState<string>("")
-  // const [clipboardStatus, setClipboardStatus] = useState<string | null>(null)
 
   const handleButtonClick = () => {
     setLoading(true)
@@ -80,23 +79,9 @@ const Page: React.FC = () => {
     }
   }
 
-  const handleCopyToClipboard = () => {
-    const coords = `Latitude: ${latitude}, Longitude: ${longitude}`
-    navigator.clipboard.writeText(coords).then(
-      () => {
-        setClipboardStatus("success")
-        setTimeout(() => setClipboardStatus(null), 2000)
-      },
-      (err) => {
-        setClipboardStatus("error")
-        setTimeout(() => setClipboardStatus(null), 2000)
-      }
-    )
-  }
-
   const fetchLocationName = async (lat: string, lon: string) => {
     try {
-      const benchmark = "Public_AR_Current" // Example benchmark, adjust as needed
+      const benchmark = "Public_AR_Current"
       const response = await axios.get(
         `https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=${lat},${lon}&benchmark=${benchmark}&format=json`
       )
@@ -108,13 +93,19 @@ const Page: React.FC = () => {
   }
 
   useEffect(() => {
+    if (latitude === DEFAULT_LATITUDE && longitude === DEFAULT_LONGITUDE) {
+      setLocationName("Charleston")
+    } else {
+      fetchLocationName(latitude, longitude)
+    }
     setCenter([parseFloat(latitude), parseFloat(longitude)])
-    fetchLocationName(latitude, longitude)
   }, [latitude, longitude])
 
-  const title = locationName
-    ? `Weather Update for ${locationName}`
-    : "Weather Update for Your Location"
+  const title =
+    center[0] === parseFloat(DEFAULT_LATITUDE) &&
+    center[1] === parseFloat(DEFAULT_LONGITUDE)
+      ? "Location: Charleston"
+      : `Location: ${locationName || `${latitude}, ${longitude}`}`
 
   return (
     <div className="flex flex-col items-center space-y-6 p-4 md:p-8 bg-gray-900 text-white rounded-lg h-screen">

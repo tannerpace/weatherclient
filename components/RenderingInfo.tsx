@@ -2,21 +2,8 @@ import useWeather from "@/app/hooks/useWeather"
 import React, { useState, useMemo } from "react"
 import { FormControl, FormControlLabel, RadioGroup, Radio } from "@mui/material"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faTemperatureHigh,
-  faWind,
-  faTint,
-} from "@fortawesome/free-solid-svg-icons"
-import {
-  Line,
-  Bar,
-  Radar,
-  Doughnut,
-  PolarArea,
-  Bubble,
-  Pie,
-  Scatter,
-} from "react-chartjs-2"
+import { faTemperatureHigh, faWind } from "@fortawesome/free-solid-svg-icons"
+import { Line, Bar } from "react-chartjs-2"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -24,8 +11,6 @@ import {
   PointElement,
   LineElement,
   BarElement,
-  ArcElement,
-  RadialLinearScale,
   Title,
   Tooltip,
   Legend,
@@ -38,8 +23,6 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
-  ArcElement,
-  RadialLinearScale,
   Title,
   Tooltip,
   Legend
@@ -196,12 +179,6 @@ export default function RenderingInfo({
   const ChartComponent = {
     line: Line,
     bar: Bar,
-    radar: Radar,
-    doughnut: Doughnut,
-    polarArea: PolarArea,
-    bubble: Bubble,
-    pie: Pie,
-    scatter: Scatter,
   }[chartType] as unknown as React.ElementType
 
   return (
@@ -247,36 +224,6 @@ export default function RenderingInfo({
             control={<Radio color="primary" />}
             label="Bar"
           />
-          <FormControlLabel
-            value="radar"
-            control={<Radio color="primary" />}
-            label="Radar"
-          />
-          <FormControlLabel
-            value="doughnut"
-            control={<Radio color="primary" />}
-            label="Doughnut"
-          />
-          <FormControlLabel
-            value="polarArea"
-            control={<Radio color="primary" />}
-            label="Polar Area"
-          />
-          <FormControlLabel
-            value="bubble"
-            control={<Radio color="primary" />}
-            label="Bubble"
-          />
-          <FormControlLabel
-            value="pie"
-            control={<Radio color="primary" />}
-            label="Pie"
-          />
-          <FormControlLabel
-            value="scatter"
-            control={<Radio color="primary" />}
-            label="Scatter"
-          />
         </RadioGroup>
       </FormControl>
       <div className="text-sm text-green-500">
@@ -299,32 +246,32 @@ export default function RenderingInfo({
                 }`}
                 onClick={() => handlePeriodSelect(index)}
               >
-                <div className="font-semibold text-lime-900">
+                <div className="font-semibold text-green-900">
                   {formatDate(period.startTime)}: {period.shortForecast}
                 </div>
                 {selectedPeriod === period.number && (
                   <div className="mt-2 space-y-2">
-                    <div className="flex items-center text-lime-500">
+                    <div className="flex items-center text-green-500">
                       <FontAwesomeIcon
                         icon={faTemperatureHigh}
                         className="mr-2"
                       />
-                      <strong className="text-lime-700">Temperature:</strong>{" "}
+                      <strong className="text-green-700">Temperature:</strong>{" "}
                       {period.temperature} {period.temperatureUnit}
                     </div>
-                    <div className="flex items-center text-lime-500">
+                    <div className="flex items-center text-green-500">
                       <FontAwesomeIcon icon={faWind} className="mr-2" />
-                      <strong className="text-lime-700">Wind:</strong>{" "}
+                      <strong className="text-green-700">Wind:</strong>{" "}
                       {period.windSpeed} {period.windDirection}
                     </div>
-                    <div className="flex items-center text-lime-500 bg-black bg-opacity-40">
-                      <strong className="text-lime-700">
+                    <div className="flex items-center text-green-500 bg-black bg-opacity-40">
+                      <strong className="text-green-700">
                         Precipitation Probability:
                       </strong>{" "}
                       {period.probabilityOfPrecipitation?.value}%
                     </div>
-                    <div className="flex items-center text-lime-500">
-                      <strong className="text-lime-700">Forecast:</strong>{" "}
+                    <div className="flex items-center text-green-500">
+                      <strong className="text-green-700">Forecast:</strong>{" "}
                       {period.detailedForecast}
                     </div>
                   </div>
