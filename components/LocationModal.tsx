@@ -25,7 +25,7 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-10 flex justify-center items-center z-150 p-1 mb-7"
       style={{
         zIndex: "150",
       }}
@@ -89,6 +89,12 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               Navigate to {selectedLocation.name}
             </a>
           </div>
+          <button
+            onClick={closeModal}
+            className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+          >
+            Close
+          </button>
         </div>
       </div>
     </div>

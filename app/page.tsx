@@ -2,20 +2,33 @@
 import React, { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
 import axios from "axios"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faLocationArrow,
+  faExclamationTriangle,
+} from "@fortawesome/free-solid-svg-icons"
 import RenderingInfo from "@/components/RenderingInfo"
-import ProfileRenderingInfo from "@/components/ProfileRenderingInfo"
 import { KitesurfSpot } from "@/app/api/mock"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 import ClientProviders from "./context/ClientProviders"
 import useKiteSurfSpots from "./hooks/useKiteSurfSpots"
-import { useFilterContext } from "./context/FilterContext"
+import {
+  useFilterContext,
+  DEFAULT_LATITUDE,
+  DEFAULT_LONGITUDE,
+} from "./context/FilterContext"
+import LocationModal from "@/components/LocationModal"
+import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 
 config.autoAddCss = false
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false })
 
-const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
+const FilteredApp: React.FC<{
+  center: [number, number]
+  onCloseModal: () => void
+}> = ({ center, onCloseModal }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
 
   return (
@@ -31,6 +44,7 @@ const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
             <Map
               position={center}
               kitesurfSpots={kitesurfSpots as KitesurfSpot[]}
+              onCloseModal={onCloseModal}
             />
           </div>
         )}
@@ -41,6 +55,7 @@ const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
 
 const Page: React.FC = () => {
   const { latitude, longitude, setCoordinates } = useFilterContext()
+  const { selectedLocation } = useSelectedLocationContext()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [center, setCenter] = useState<[number, number]>([
@@ -48,7 +63,7 @@ const Page: React.FC = () => {
     parseFloat(longitude),
   ])
   const [locationName, setLocationName] = useState<string>("")
-  const [showSuitablePeriods, setShowSuitablePeriods] = useState<boolean>(false)
+  const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleButtonClick = () => {
     setLoading(true)
@@ -75,21 +90,9 @@ const Page: React.FC = () => {
     }
   }
 
-  const handleCopyToClipboard = () => {
-    const coords = `Latitude: ${latitude}, Longitude: ${longitude}`
-    navigator.clipboard.writeText(coords).then(
-      () => {
-        console.log("Coordinates copied to clipboard!")
-      },
-      (err) => {
-        console.error("Failed to copy coordinates: ", err)
-      }
-    )
-  }
-
   const fetchLocationName = async (lat: string, lon: string) => {
     try {
-      const benchmark = "Public_AR_Current" // Example benchmark, adjust as needed
+      const benchmark = "Public_AR_Current"
       const response = await axios.get(
         `https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=${lat},${lon}&benchmark=${benchmark}&format=json`
       )
@@ -101,54 +104,71 @@ const Page: React.FC = () => {
   }
 
   useEffect(() => {
+    if (latitude === DEFAULT_LATITUDE && longitude === DEFAULT_LONGITUDE) {
+      setLocationName("Charleston")
+    } else {
+      fetchLocationName(latitude, longitude)
+    }
     setCenter([parseFloat(latitude), parseFloat(longitude)])
-    fetchLocationName(latitude, longitude)
   }, [latitude, longitude])
 
-  const title = locationName
-    ? `Weather Update for ${locationName}`
-    : "Weather Update for Your Location"
+  const title =
+    center[0] === parseFloat(DEFAULT_LATITUDE) &&
+    center[1] === parseFloat(DEFAULT_LONGITUDE)
+      ? "Location: Charleston"
+      : `Showing Weather for : ${latitude}, ${longitude}`
+
+  const handleCloseModal = () => setShowModal(false)
+
+  useEffect(() => {
+    if (selectedLocation) {
+      setShowModal(true)
+    }
+  }, [selectedLocation])
 
   return (
     <div className="flex flex-col items-center space-y-6 p-4 md:p-8 bg-gray-900 text-white rounded-lg h-screen">
       <div className="w-full max-w-5xl space-y-6 bg-gray-900 text-white rounded-lg">
-        <FilteredApp center={center} />
+        {!showModal && (
+          <FilteredApp center={center} onCloseModal={handleCloseModal} />
+        )}
       </div>
       <div className="w-full max-w-3xl space-y-4">
         <h2 className="text-lg font-bold text-center md:text-left">{title}</h2>
         <button
           onClick={handleButtonClick}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 w-full md:w-auto"
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded flex items-center justify-center hover:bg-blue-700 w-full md:w-auto"
           disabled={loading}
         >
-          {loading ? "Loading..." : "Update to Current Location"}
+          {loading ? (
+            <>
+              <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
+              Loading...
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
+              Update to Current Location
+            </>
+          )}
         </button>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-        <div className="mt-4 text-center md:text-left">
-          <p>
-            <strong>Latitude:</strong> {latitude}
+        {error && (
+          <p className="text-red-500 mt-2">
+            <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+            {error}
           </p>
-          <p>
-            <strong>Longitude:</strong> {longitude}
-          </p>
-          <button
-            onClick={handleCopyToClipboard}
-            className="mt-2 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-500 w-full md:w-auto"
-          >
-            Copy Coordinates to Clipboard
-          </button>
-        </div>
+        )}
         <RenderingInfo
           latitude={Number(latitude)}
           longitude={Number(longitude)}
         />
-
         <p className="mt-4 text-md text-gray-500 text-center md:text-left">
           {locationName
             ? `Showing weather for ${locationName}`
             : "Showing weather for your current location"}
         </p>
       </div>
+      {showModal && <LocationModal onClose={handleCloseModal} />}
     </div>
   )
 }

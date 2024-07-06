@@ -19,7 +19,7 @@ import SpotImage from "./SpotImage"
 import { KitesurfSpot } from "../app/api/mock"
 import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
-import LocationModal from "@/components/LocationModal" // Update this import according to your file structure
+import LocationModal from "@/components/LocationModal"
 
 config.autoAddCss = false
 
@@ -42,9 +42,10 @@ const userIcon = new L.Icon({
 interface MapProps {
   position: [number, number] | null
   kitesurfSpots: KitesurfSpot[]
+  onCloseModal: () => void
 }
 
-const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
+const Map: React.FC<MapProps> = ({ position, kitesurfSpots, onCloseModal }) => {
   const router = useRouter()
   const { setCoordinates } = useFilterContext()
   const { setSelectedLocation } = useSelectedLocationContext()
@@ -60,7 +61,9 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   }
 
   return (
-    <div style={{ height: "100%", width: "100%", position: "relative", zIndex: 0 }}>
+    <div
+      style={{ height: "100%", width: "100%", position: "relative", zIndex: 0 }}
+    >
       {position && kitesurfSpots.length ? (
         <MapContainer
           center={position}
@@ -116,7 +119,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
           {/* <Skeleton height="100%" /> */}
         </div>
       )}
-      <LocationModal />
+      <LocationModal onClose={onCloseModal} />
     </div>
   )
 }
