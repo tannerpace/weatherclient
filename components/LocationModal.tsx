@@ -78,6 +78,33 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               <FontAwesomeIcon icon={faBook} className="mr-2 text-blue-500" />
               <strong>References:</strong> {selectedLocation.references}
             </div>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-grey rounded-lg p-4 w-full max-w-lg">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold">{selectedLocation.name}</h2>
+          <button
+            onClick={closeModal}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </div>
+        <p>{selectedLocation.description}</p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={selectedLocation.location_img_url}
+          alt={selectedLocation.name}
+          className="w-full h-auto mt-4"
+        />
+        <div className="mt-4 space-y-2">
+          <div>
+            <strong>Island:</strong> {selectedLocation.island}
+          </div>
+          <div>
+            <strong>Wind Directions:</strong> {selectedLocation.winddirections}
+          </div>
+          <div>
+            <strong>Waves:</strong> {selectedLocation.waves}
           </div>
           <div className="mt-6">
             <a
