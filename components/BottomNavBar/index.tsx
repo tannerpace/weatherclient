@@ -1,7 +1,6 @@
 "use client"
-
 import React from "react"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Home, Person, Favorite } from "@mui/icons-material"
 
 interface Route {
@@ -30,6 +29,7 @@ const routes: Route[] = [
 
 const BottomNavigationBar = () => {
   const router = useRouter()
+  const pathname = usePathname()
 
   const handleNavigation = (path: string) => {
     router.push(path)
@@ -41,11 +41,13 @@ const BottomNavigationBar = () => {
         {routes.map((route, index) => (
           <div
             key={index}
-            className="flex flex-col items-center cursor-pointer"
+            className={`flex flex-col items-center cursor-pointer ${
+              pathname === route.path ? "text-primary" : "text-gray-700"
+            }`}
             onClick={() => handleNavigation(route.path)}
           >
             {route.icon}
-            <span className="text-xs text-gray-700">{route.label}</span>
+            <span className="text-xs">{route.label}</span>
           </div>
         ))}
       </div>
