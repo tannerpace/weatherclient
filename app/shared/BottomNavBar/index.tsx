@@ -77,7 +77,7 @@ const BottomNavBar: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-0 w-full text-white shadow-md flex justify-around mb-2 bg-teal-400 rounded-t-lg">
+    <div className="fixed bottom-0 w-full text-white shadow-md flex justify-around mb-2 bg-black rounded-t-lg">
       {routes.map((route, index) => (
         <NavButton
           key={index}

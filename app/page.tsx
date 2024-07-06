@@ -151,7 +151,7 @@ const Page: React.FC = () => {
 
 const AppPage: React.FC = () => {
   return (
-    <div className="bg-gray-900 min-h-screen">
+    <div className="min-h-screen bg-gray-900 overflow-scroll">
       <ClientProviders>
         <Page />
       </ClientProviders>

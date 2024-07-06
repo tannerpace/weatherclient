@@ -1,3 +1,4 @@
+"use client"
 import useWeather from "@/app/hooks/useWeather"
 import React, { useState } from "react"
 
@@ -135,9 +136,9 @@ export default function RenderingInfo({
           </div>
         ))}
       </div>
-      <div className="flex justify-center text-white">
+      {/* <div className="flex justify-center text-white">
         Stay safe and have fun!
-      </div>
+      </div> */}
     </div>
   )
 }

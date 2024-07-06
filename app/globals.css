@@ -3,10 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #00796b;
-  --secondary-color: #e0f7fa;
-  --background-color: #f5f5f5;
-  --text-color: #333;
+  --primary-color: #385551;
+  --secondary-color: #d9f2f1;
+  --background-color: #f3f8f7;
+  --text-color: #2e3d3b;
+  --accent-color: #9dbeb9;
+  --link-color: #0077b6;
+  --button-hover-color: #005f87;
   --border-radius: 0.5rem;
   --box-shadow: 0.125rem 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   --box-shadow-hover: 0.5rem 1rem 1rem rgba(0, 0, 0, 0.2);
@@ -23,23 +26,6 @@ body,
   font-family: "Inter", sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-nav {
-  flex-shrink: 0;
-}
-
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--background-color);
 }
 
 .container {
@@ -79,7 +65,30 @@ main {
 }
 
 .card p {
-  color: #555;
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  background-color: var(--button-hover-color);
+  box-shadow: var(--box-shadow-hover);
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--button-hover-color);
 }
 
 @media (max-width: 768px) {
@@ -95,4 +104,42 @@ main {
     padding: 1rem;
     width: 100%;
   }
+}
+
+nav {
+  background-color: var(--primary-color);
+  padding: 0.75rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+nav a {
+  color: #ffffff;
+  margin: 0 1rem;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: var(--accent-color);
+}
+
+.map-container {
+  height: 400px;
+}
+
+@media (max-width: 768px) {
+  .map-container {
+    height: 300px;
+  }
+}
+
+.bottom-nav {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  box-shadow: var(--box-shadow);
+}
+
+.bottom-nav button {
+  color: inherit;
 }

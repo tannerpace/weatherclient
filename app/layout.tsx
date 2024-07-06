@@ -36,7 +36,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body className={inter.className}>
         <div id="__next">
-          <main className="bg-slate-400 flex-1">{children}</main>
+          <main className="bg-slate-900 flex-1">{children}</main>
           <BottomNavBar />
         </div>
       </body>
