@@ -15,6 +15,7 @@ specifiers:
   '@types/react-dom': ^18
   '@types/react-leaflet': ^3.0.0
   axios: ^1.7.2
+  chart.js: ^4.4.3
   clsx: ^2.1.1
   eslint: ^8
   eslint-config-next: 14.2.4
@@ -23,6 +24,7 @@ specifiers:
   next-pwa: ^5.6.0
   postcss: ^8
   react: ^18
+  react-chartjs-2: ^5.2.0
   react-confetti: ^6.1.0
   react-dom: ^18
   react-leaflet: ^4.2.1
@@ -40,11 +42,13 @@ dependencies:
   '@mui/material': 5.16.0_2ydye2ssgie5txqpzjyz7x4tnm
   '@tanstack/react-query': 5.50.1_react@18.3.1
   axios: 1.7.2
+  chart.js: 4.4.3
   clsx: 2.1.1
   leaflet: 1.9.4
   next: 14.2.4_nnrd3gsncyragczmpvfhocinkq
   next-pwa: 5.6.0_next@14.2.4
   react: 18.3.1
+  react-chartjs-2: 5.2.0_6nldjhme6l7nu463cfz5hxf52m
   react-confetti: 6.1.0_react@18.3.1
   react-dom: 18.3.1_react@18.3.1
   react-leaflet: 4.2.1_6vzcrdvihry4phxw5cyobll4ay
@@ -1611,6 +1615,10 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
+  /@kurkle/color/0.3.2:
+    resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
+    dev: false
+
   /@mui/base/5.0.0-beta.40_psuonouaqi5wuc37nxyknoubym:
     resolution: {integrity: sha512-I/lGHztkCzvwlXpjD2+SNmvNQvB4227xBXhISPjEaJUXGImOQ9f3D2Yj/T3KasSI/h0MLWy74X0J6clhPmsRbQ==}
     engines: {node: '>=12.0.0'}
@@ -2621,6 +2629,13 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+
+  /chart.js/4.4.3:
+    resolution: {integrity: sha512-qK1gkGSRYcJzqrrzdR6a+I0vQ4/R+SoODXyAjscQ/4mzuNzySaMCd+hyVxitSY1+L2fjPD1Gbn+ibNqRmwQeLw==}
+    engines: {pnpm: '>=8'}
+    dependencies:
+      '@kurkle/color': 0.3.2
+    dev: false
 
   /chokidar/3.6.0:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
@@ -4718,6 +4733,16 @@ packages:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
     dependencies:
       safe-buffer: 5.2.1
+    dev: false
+
+  /react-chartjs-2/5.2.0_6nldjhme6l7nu463cfz5hxf52m:
+    resolution: {integrity: sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==}
+    peerDependencies:
+      chart.js: ^4.1.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      chart.js: 4.4.3
+      react: 18.3.1
     dev: false
 
   /react-confetti/6.1.0_react@18.3.1:
