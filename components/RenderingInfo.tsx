@@ -1,7 +1,5 @@
-"use client"
-
 import useWeather from "@/app/hooks/useWeather"
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useMemo } from "react"
 import { FormControl, FormControlLabel, RadioGroup, Radio } from "@mui/material"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -51,14 +49,6 @@ export default function RenderingInfo({
     return []
   }, [weatherData, minWindspeed, viableDirections])
 
-  if (error) {
-    return <div className="text-red-500">Error fetching weather data</div>
-  }
-
-  if (!weatherData) {
-    return <div className="text-gray-500">No data available</div>
-  }
-
   const handlePeriodSelect = (periodNumber: number) => {
     setSelectedPeriod(periodNumber)
   }
@@ -79,8 +69,16 @@ export default function RenderingInfo({
   const periodsToShow =
     viewMode === "all" ? weatherData.properties.periods : suitablePeriods
 
+  if (error) {
+    return <div className="text-red-500">Error fetching weather data</div>
+  }
+
+  if (!weatherData) {
+    return <div className="text-gray-500">No data available</div>
+  }
+
   return (
-    <div className="space-y-4 bg-gray-900 p-4 m-2 rounded-lg text-green-500 font-mono">
+    <div className="space-y-4 bg-black bg-opacity-40 p-4 m-2 rounded-lg text-green-300">
       <FormControl component="fieldset">
         <RadioGroup
           row
@@ -101,7 +99,7 @@ export default function RenderingInfo({
           />
         </RadioGroup>
       </FormControl>
-      <div className="text-sm text-gray-300">
+      <div className="text-sm text-green-500">
         {periodsToShow.length === 0 ? (
           <div className="text-gray-500">No periods found</div>
         ) : (
@@ -109,7 +107,9 @@ export default function RenderingInfo({
             <div
               key={period.number}
               className={`p-3 mb-2 cursor-pointer rounded-md transition-colors duration-300 ${
-                selectedPeriod === period.number ? "bg-gray-700" : "bg-gray-800"
+                selectedPeriod === period.number
+                  ? "bg-black bg-opacity-90"
+                  : "bg-black bg-opacity-60"
               } ${
                 suitablePeriods.includes(period)
                   ? "border-l-4 border-green-500"
@@ -117,35 +117,38 @@ export default function RenderingInfo({
               }`}
               onClick={() => handlePeriodSelect(period.number)}
             >
-              <div className="font-semibold">
+              <div className="font-semibold text-lime-900">
                 {formatDate(period.startTime)}: {period.shortForecast}
               </div>
               {selectedPeriod === period.number && (
-                <div className="mt-2 space-y-2 bg-blend-color-dodge">
-                  <div className="flex items-center">
+                <div className="mt-2 space-y-2">
+                  <div className="flex items-center text-lime-500">
                     <FontAwesomeIcon
                       icon={faTemperatureHigh}
                       className="mr-2"
                     />
-                    <strong>Temperature:</strong> {period.temperature}{" "}
-                    {period.temperatureUnit}
+                    <strong className="text-lime-700">Temperature:</strong>{" "}
+                    {period.temperature} {period.temperatureUnit}
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center text-lime-500">
                     <FontAwesomeIcon icon={faWind} className="mr-2" />
-                    <strong>Wind:</strong> {period.windSpeed}{" "}
-                    {period.windDirection}
+                    <strong className="text-lime-700">Wind:</strong>{" "}
+                    {period.windSpeed} {period.windDirection}
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center text-lime-500">
                     <FontAwesomeIcon icon={faTint} className="mr-2" />
-                    <strong>Humidity:</strong> {period?.relativeHumidity?.value}
-                    %
+                    <strong className="text-lime-700">Humidity:</strong>{" "}
+                    {period?.relativeHumidity?.value}%
                   </div>
-                  <div className="flex items-center">
-                    <strong>Precipitation Probability:</strong>{" "}
+                  <div className="flex items-center text-lime-500 bg-black bg-opacity-40">
+                    <strong className="text-lime-700">
+                      Precipitation Probability:
+                    </strong>{" "}
                     {period.probabilityOfPrecipitation?.value}%
                   </div>
-                  <div className="flex items-center">
-                    <strong>Forecast:</strong> {period.detailedForecast}
+                  <div className="flex items-center text-lime-500">
+                    <strong className="text-lime-700">Forecast:</strong>{" "}
+                    {period.detailedForecast}
                   </div>
                 </div>
               )}

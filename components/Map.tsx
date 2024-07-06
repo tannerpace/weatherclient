@@ -1,4 +1,3 @@
-"use client"
 import React from "react"
 import {
   MapContainer,
@@ -19,7 +18,7 @@ import SpotImage from "./SpotImage"
 import { KitesurfSpot } from "../app/api/mock"
 import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
-import LocationModal from "@/components/LocationModal" // Update this import according to your file structure
+import LocationModal from "@/components/LocationModal"
 
 config.autoAddCss = false
 
@@ -105,7 +104,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
           <Marker position={position} icon={userIcon}>
             <Popup>
               <div>
-                <strong>Your Current Location</strong>
+                <strong>Selected Location</strong>
               </div>
             </Popup>
           </Marker>
