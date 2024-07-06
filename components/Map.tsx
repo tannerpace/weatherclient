@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   MapContainer,
   TileLayer,
@@ -14,10 +14,10 @@ import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 
-import SpotImage from "./SpotImage"
 import { KitesurfSpot } from "../app/api/mock"
 import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
+import { useWeatherContext } from "@/app/context/WeatherContext"
 
 config.autoAddCss = false
 
@@ -45,6 +45,17 @@ interface MapProps {
 const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   const { setCoordinates } = useFilterContext()
   const { setSelectedLocation, setShowModal } = useSelectedLocationContext()
+  const { weatherData, setLocation } = useWeatherContext()
+  const [selectedSpot, setSelectedSpot] = useState<KitesurfSpot | null>(null)
+
+  useEffect(() => {
+    if (selectedSpot) {
+      setLocation(
+        selectedSpot.latitude.toString(),
+        selectedSpot.longitude.toString()
+      )
+    }
+  }, [selectedSpot, setLocation])
 
   const handleShowModal = (spot: KitesurfSpot) => {
     setSelectedLocation(spot)
@@ -76,11 +87,37 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
             <Marker
               key={spot.id}
               position={[spot.latitude as number, spot.longitude as number]}
+              eventHandlers={{
+                click: () => {
+                  setSelectedSpot(spot)
+                },
+              }}
             >
               <Popup>
                 <div className="p-4 max-w-xs md:max-w-sm">
-                  <SpotImage spot={spot} />
                   <div className="font-bold text-xl">{spot.name}</div>
+                  {weatherData ? (
+                    <div>
+                      <div>
+                        <strong>Temperature:</strong>{" "}
+                        {weatherData.properties.periods[0].temperature}°C
+                      </div>
+                      <div>
+                        <strong>Wind Speed:</strong>{" "}
+                        {weatherData.properties.periods[0].windSpeed}
+                      </div>
+                      <div>
+                        <strong>Wind Direction:</strong>{" "}
+                        {weatherData.properties.periods[0].windDirection}
+                      </div>
+                      <div>
+                        <strong>Forecast:</strong>{" "}
+                        {weatherData.properties.periods[0].shortForecast}
+                      </div>
+                    </div>
+                  ) : (
+                    <div>Loading weather data...</div>
+                  )}
                   <div className="flex justify-between mt-2">
                     <a
                       href={`https://www.google.com/maps/dir/?api=1&destination=${spot.latitude},${spot.longitude}`}

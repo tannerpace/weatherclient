@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { Inter } from "next/font/google"
 import React, { ReactNode } from "react"
 // import "./globals.css"
-import BottomNavBar from "@/app/shared/BottomNavBar"
+import BottomNavBar from "@/components/BottomNavBar"
 
 const inter = Inter({ subsets: ["latin"] })
 

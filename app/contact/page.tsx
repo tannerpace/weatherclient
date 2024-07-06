@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic"
 
 import Contact from "@/components/Contact"
-import BottomNavBar from "../shared/BottomNavBar"
+import BottomNavBar from "../../components/BottomNavBar"
 const ContactPage = () => {
   return (
     <main>
