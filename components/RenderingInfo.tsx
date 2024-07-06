@@ -17,6 +17,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js"
 
 ChartJS.register(
@@ -48,9 +49,10 @@ export default function RenderingInfo({
   })
   const [selectedPeriod, setSelectedPeriod] = useState<number | null>(null)
   const [viewMode, setViewMode] = useState<string>("all")
+  const [dataType, setDataType] = useState<string>("windspeed")
 
   const suitablePeriods = useMemo(() => {
-    if (weatherData) {
+    if (weatherData && weatherData.properties) {
       return weatherData.properties.periods.filter((period: any) => {
         const windSpeedMatch = period.windSpeed
           .split(" ")
@@ -70,8 +72,9 @@ export default function RenderingInfo({
     return []
   }, [weatherData, minWindspeed, viableDirections])
 
-  const handlePeriodSelect = (periodNumber: number) => {
-    setSelectedPeriod(periodNumber)
+  const handlePeriodSelect = (index: number) => {
+    const selected = periodsToShow[index]
+    setSelectedPeriod(selected.number)
   }
 
   const formatDate = (dateString: string) => {
@@ -88,7 +91,9 @@ export default function RenderingInfo({
   }
 
   const periodsToShow =
-    viewMode === "all" ? weatherData.properties.periods : suitablePeriods
+    viewMode === "all"
+      ? weatherData?.properties?.periods || []
+      : suitablePeriods
 
   if (error) {
     return <div className="text-red-500">Error fetching weather data</div>
@@ -102,9 +107,18 @@ export default function RenderingInfo({
     labels: periodsToShow.map((period: any) => formatDate(period.startTime)),
     datasets: [
       {
-        label: "Wind Speed (mph)",
+        label:
+          dataType === "windspeed"
+            ? "Wind Speed (mph)"
+            : dataType === "temperature"
+            ? "Temperature (°F)"
+            : "Humidity (%)",
         data: periodsToShow.map((period: any) =>
-          parseInt(period.windSpeed.split(" ")[0])
+          dataType === "windspeed"
+            ? parseInt(period.windSpeed.split(" ")[0])
+            : dataType === "temperature"
+            ? period.temperature
+            : period.relativeHumidity?.value
         ),
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -113,7 +127,7 @@ export default function RenderingInfo({
     ],
   }
 
-  const chartOptions = {
+  const chartOptions: ChartOptions<"line"> = {
     responsive: true,
     plugins: {
       legend: {
@@ -121,14 +135,25 @@ export default function RenderingInfo({
       },
       title: {
         display: true,
-        text: "Wind Speed Over Time",
+        text:
+          dataType === "windspeed"
+            ? "Wind Speed Over Time"
+            : dataType === "temperature"
+            ? "Temperature Over Time"
+            : "Humidity Over Time",
       },
+    },
+    onClick: (event, elements) => {
+      if (elements.length > 0) {
+        const index = elements[0].index
+        handlePeriodSelect(index)
+      }
     },
   }
 
   return (
     <div className="space-y-4 bg-black bg-opacity-40 p-4 m-2 rounded-lg text-green-300">
-      <FormControl component="fieldset">
+      {/* <FormControl component="fieldset">
         <RadioGroup
           row
           aria-label="viewMode"
@@ -147,6 +172,31 @@ export default function RenderingInfo({
             label="Suitable Periods"
           />
         </RadioGroup>
+      </FormControl> */}
+      <FormControl component="fieldset">
+        <RadioGroup
+          row
+          aria-label="dataType"
+          name="dataType"
+          value={dataType}
+          onChange={(e) => setDataType(e.target.value)}
+        >
+          <FormControlLabel
+            value="windspeed"
+            control={<Radio color="primary" />}
+            label="Wind Speed"
+          />
+          <FormControlLabel
+            value="temperature"
+            control={<Radio color="primary" />}
+            label="Temperature"
+          />
+          <FormControlLabel
+            value="humidity"
+            control={<Radio color="primary" />}
+            label="Humidity"
+          />
+        </RadioGroup>
       </FormControl>
       <div className="text-sm text-green-500">
         {periodsToShow.length === 0 ? (
@@ -154,7 +204,7 @@ export default function RenderingInfo({
         ) : (
           <>
             <Line data={chartData} options={chartOptions} />
-            {periodsToShow.map((period: any) => (
+            {periodsToShow.map((period: any, index: number) => (
               <div
                 key={period.number}
                 className={`p-3 mb-2 cursor-pointer rounded-md transition-colors duration-300 ${
@@ -166,7 +216,7 @@ export default function RenderingInfo({
                     ? "border-l-4 border-green-500"
                     : ""
                 }`}
-                onClick={() => handlePeriodSelect(period.number)}
+                onClick={() => handlePeriodSelect(index)}
               >
                 <div className="font-semibold text-lime-900">
                   {formatDate(period.startTime)}: {period.shortForecast}
