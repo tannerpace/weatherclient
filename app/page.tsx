@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
 import axios from "axios"
 import RenderingInfo from "@/components/RenderingInfo"
+import ProfileRenderingInfo from "@/components/ProfileRenderingInfo"
 import { KitesurfSpot } from "@/app/api/mock"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
@@ -47,6 +48,7 @@ const Page: React.FC = () => {
     parseFloat(longitude),
   ])
   const [locationName, setLocationName] = useState<string>("")
+  const [showSuitablePeriods, setShowSuitablePeriods] = useState<boolean>(false)
 
   const handleButtonClick = () => {
     setLoading(true)
@@ -87,10 +89,11 @@ const Page: React.FC = () => {
 
   const fetchLocationName = async (lat: string, lon: string) => {
     try {
+      const benchmark = "Public_AR_Current" // Example benchmark, adjust as needed
       const response = await axios.get(
-        `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=YOUR_API_KEY`
+        `https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=${lat},${lon}&benchmark=${benchmark}&format=json`
       )
-      const location = response.data.results[0].formatted
+      const location = response.data.result.addressMatches[0].matchedAddress
       setLocationName(location)
     } catch (error) {
       console.error("Error fetching location name: ", error)
@@ -139,6 +142,17 @@ const Page: React.FC = () => {
           latitude={Number(latitude)}
           longitude={Number(longitude)}
         />
+        <div className="mt-4 text-center md:text-left">
+          <label className="text-lg font-bold">
+            <input
+              type="checkbox"
+              checked={showSuitablePeriods}
+              onChange={() => setShowSuitablePeriods(!showSuitablePeriods)}
+              className="mr-2"
+            />
+            Show Suitable Periods Only
+          </label>
+        </div>
         <p className="mt-4 text-md text-gray-500 text-center md:text-left">
           {locationName
             ? `Showing weather for ${locationName}`
