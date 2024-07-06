@@ -3,7 +3,7 @@
 import React from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { FilterProvider } from "../context/FilterContext"
-import { SelectedLocationProvider } from "../context/SelectedLocationContext" // Import the SelectedLocationProvider
+import { SelectedLocationProvider } from "../context/SelectedLocationContext"
 
 const queryClient = new QueryClient()
 

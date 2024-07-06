@@ -16,6 +16,7 @@ import useKiteSurfSpots from "./hooks/useKiteSurfSpots"
 import { useFilterContext } from "./context/FilterContext"
 import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "./context/FilterContext"
 import LocationModal from "@/components/LocationModal"
+import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 
 config.autoAddCss = false
 
@@ -47,6 +48,7 @@ const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
 
 const Page: React.FC = () => {
   const { latitude, longitude, setCoordinates } = useFilterContext()
+  const { selectedLocation } = useSelectedLocationContext()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [center, setCenter] = useState<[number, number]>([
@@ -54,6 +56,7 @@ const Page: React.FC = () => {
     parseFloat(longitude),
   ])
   const [locationName, setLocationName] = useState<string>("")
+  const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleButtonClick = () => {
     setLoading(true)
@@ -108,10 +111,18 @@ const Page: React.FC = () => {
       ? "Location: Charleston"
       : `Showing Weather for : ${latitude}, ${longitude}`
 
+  const handleCloseModal = () => setShowModal(false)
+
+  useEffect(() => {
+    if (selectedLocation) {
+      setShowModal(true)
+    }
+  }, [selectedLocation])
+
   return (
     <div className="flex flex-col items-center space-y-6 p-4 md:p-8 bg-gray-900 text-white rounded-lg h-screen">
       <div className="w-full max-w-5xl space-y-6 bg-gray-900 text-white rounded-lg">
-        <FilteredApp center={center} />
+        {!showModal && <FilteredApp center={center} />}
       </div>
       <div className="w-full max-w-3xl space-y-4">
         <h2 className="text-lg font-bold text-center md:text-left">{title}</h2>
@@ -148,7 +159,7 @@ const Page: React.FC = () => {
             : "Showing weather for your current location"}
         </p>
       </div>
-      <LocationModal />
+      {showModal && <LocationModal onClose={handleCloseModal} />}
     </div>
   )
 }

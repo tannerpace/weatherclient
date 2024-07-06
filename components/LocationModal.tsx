@@ -13,17 +13,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 
-const LocationModal: React.FC = () => {
+const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { selectedLocation, setSelectedLocation } = useSelectedLocationContext()
 
   if (!selectedLocation) return null
 
   const closeModal = () => {
     setSelectedLocation(null)
+    onClose()
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      style={{
+        zIndex: "150",
+      }}
+    >
       <div className="bg-gray-800 text-white rounded-lg p-6 w-full max-w-lg shadow-lg relative">
         <button
           onClick={closeModal}

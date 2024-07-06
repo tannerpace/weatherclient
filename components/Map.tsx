@@ -18,7 +18,6 @@ import SpotImage from "./SpotImage"
 import { KitesurfSpot } from "../app/api/mock"
 import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
-import LocationModal from "@/components/LocationModal"
 
 config.autoAddCss = false
 
@@ -58,8 +57,12 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
     return null
   }
 
+  const handleMoreInfo = (spot: KitesurfSpot) => {
+    setSelectedLocation(spot)
+  }
+
   return (
-    <div style={{ height: "100%", width: "100%" }}>
+    <div style={{ height: "100%", width: "100%", zIndex: "1" }}>
       {position && kitesurfSpots.length ? (
         <MapContainer
           center={position}
@@ -73,7 +76,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
               position={[spot.latitude as number, spot.longitude as number]}
             >
               <Popup>
-                <div className="p-4 max-w-xs md:max-w-sm">
+                <div className="max-w-sm md:max-w-sm">
                   <SpotImage spot={spot} />
                   <div className="font-bold text-xl">{spot.name}</div>
                   <div className="flex justify-between mt-2">
@@ -90,7 +93,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                       Go
                     </a>
                     <button
-                      onClick={() => setSelectedLocation(spot)}
+                      onClick={() => handleMoreInfo(spot)}
                       className="flex items-center text-blue-600 underline text-lg"
                     >
                       <FontAwesomeIcon icon={faWind} className="mr-2" />
