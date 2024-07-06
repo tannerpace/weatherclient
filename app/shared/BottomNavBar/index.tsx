@@ -18,7 +18,7 @@ const routes: Route[] = [
   {
     path: "/profile",
     icon: <Person />,
-    label: "Profile",
+    label: "Saved Locations",
   },
   {
     path: "/surf-profile",

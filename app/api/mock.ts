@@ -17,6 +17,7 @@ export interface KitesurfSpot {
   experience: string;
   references: string;
   viable_directions: ViableDirections | null;
+  minWindspeed?: number | undefined | null
 }
 
 export type ViableDirections = {
