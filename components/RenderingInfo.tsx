@@ -142,13 +142,17 @@ export default function RenderingInfo({
             ? "Wind Speed (mph)"
             : dataType === "temperature"
             ? "Temperature (°F)"
-            : "Humidity (%)",
+            : dataType === "humidity"
+            ? "Humidity (%)"
+            : "Precipitation Probability (%)",
         data: periodsToShow.map((period: Period) =>
           dataType === "windspeed"
             ? parseInt(period.windSpeed.split(" ")[0])
             : dataType === "temperature"
             ? period.temperature
-            : period.relativeHumidity?.value
+            : dataType === "humidity"
+            ? period.relativeHumidity?.value
+            : period.probabilityOfPrecipitation?.value
         ),
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -170,7 +174,9 @@ export default function RenderingInfo({
             ? "Wind Speed Over Time"
             : dataType === "temperature"
             ? "Temperature Over Time"
-            : "Humidity Over Time",
+            : dataType === "humidity"
+            ? "Humidity Over Time"
+            : "Precipitation Probability Over Time",
       },
     },
     onClick: (event, elements) => {
@@ -183,26 +189,6 @@ export default function RenderingInfo({
 
   return (
     <div className="space-y-4 bg-black bg-opacity-40 p-4 m-2 rounded-lg text-green-300">
-      <FormControl component="fieldset">
-        <RadioGroup
-          row
-          aria-label="viewMode"
-          name="viewMode"
-          value={viewMode}
-          onChange={(e) => setViewMode(e.target.value)}
-        >
-          <FormControlLabel
-            value="all"
-            control={<Radio color="primary" />}
-            label="All Periods"
-          />
-          <FormControlLabel
-            value="suitable"
-            control={<Radio color="primary" />}
-            label="Suitable Periods"
-          />
-        </RadioGroup>
-      </FormControl>
       <FormControl component="fieldset">
         <RadioGroup
           row
@@ -225,6 +211,11 @@ export default function RenderingInfo({
             value="humidity"
             control={<Radio color="primary" />}
             label="Humidity"
+          />
+          <FormControlLabel
+            value="precipitation"
+            control={<Radio color="primary" />}
+            label="Precipitation"
           />
         </RadioGroup>
       </FormControl>
