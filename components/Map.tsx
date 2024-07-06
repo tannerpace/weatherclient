@@ -77,7 +77,6 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                 <div className="p-4 max-w-xs md:max-w-sm">
                   <SpotImage spot={spot} />
                   <div className="font-bold text-xl">{spot.name}</div>
-                  <p>{spot.description}</p>
                   <div className="flex justify-between mt-2">
                     <a
                       href={`https://www.google.com/maps/dir/?api=1&destination=${spot.latitude},${spot.longitude}`}
@@ -96,7 +95,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                       className="flex items-center text-blue-600 underline text-lg"
                     >
                       <FontAwesomeIcon icon={faWind} className="mr-2" />
-                      View More
+                      More Info
                     </button>
                   </div>
                 </div>

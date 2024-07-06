@@ -26,7 +26,7 @@ const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
       />
       <div className="w-full flex-grow p-4 bg-gray-800 rounded-lg">
         {!isLoading && (
-          <div className="h-64 md:h-96 w-full">
+          <div className="h-96 md:h-[600px] w-full">
             <Map
               position={center}
               kitesurfSpots={kitesurfSpots as KitesurfSpot[]}

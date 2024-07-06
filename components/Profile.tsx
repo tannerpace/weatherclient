@@ -129,17 +129,16 @@ const Profile: React.FC = () => {
           <MapEvents />
         </MapContainer>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">Saved Locations</h2>
-        <FontAwesomeIcon
-          icon={faPlus}
-          className="text-green-500 cursor-pointer"
-        />
+        <button className="text-green-500 cursor-pointer">
+          <FontAwesomeIcon icon={faPlus} />
+        </button>
       </div>
       <ul className="mt-4">
         {locations.map((location) => (
-          <li key={location.id} className="mb-2">
-            {location.name}
+          <li key={location.id} className="mb-2 flex justify-between">
+            <span>{location.name}</span>
             <button
               onClick={() => handleDelete(location.id)}
               className="ml-2 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-700"
@@ -158,7 +157,7 @@ const Profile: React.FC = () => {
           id="minWindspeed"
           value={minWindspeed ?? ""}
           onChange={handleMinWindspeedChange}
-          className="p-2 border border-gray-300 rounded bg-gray-800 text-white"
+          className="p-2 border border-gray-300 rounded bg-gray-800 text-white w-full"
         />
       </div>
     </div>
