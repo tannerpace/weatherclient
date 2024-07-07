@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faLocationArrow,
   faExclamationTriangle,
+  faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons"
 import RenderingInfo from "@/components/RenderingInfo"
 import { KitesurfSpot } from "@/app/api/mock"
@@ -74,7 +75,6 @@ const Page: React.FC = () => {
           const newLong = position.coords.longitude.toString()
           setCoordinates(newLat, newLong)
           setCenter([parseFloat(newLat), parseFloat(newLong)])
-          // fetchLocationName(newLat, newLong)
           setLoading(false)
         },
         (error) => {
@@ -89,7 +89,8 @@ const Page: React.FC = () => {
   }
 
   const handleNavigateToUserLocation = () => {
-    setCenter([parseFloat(latitude), parseFloat(longitude)])
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`
+    window.open(url, "_blank")
   }
 
   useEffect(() => {
@@ -138,8 +139,8 @@ const Page: React.FC = () => {
             onClick={handleNavigateToUserLocation}
             className="mt-4 px-4 py-2 bg-green-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
           >
-            <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
-            Go to My Location
+            <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
+            Navigate to My Location
           </button>
         </div>
         {error && (
