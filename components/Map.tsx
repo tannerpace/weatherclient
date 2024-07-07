@@ -92,7 +92,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
       {position && kitesurfSpots.length ? (
         <MapContainer
           center={position}
-          zoom={15}
+          zoom={10}
           style={{ height: "100%", width: "100%", zIndex: 1 }}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
