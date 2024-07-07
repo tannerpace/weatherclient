@@ -1,9 +1,10 @@
 import { Metadata } from "next"
 import { Inter } from "next/font/google"
 import React, { ReactNode } from "react"
+import Head from "next/head"
 import "./globals.css"
 import Navbar from "@/components/NavBar"
-import BottomNavBar from "../components/BottomNavBar"
+import BottomNavBar from "@/components/BottomNavBar"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -20,7 +21,7 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <head>
+      <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
@@ -33,7 +34,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         />
         <meta name="author" content="Kitesurf Ninja Team" />
         <title>Kitesurf Ninja – Find Your Perfect Kitesurf Spot</title>
-      </head>
+      </Head>
       <body className={inter.className}>
         <div id="__next">
           <main className="bg-slate-900 flex-1">{children}</main>
