@@ -143,3 +143,7 @@ nav a:hover {
 .bottom-nav button {
   color: inherit;
 }
+
+.text-primary {
+  color: var(--primary-color);
+}

@@ -54,12 +54,14 @@ export default function RenderingInfo({
   }, [weatherData, minWindspeed, viableDirections])
 
   if (loadingForecast || loadingObservation || loadingForecastGrid) {
-    return <div>Loading weather data...</div>
+    return (
+      <div className="text-center text-gray-700">Loading weather data...</div>
+    )
   }
 
   if (errorForecast || errorObservation || errorForecastGrid) {
     return (
-      <div>
+      <div className="text-center text-red-500">
         {errorForecast && <p>Error fetching forecast: {errorForecast}</p>}
         {errorObservation && (
           <p>Error fetching observation: {errorObservation}</p>
@@ -72,7 +74,7 @@ export default function RenderingInfo({
   }
 
   if (!weatherData) {
-    return <div>No data available</div>
+    return <div className="text-center text-gray-500">No data available</div>
   }
 
   const handlePeriodSelect = (periodNumber: number) => {
@@ -96,7 +98,7 @@ export default function RenderingInfo({
     viewMode === "all" ? weatherData.properties.periods : suitablePeriods
 
   return (
-    <div className="space-y-3 rounded-lg bg-gray-900 p-3 m-2 text-green-500 font-mono">
+    <div className="space-y-3 rounded-lg bg-gray-800 p-4 m-2 text-gray-200 font-mono shadow-lg">
       <FormControl component="fieldset">
         <RadioGroup
           row
@@ -124,7 +126,7 @@ export default function RenderingInfo({
           periodsToShow.map((period: any) => (
             <div
               key={period.number}
-              className={`p-2 cursor-pointer font ${
+              className={`p-2 cursor-pointer ${
                 selectedPeriod === period.number ? "bg-gray-700" : "bg-gray-800"
               } ${
                 suitablePeriods.includes(period)
@@ -138,7 +140,7 @@ export default function RenderingInfo({
                 {period.shortForecast}
               </div>
               {selectedPeriod === period.number && (
-                <div className="mt-2 space-y-2 bg-blend-color-dodge">
+                <div className="mt-2 space-y-2">
                   <div>
                     <strong>Date:</strong> {formatDate(period.startTime)}
                   </div>
@@ -163,7 +165,7 @@ export default function RenderingInfo({
                   </div>
                   <div>
                     <strong>Full Data:</strong>
-                    <div className="bg-gray-800 p-2 rounded">
+                    <div className="bg-gray-700 p-2 rounded">
                       <div>
                         <strong>Number:</strong> {period.number}
                       </div>
