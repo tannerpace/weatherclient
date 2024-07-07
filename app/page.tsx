@@ -88,18 +88,9 @@ const Page: React.FC = () => {
     }
   }
 
-  // const fetchLocationName = async (lat: string, lon: string) => {
-  //   try {
-  //     const benchmark = "Public_AR_Current"
-  //     const response = await axios.get(
-  //       `https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=${lat},${lon}&benchmark=${benchmark}&format=json`
-  //     )
-  //     const location = response.data.result.addressMatches[0].matchedAddress
-  //     setLocationName(location)
-  //   } catch (error) {
-  //     console.error("Error fetching location name: ", error)
-  //   }
-  // }
+  const handleNavigateToUserLocation = () => {
+    setCenter([parseFloat(latitude), parseFloat(longitude)])
+  }
 
   useEffect(() => {
     if (latitude === DEFAULT_LATITUDE && longitude === DEFAULT_LONGITUDE) {
@@ -125,23 +116,32 @@ const Page: React.FC = () => {
       </div>
       <div className="w-full max-w-3xl space-y-4">
         <h2 className="text-lg font-bold text-center md:text-left">{title}</h2>
-        <button
-          onClick={handleButtonClick}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded flex items-center justify-center hover:bg-blue-700 w-full md:w-auto"
-          disabled={loading}
-        >
-          {loading ? (
-            <>
-              <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
-              Loading...
-            </>
-          ) : (
-            <>
-              <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
-              Update to Current Location
-            </>
-          )}
-        </button>
+        <div className="flex space-x-4">
+          <button
+            onClick={handleButtonClick}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded flex items-center justify-center hover:bg-blue-700 w-full md:w-auto"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
+                Loading...
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
+                Update to Current Location
+              </>
+            )}
+          </button>
+          <button
+            onClick={handleNavigateToUserLocation}
+            className="mt-4 px-4 py-2 bg-green-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
+          >
+            <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
+            Go to My Location
+          </button>
+        </div>
         {error && (
           <p className="text-red-500 mt-2">
             <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
