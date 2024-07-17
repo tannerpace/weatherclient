@@ -1,14 +1,14 @@
 "use client"
 import React, { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
-import axios from "axios"
+// import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faLocationArrow,
   faExclamationTriangle,
   faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons"
-import RenderingInfo from "@/components/RenderingInfo"
+// import RenderingInfo from "@/components/RenderingInfo"
 import { KitesurfSpot } from "@/app/api/mock"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
@@ -116,7 +116,7 @@ const Page: React.FC = () => {
         <FilteredApp center={center} />
       </div>
       <div className="w-full max-w-3xl space-y-4">
-        <h2 className="text-lg font-bold text-center md:text-left">{title}</h2>
+        {/* <h2 className="text-lg font-bold text-center md:text-left">{title}</h2> */}
         <div className="flex space-x-4">
           <button
             onClick={handleButtonClick}
@@ -131,7 +131,7 @@ const Page: React.FC = () => {
             ) : (
               <>
                 <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
-                Update to Current Location
+                Target My location
               </>
             )}
           </button>
@@ -140,7 +140,7 @@ const Page: React.FC = () => {
             className="mt-4 px-4 py-2 bg-green-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
           >
             <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
-            Navigate to My Location
+            Navigate to Target
           </button>
         </div>
         {error && (
@@ -149,15 +149,15 @@ const Page: React.FC = () => {
             {error}
           </p>
         )}
-        <RenderingInfo
+        {/* <RenderingInfo
           latitude={Number(latitude)}
           longitude={Number(longitude)}
-        />
-        <p className="mt-4 text-md text-gray-500 text-center md:text-left">
+        /> */}
+        {/* <p className="mt-4 text-md text-gray-500 text-center md:text-left">
           {locationName
             ? `Showing weather for ${locationName}`
             : "Showing weather for your current location"}
-        </p>
+        </p> */}
       </div>
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">

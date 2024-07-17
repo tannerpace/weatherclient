@@ -20,11 +20,11 @@ const routes: Route[] = [
     icon: <Person />,
     label: "Saved Locations",
   },
-  {
-    path: "/surfprofile",
-    icon: <Favorite />,
-    label: "Surf Profile",
-  },
+  // {
+  //   path: "/surfprofile",
+  //   icon: <Favorite />,
+  //   label: "Surf Profile",
+  // },
 ]
 
 const BottomNavigationBar = () => {
