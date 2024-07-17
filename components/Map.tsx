@@ -1,5 +1,4 @@
-"use client"
-
+import React, { useEffect, useState, useRef } from "react"
 import {
   MapContainer,
   TileLayer,
@@ -14,11 +13,10 @@ import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 
-import { KitesurfSpot } from "../app/api/mock"
+import { KitesurfSpot, ViableDirections, WindDirection } from "../app/api/mock"
 import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useWeatherContext } from "@/app/context/WeatherContext"
-import React, { useEffect, useState, useRef } from "react"
 import { debounce } from "@mui/material"
 
 config.autoAddCss = false
@@ -85,6 +83,25 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
     return null
   }
 
+  const getWindDirectionColor = (
+    windDirection: unknown,
+    viableDirections: ViableDirections | null
+  ): string => {
+    if (typeof windDirection === "string" && viableDirections) {
+      return viableDirections[
+        windDirection.toUpperCase() as keyof ViableDirections
+      ]
+        ? "green"
+        : "inherit"
+    }
+    return "inherit"
+  }
+
+  const getWindSpeedColor = (windSpeed: string): string => {
+    const speed = parseFloat(windSpeed)
+    return speed > 14 ? "green" : "inherit"
+  }
+
   return (
     <div
       style={{ height: "100%", width: "100%", position: "relative", zIndex: 0 }}
@@ -99,7 +116,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
           {kitesurfSpots.map((spot) => (
             <Marker
               key={spot.id}
-              position={[spot.latitude as number, spot.longitude as number]}
+              position={[spot.latitude, spot.longitude]}
               eventHandlers={{ click: () => setSelectedSpot(spot) }}
             >
               <Popup>
@@ -110,19 +127,53 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                   {weatherData ? (
                     <div className="text-gray-700">
                       <div>
-                        <strong>Temperature:</strong>{" "}
+                        <strong className="text-gray-400">Temperature:</strong>{" "}
                         {weatherData.properties.periods[0].temperature}°C
                       </div>
-                      <div>
-                        <strong>Wind Speed:</strong>{" "}
+                      <div
+                        style={{
+                          color: getWindSpeedColor(
+                            weatherData.properties.periods[0]
+                              .windSpeed as string
+                          ),
+                        }}
+                      >
+                        <strong
+                          className="text-gray-400"
+                          style={{
+                            color: getWindSpeedColor(
+                              weatherData.properties.periods[0]
+                                .windSpeed as string
+                            ),
+                          }}
+                        >
+                          Wind Speed:
+                        </strong>{" "}
                         {weatherData.properties.periods[0].windSpeed}
                       </div>
-                      <div>
-                        <strong>Wind Direction:</strong>{" "}
+                      <div
+                        style={{
+                          color: getWindDirectionColor(
+                            weatherData.properties.periods[0].windDirection,
+                            spot.viable_directions
+                          ),
+                        }}
+                      >
+                        <strong
+                          className="text-gray-400"
+                          style={{
+                            color: getWindDirectionColor(
+                              weatherData.properties.periods[0].windDirection,
+                              spot.viable_directions
+                            ),
+                          }}
+                        >
+                          Wind Direction:
+                        </strong>{" "}
                         {weatherData.properties.periods[0].windDirection}
                       </div>
                       <div>
-                        <strong>Forecast:</strong>{" "}
+                        <strong className="text-gray-400">Forecast:</strong>{" "}
                         {weatherData.properties.periods[0].shortForecast}
                       </div>
                     </div>
