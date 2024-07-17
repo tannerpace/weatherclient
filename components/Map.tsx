@@ -244,41 +244,41 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                       {weatherData.properties.periods[0].temperature}°C
                     </div>
                     <div
-                      style={{
-                        color: getWindSpeedColor(
-                          weatherData.properties.periods[0].windSpeed as string
-                        ),
-                      }}
+                    // style={{
+                    //   color: getWindSpeedColor(
+                    //     weatherData.properties.periods[0].windSpeed as string
+                    //   ),
+                    // }}
                     >
                       <strong
                         className="text-gray-400"
-                        style={{
-                          color: getWindSpeedColor(
-                            weatherData.properties.periods[0]
-                              .windSpeed as string
-                          ),
-                        }}
+                        // style={{
+                        //   color: getWindSpeedColor(
+                        //     weatherData.properties.periods[0]
+                        //       .windSpeed as string
+                        //   ),
+                        // }}
                       >
                         Wind Speed:
                       </strong>{" "}
                       {weatherData.properties.periods[0].windSpeed}
                     </div>
                     <div
-                      style={{
-                        color: getWindDirectionColor(
-                          weatherData.properties.periods[0].windDirection,
-                          null
-                        ),
-                      }}
+                    // style={{
+                    //   color: getWindDirectionColor(
+                    //     weatherData.properties.periods[0].windDirection,
+                    //     null
+                    //   ),
+                    // }}
                     >
                       <strong
                         className="text-gray-400"
-                        style={{
-                          color: getWindDirectionColor(
-                            weatherData.properties.periods[0].windDirection,
-                            null
-                          ),
-                        }}
+                        // style={{
+                        //   color: getWindDirectionColor(
+                        //     weatherData.properties.periods[0].windDirection,
+                        //     null
+                        //   ),
+                        // }}
                       >
                         Wind Direction:
                       </strong>{" "}
@@ -292,7 +292,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                       <strong className="text-gray-400">Date:</strong>{" "}
                       {
                         formatDateTime(
-                          weatherData.properties.periods[0].startTime
+                          weatherData.properties.periods[0].startTime as string
                         ).date
                       }
                     </div>
