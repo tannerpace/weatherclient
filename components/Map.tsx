@@ -188,7 +188,8 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                         <strong className="text-gray-400">Date:</strong>{" "}
                         {
                           formatDateTime(
-                            weatherData.properties.periods[0].startTime
+                            weatherData.properties.periods[0]
+                              .startTime as string
                           ).date
                         }
                       </div>
@@ -196,7 +197,8 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                         <strong className="text-gray-400">Time:</strong>{" "}
                         {
                           formatDateTime(
-                            weatherData.properties.periods[0].startTime
+                            weatherData.properties.periods[0]
+                              .startTime as string
                           ).time
                         }
                       </div>
