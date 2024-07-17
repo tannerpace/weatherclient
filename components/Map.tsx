@@ -102,6 +102,14 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
     return speed > 14 ? "green" : "inherit"
   }
 
+  const formatDateTime = (dateTime: string) => {
+    const date = new Date(dateTime)
+    return {
+      date: date.toLocaleDateString(),
+      time: date.toLocaleTimeString(),
+    }
+  }
+
   return (
     <div
       style={{ height: "100%", width: "100%", position: "relative", zIndex: 0 }}
@@ -176,6 +184,22 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                         <strong className="text-gray-400">Forecast:</strong>{" "}
                         {weatherData.properties.periods[0].shortForecast}
                       </div>
+                      <div>
+                        <strong className="text-gray-400">Date:</strong>{" "}
+                        {
+                          formatDateTime(
+                            weatherData.properties.periods[0].startTime
+                          ).date
+                        }
+                      </div>
+                      <div>
+                        <strong className="text-gray-400">Time:</strong>{" "}
+                        {
+                          formatDateTime(
+                            weatherData.properties.periods[0].startTime
+                          ).time
+                        }
+                      </div>
                     </div>
                   ) : (
                     <div className="text-gray-500">Loading weather data...</div>
@@ -211,6 +235,77 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                 <strong className="text-gray-800">
                   Showing Weather for this location
                 </strong>
+                {weatherData ? (
+                  <div className="text-gray-700">
+                    <div>
+                      <strong className="text-gray-400">Temperature:</strong>{" "}
+                      {weatherData.properties.periods[0].temperature}°C
+                    </div>
+                    <div
+                      style={{
+                        color: getWindSpeedColor(
+                          weatherData.properties.periods[0].windSpeed as string
+                        ),
+                      }}
+                    >
+                      <strong
+                        className="text-gray-400"
+                        style={{
+                          color: getWindSpeedColor(
+                            weatherData.properties.periods[0]
+                              .windSpeed as string
+                          ),
+                        }}
+                      >
+                        Wind Speed:
+                      </strong>{" "}
+                      {weatherData.properties.periods[0].windSpeed}
+                    </div>
+                    <div
+                      style={{
+                        color: getWindDirectionColor(
+                          weatherData.properties.periods[0].windDirection,
+                          null
+                        ),
+                      }}
+                    >
+                      <strong
+                        className="text-gray-400"
+                        style={{
+                          color: getWindDirectionColor(
+                            weatherData.properties.periods[0].windDirection,
+                            null
+                          ),
+                        }}
+                      >
+                        Wind Direction:
+                      </strong>{" "}
+                      {weatherData.properties.periods[0].windDirection}
+                    </div>
+                    <div>
+                      <strong className="text-gray-400">Forecast:</strong>{" "}
+                      {weatherData.properties.periods[0].shortForecast}
+                    </div>
+                    <div>
+                      <strong className="text-gray-400">Date:</strong>{" "}
+                      {
+                        formatDateTime(
+                          weatherData.properties.periods[0].startTime
+                        ).date
+                      }
+                    </div>
+                    <div>
+                      <strong className="text-gray-400">Time:</strong>{" "}
+                      {
+                        formatDateTime(
+                          weatherData.properties.periods[0].startTime as string
+                        ).time
+                      }
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-gray-500">Loading weather data...</div>
+                )}
                 <a
                   href={`https://www.google.com/maps/dir/?api=1&destination=${position[0]},${position[1]}`}
                   target="_blank"
