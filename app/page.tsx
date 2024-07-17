@@ -33,11 +33,11 @@ const FilteredApp: React.FC<{
 
   return (
     <div className="flex flex-col h-full">
-      <input
+      {/* <input
         type="text"
         placeholder="Search by name"
         className="mb-4 p-2 border border-gray-300 rounded bg-gray-800 text-white max-h-12"
-      />
+      /> */}
       <div className="w-full flex-grow p-4 bg-gray-800 rounded-lg">
         {!isLoading && (
           <div className="h-96 md:h-[600px] w-full">
