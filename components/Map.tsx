@@ -13,7 +13,7 @@ import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 
-import { KitesurfSpot, ViableDirections, WindDirection } from "../app/api/mock"
+import { KitesurfSpot, ViableDirections } from "../app/api/mock"
 import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useWeatherContext } from "@/app/context/WeatherContext"
