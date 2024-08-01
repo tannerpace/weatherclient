@@ -119,7 +119,7 @@ const Page: React.FC = () => {
   const handleCloseModal = () => setShowModal(false)
   const router = useRouter()
 
-  const handleNavigateToProfile = (path: string) => {
+  const handleNavigateToProfile = () => {
     router.push("/profile")
   }
 
