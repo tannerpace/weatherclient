@@ -1,6 +1,7 @@
 // pages/profile.tsx
 "use client"
-
+import { useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import React, { useState, useEffect } from "react"
 import ProfileMap from "@/components/ProfileMap"
 import { KitesurfSpot, ViableDirections } from "@/app/api/mock"
@@ -78,7 +79,7 @@ const Profile: React.FC = () => {
     setMinWindspeed(0)
     setViableDirections(defaultViableDirections)
   }
-
+  const router = useRouter()
   const handleDeleteLocation = (id: number) => {
     setLocations((prevLocations) =>
       prevLocations.filter((location) => location.id !== id)
@@ -107,6 +108,12 @@ const Profile: React.FC = () => {
           onLocationSelect={handleLocationSelect}
         />
       </div>
+      <button
+        onClick={() => router.push("/")}
+        className="mt-4 px-4 py-2 bg-purple-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
+      >
+        Home
+      </button>
       <div className="flex justify-between items-center mb-4">
         {/* <FontAwesomeIcon
           icon={faPlus}

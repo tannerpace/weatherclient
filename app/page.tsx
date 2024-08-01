@@ -153,7 +153,7 @@ const Page: React.FC = () => {
           </button>
           <button
             onClick={() => router.push("/profile")}
-            className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
+            className="mt-4 px-4 py-2 bg-purple-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
           >
             <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
             My Saved Locations
