@@ -21,6 +21,8 @@ import {
 } from "./context/FilterContext"
 import LocationModal from "@/components/LocationModal"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
+import { useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 
 config.autoAddCss = false
 
@@ -30,6 +32,12 @@ const FilteredApp: React.FC<{
   center: [number, number]
 }> = ({ center }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const handleNavigation = (path: string) => {
+    router.push(path)
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -38,7 +46,7 @@ const FilteredApp: React.FC<{
         placeholder="Search by name"
         className="mb-4 p-2 border border-gray-300 rounded bg-gray-800 text-white max-h-12"
       /> */}
-      <div className="w-full flex-grow p-4 bg-gray-800 rounded-lg">
+      <div className="w-full flex-grow bg-gray-800 rounded-lg">
         {!isLoading && (
           <div className="h-96 md:h-[600px] w-full">
             <Map
@@ -109,9 +117,14 @@ const Page: React.FC = () => {
       : `Showing Weather for : ${latitude}, ${longitude}`
 
   const handleCloseModal = () => setShowModal(false)
+  const router = useRouter()
+
+  const handleNavigateToProfile = (path: string) => {
+    router.push("/profile")
+  }
 
   return (
-    <div className="flex flex-col items-center space-y-6 p-4 md:p-8 bg-gray-900 text-white rounded-lg h-screen relative">
+    <div className="flex flex-col items-center space-y-6 md:p-8 bg-gray-900 text-white rounded-lg h-screen relative">
       <div className="w-full max-w-5xl space-y-6 bg-gray-900 text-white rounded-lg">
         <FilteredApp center={center} />
       </div>
@@ -141,6 +154,13 @@ const Page: React.FC = () => {
           >
             <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
             Navigate to Target
+          </button>
+          <button
+            onClick={handleNavigateToProfile}
+            className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
+          >
+            <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
+            My Saved Locations
           </button>
         </div>
         {error && (

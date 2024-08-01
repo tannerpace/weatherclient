@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           ...items,
         ]}
       />
-      <div className="flex-1 overflow-auto p-4">{children}</div>
+      <div>{children}</div>
     </div>
   )
 }

@@ -32,8 +32,6 @@ body,
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding: 1rem;
   background-color: var(--background-color);
 }
 
@@ -46,12 +44,10 @@ body,
 
 .card {
   background-color: #ffffff;
-  padding: 2rem;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   transition: transform 0.2s, box-shadow 0.2s;
   text-align: center;
-  width: 15rem;
 }
 
 .card:hover {
@@ -92,23 +88,14 @@ a:hover {
 }
 
 @media (max-width: 768px) {
-  .container {
-    padding: 1rem;
-  }
-
   .card-container {
     gap: 0.5rem;
-  }
-
-  .card {
-    padding: 1rem;
-    width: 100%;
   }
 }
 
 nav {
   background-color: var(--primary-color);
-  padding: 0.75rem;
+  /* padding: 0.75rem; */
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
 }
