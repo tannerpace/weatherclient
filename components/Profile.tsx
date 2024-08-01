@@ -98,7 +98,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4">
-      <h1 className="text-2xl font-bold mb-4">My Kitesurf Locations</h1>
+      <h1 className="text-xl font-bold">Click on map to save a new location</h1>
       <div className="mb-4" style={{ height: "400px" }}>
         <ProfileMap
           locations={locations}
@@ -108,12 +108,11 @@ const Profile: React.FC = () => {
         />
       </div>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Saved Locations</h2>
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon={faPlus}
           className="text-green-500 cursor-pointer"
           onClick={() => setOpen(true)}
-        />
+        /> */}
       </div>
       <ul className="mb-4">
         {locations.map((location) => (
