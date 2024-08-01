@@ -119,10 +119,6 @@ const Page: React.FC = () => {
   const handleCloseModal = () => setShowModal(false)
   const router = useRouter()
 
-  const handleNavigateToProfile = () => {
-    router.push("/profile")
-  }
-
   return (
     <div className="flex flex-col items-center space-y-6 md:p-8 bg-gray-900 text-white rounded-lg h-screen relative">
       <div className="w-full max-w-5xl space-y-6 bg-gray-900 text-white rounded-lg">
@@ -156,7 +152,7 @@ const Page: React.FC = () => {
             Navigate to Target
           </button>
           <button
-            onClick={() => handleNavigateToProfile}
+            onClick={() => router.push("/profile")}
             className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
           >
             <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
