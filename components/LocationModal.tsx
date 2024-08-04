@@ -170,12 +170,12 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     className="mr-2 text-blue-500"
                   />
                   <a
-                    href="https://en.wikipedia.org/wiki/Fort_Moultrie"
+                    href={selectedLocation.references}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline"
+                    className="text-blue-500 hover:underline break-words"
                   >
-                    {selectedLocation.references}
+                    Learn More
                   </a>
                 </Card>
               </div>
