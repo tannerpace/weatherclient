@@ -1,7 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
-// import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faLocationArrow,
@@ -184,6 +183,6 @@ const AppPage: React.FC = () => {
   )
 }
 
-AppPage.displayName = "Kite Surf Ninja"
+AppPage.displayName = "Windy Sessions"
 
 export default AppPage
