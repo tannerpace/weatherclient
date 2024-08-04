@@ -14,18 +14,16 @@ import {
 import LocationModal from "@/components/LocationModal"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useRouter } from "next/navigation"
-import { usePathname } from "next/navigation"
 import BottomNavigationBar from "@/components/BottomNavBar"
 
 config.autoAddCss = false
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false })
 
-const FilteredApp: React.FC<{
+const Home: React.FC<{
   center: [number, number]
 }> = ({ center }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
-  const router = useRouter()
 
   return (
     <div className="flex flex-col h-full">
@@ -102,7 +100,7 @@ const Page: React.FC = () => {
 
   return (
     <>
-      <FilteredApp center={center} />
+      <Home center={center} />
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <LocationModal onClose={handleCloseModal} />

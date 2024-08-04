@@ -2,16 +2,15 @@ import React from "react"
 import dayjs from "dayjs"
 
 interface DateComponentProps {
-  dateInput?: string
+  time?: string
 }
 
-const DateComponent: React.FC<DateComponentProps> = ({ dateInput }) => {
-  console.log(dateInput)
-  const formattedDate = dayjs(dateInput).format("YYYY-MM-DD HH:mm:ss")
+const DateComponent: React.FC<DateComponentProps> = ({ time }) => {
+  const theTime = dayjs(time).format("YYYY-MM-DD HH:mm:ss")
 
   return (
     <div>
-      <p>{`Weather period's time: ${formattedDate}`}</p>
+      <p>{`Weather period's time: ${theTime}`}</p>
     </div>
   )
 }

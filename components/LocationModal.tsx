@@ -99,9 +99,7 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                         index: React.Key | null | undefined
                       ) => (
                         <div key={index} className="mt-2">
-                          <DateComponent
-                            dateInput={period.startTime as string}
-                          />
+                          <DateComponent time={period.startTime as string} />
                           <p>{period.detailedForecast}</p>
                         </div>
                       )
