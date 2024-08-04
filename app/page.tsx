@@ -1,12 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faLocationArrow,
-  faExclamationTriangle,
-  faMapMarkerAlt,
-} from "@fortawesome/free-solid-svg-icons"
 import { KitesurfSpot } from "@/app/api/mock"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
@@ -21,6 +15,7 @@ import LocationModal from "@/components/LocationModal"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useRouter } from "next/navigation"
 import { usePathname } from "next/navigation"
+import BottomNavigationBar from "@/components/BottomNavBar"
 
 config.autoAddCss = false
 
@@ -31,37 +26,25 @@ const FilteredApp: React.FC<{
 }> = ({ center }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
   const router = useRouter()
-  const pathname = usePathname()
-
-  const handleNavigation = (path: string) => {
-    router.push(path)
-  }
 
   return (
     <div className="flex flex-col h-full">
-      {/* <input
-        type="text"
-        placeholder="Search by name"
-        className="mb-4 p-2 border border-gray-300 rounded bg-gray-800 text-white max-h-12"
-      /> */}
-      <div className="w-full flex-grow bg-gray-800 rounded-lg">
-        {!isLoading && (
-          <div className="h-96 md:h-[600px] w-full">
-            <Map
-              position={center}
-              kitesurfSpots={kitesurfSpots as KitesurfSpot[]}
-            />
-          </div>
-        )}
-      </div>
+      {!isLoading && (
+        <div className="h-96 w-full">
+          <Map
+            position={center}
+            kitesurfSpots={kitesurfSpots as KitesurfSpot[]}
+          />
+        </div>
+      )}
+      <BottomNavigationBar />
     </div>
   )
 }
 
 const Page: React.FC = () => {
   const { latitude, longitude, setCoordinates } = useFilterContext()
-  const { selectedLocation, showModal, setShowModal } =
-    useSelectedLocationContext()
+  const { showModal, setShowModal } = useSelectedLocationContext()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [center, setCenter] = useState<[number, number]>([
@@ -118,64 +101,20 @@ const Page: React.FC = () => {
   const router = useRouter()
 
   return (
-    <div className="flex flex-col items-center space-y-6 md:p-8 bg-gray-900 text-white rounded-lg min-h-screen relative">
-      <div className="w-full max-w-5xl space-y-6 bg-gray-900 text-white rounded-lg">
-        <FilteredApp center={center} />
-      </div>
-      <div className="w-full max-w-3xl space-y-4">
-        {/* <h2 className="text-lg font-bold text-center md:text-left">{title}</h2> */}
-        <div className="flex space-x-4">
-          <button
-            onClick={handleButtonClick}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded flex items-center justify-center hover:bg-blue-700 w-full md:w-auto"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
-                Loading...
-              </>
-            ) : (
-              <>
-                <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
-                Target My location
-              </>
-            )}
-          </button>
-          <button
-            onClick={handleNavigateToUserLocation}
-            className="mt-4 px-4 py-2 bg-green-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
-          >
-            <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
-            Navigate to Target
-          </button>
-          <button
-            onClick={() => router.push("/savedlocations")}
-            className="mt-4 px-4 py-2 bg-purple-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
-          >
-            <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
-            My Saved Locations
-          </button>
-        </div>
-        {error && (
-          <p className="text-red-500 mt-2">
-            <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
-            {error}
-          </p>
-        )}
-      </div>
+    <>
+      <FilteredApp center={center} />
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <LocationModal onClose={handleCloseModal} />
         </div>
       )}
-    </div>
+    </>
   )
 }
 
 const AppPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-900 overflow-scroll">
+    <div className="min-h-screen overflow-scroll">
       <ClientProviders>
         <Page />
       </ClientProviders>

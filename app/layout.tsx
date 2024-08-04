@@ -3,7 +3,6 @@ import { Inter } from "next/font/google"
 import React, { ReactNode } from "react"
 import Head from "next/head"
 import "./globals.css"
-import BottomNavBar from "@/components/BottomNavBar"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -32,12 +31,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           content="kitesurf, kitesurfing, spots, weather, wind, surfing, kite"
         />
         <meta name="author" content="Kitesurf Ninja Team" />
-        <title>Kitesurf Ninja – Find Your Perfect Kitesurf Spot</title>
+        <title>Windy Session – Find Your Perfect Kitesurf Spot</title>
       </Head>
       <body className={inter.className}>
         <div id="__next">
-          <main className="bg-slate-900 min-h-screen flex-1">{children}</main>
-          <BottomNavBar />
+          <main>{children}</main>
         </div>
       </body>
     </html>

@@ -16,6 +16,7 @@ specifiers:
   '@types/react-leaflet': ^3.0.0
   axios: ^1.7.2
   clsx: ^2.1.1
+  dayjs: ^1.11.12
   eslint: ^8
   eslint-config-next: 14.2.4
   leaflet: ^1.9.4
@@ -42,6 +43,7 @@ dependencies:
   '@tanstack/react-query': 5.50.1_react@18.3.1
   axios: 1.7.2
   clsx: 2.1.1
+  dayjs: 1.11.12
   leaflet: 1.9.4
   lodash: 4.17.21
   next: 14.2.4_nnrd3gsncyragczmpvfhocinkq
@@ -2779,6 +2781,10 @@ packages:
       call-bind: 1.0.7
       es-errors: 1.3.0
       is-data-view: 1.0.1
+
+  /dayjs/1.11.12:
+    resolution: {integrity: sha512-Rt2g+nTbLlDWZTwwrIXjy9MeiZmSDI375FvZs72ngxx8PDC6YXOeR3q5LAuPzjZQxhiWdRKac7RKV+YyQYfYIg==}
+    dev: false
 
   /debug/3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
