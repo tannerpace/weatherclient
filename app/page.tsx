@@ -119,7 +119,7 @@ const Page: React.FC = () => {
   const router = useRouter()
 
   return (
-    <div className="flex flex-col items-center space-y-6 md:p-8 bg-gray-900 text-white rounded-lg h-screen relative">
+    <div className="flex flex-col items-center space-y-6 md:p-8 bg-gray-900 text-white rounded-lg min-h-screen relative">
       <div className="w-full max-w-5xl space-y-6 bg-gray-900 text-white rounded-lg">
         <FilteredApp center={center} />
       </div>
