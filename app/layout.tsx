@@ -3,7 +3,6 @@ import { Inter } from "next/font/google"
 import React, { ReactNode } from "react"
 import Head from "next/head"
 import "./globals.css"
-import Navbar from "@/components/NavBar"
 import BottomNavBar from "@/components/BottomNavBar"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -37,7 +36,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </Head>
       <body className={inter.className}>
         <div id="__next">
-          <main className="bg-slate-900 flex-1">{children}</main>
+          <main className="bg-slate-900 min-h-screen flex-1">{children}</main>
           <BottomNavBar />
         </div>
       </body>

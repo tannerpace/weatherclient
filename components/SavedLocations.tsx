@@ -1,12 +1,9 @@
 // pages/profile.tsx
 "use client"
 import { useRouter } from "next/navigation"
-import { usePathname } from "next/navigation"
 import React, { useState, useEffect } from "react"
-import ProfileMap from "@/components/ProfileMap"
+import SavedLocationsMap from "@/components/SavedLocationsMap"
 import { KitesurfSpot, ViableDirections } from "@/app/api/mock"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPlus } from "@fortawesome/free-solid-svg-icons"
 
 import { Checkbox, FormControlLabel, Slider } from "@mui/material"
 import ProfileRenderingInfo from "./ProfileRenderingInfo"
@@ -22,7 +19,7 @@ const defaultViableDirections: ViableDirections = {
   NW: 0,
 }
 
-const Profile: React.FC = () => {
+const SavedLocations: React.FC = () => {
   const [locations, setLocations] = useState<KitesurfSpot[]>([])
   const [minWindspeed, setMinWindspeed] = useState<number>(0)
   const [viableDirections, setViableDirections] = useState<ViableDirections>(
@@ -101,7 +98,7 @@ const Profile: React.FC = () => {
     <div className="min-h-screen bg-gray-900 text-white p-4">
       <h1 className="text-xl font-bold">Click on map to save a new location</h1>
       <div className="mb-4" style={{ height: "400px" }}>
-        <ProfileMap
+        <SavedLocationsMap
           locations={locations}
           onLocationAdd={handleAddLocation}
           onLocationDelete={handleDeleteLocation}
@@ -114,13 +111,6 @@ const Profile: React.FC = () => {
       >
         Home
       </button>
-      <div className="flex justify-between items-center mb-4">
-        {/* <FontAwesomeIcon
-          icon={faPlus}
-          className="text-green-500 cursor-pointer"
-          onClick={() => setOpen(true)}
-        /> */}
-      </div>
       <ul className="mb-4">
         {locations.map((location) => (
           <li key={location.id} className="mb-2">
@@ -217,4 +207,4 @@ const Profile: React.FC = () => {
   )
 }
 
-export default Profile
+export default SavedLocations

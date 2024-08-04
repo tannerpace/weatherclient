@@ -1,13 +1,13 @@
 import dynamic from "next/dynamic"
 
-const ProfileComponent = dynamic(() => import("@/components/Profile"), {
+const SavedLocations = dynamic(() => import("@/components/SavedLocations"), {
   ssr: false,
 })
 
 const ProfilePage: React.FC = () => {
   return (
     <div>
-      <ProfileComponent />
+      <SavedLocations />
     </div>
   )
 }

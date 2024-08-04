@@ -8,7 +8,6 @@ import {
   faExclamationTriangle,
   faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons"
-// import RenderingInfo from "@/components/RenderingInfo"
 import { KitesurfSpot } from "@/app/api/mock"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
@@ -152,7 +151,7 @@ const Page: React.FC = () => {
             Navigate to Target
           </button>
           <button
-            onClick={() => router.push("/profile")}
+            onClick={() => router.push("/savedlocations")}
             className="mt-4 px-4 py-2 bg-purple-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
           >
             <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />

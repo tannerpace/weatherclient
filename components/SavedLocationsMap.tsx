@@ -29,7 +29,7 @@ interface MapProps {
   onLocationSelect: (location: KitesurfSpot) => void
 }
 
-const ProfileMap: React.FC<MapProps> = ({
+const SavedLocationsMap: React.FC<MapProps> = ({
   locations,
   onLocationAdd,
   onLocationDelete,
@@ -88,4 +88,4 @@ const ProfileMap: React.FC<MapProps> = ({
   )
 }
 
-export default ProfileMap
+export default SavedLocationsMap
