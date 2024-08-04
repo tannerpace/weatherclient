@@ -164,15 +164,6 @@ const Page: React.FC = () => {
             {error}
           </p>
         )}
-        {/* <RenderingInfo
-          latitude={Number(latitude)}
-          longitude={Number(longitude)}
-        /> */}
-        {/* <p className="mt-4 text-md text-gray-500 text-center md:text-left">
-          {locationName
-            ? `Showing weather for ${locationName}`
-            : "Showing weather for your current location"}
-        </p> */}
       </div>
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
