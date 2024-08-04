@@ -2,7 +2,7 @@
 import React from "react"
 
 import useKiteSurfSpots from "@/app/hooks/useKiteSurfSpots"
-import RenderingInfo from "@/components/RenderingInfo"
+import WeatherPeriod from "@/components/RenderingInfo"
 
 interface PageProps {
   params: { id: string }
@@ -37,7 +37,7 @@ export default function Page({ params }: PageProps) {
         <p className="font-medium text-gray-500">{kiteSurfSpot.description}</p>
       </div>
       <div className="-order-1 col-span-full lg:order-none lg:col-span-2">
-        <RenderingInfo
+        <WeatherPeriod
           latitude={kiteSurfSpot.latitude}
           longitude={kiteSurfSpot.longitude}
         />

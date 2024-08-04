@@ -11,7 +11,7 @@ interface RenderingInfoProps {
   viableDirections?: { [key: string]: number }
 }
 
-export default function RenderingInfo({
+export default function WeatherPeriod({
   latitude,
   longitude,
   minWindspeed = 0,
