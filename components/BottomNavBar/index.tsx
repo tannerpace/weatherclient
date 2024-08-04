@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 import { usePathname, useRouter } from "next/navigation"
-import { Home, Person, Favorite } from "@mui/icons-material"
+import { Home, Person } from "@mui/icons-material"
 
 interface Route {
   path: string
@@ -20,11 +20,6 @@ const routes: Route[] = [
     icon: <Person />,
     label: "Saved Locations",
   },
-  // {
-  //   path: "/surfprofile",
-  //   icon: <Favorite />,
-  //   label: "Surf Profile",
-  // },
 ]
 
 const BottomNavigationBar = () => {
