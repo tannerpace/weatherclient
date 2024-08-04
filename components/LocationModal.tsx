@@ -60,6 +60,12 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </button>
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-4">{selectedLocation.name}</h2>
+          <button
+            onClick={() => setShowWeatherDetails(true)}
+            className="mt-4 mb-4  py-2 bg-purple-500 text-white rounded hover:bg-blue-700"
+          >
+            Show Detailed Weather
+          </button>
           {showWeatherDetails ? (
             <>
               <div className="mt-4 w-full">
@@ -179,12 +185,6 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   </a>
                 </Card>
               </div>
-              <button
-                onClick={() => setShowWeatherDetails(true)}
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-              >
-                Show Detailed Weather
-              </button>
               <div className="mt-6">
                 <a
                   href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.latitude},${selectedLocation.longitude}`}
