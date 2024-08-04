@@ -31,7 +31,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           content="kitesurf, kitesurfing, spots, weather, wind, surfing, kite"
         />
         <meta name="author" content="Kitesurf Ninja Team" />
-        <title>Kitesurf Ninja – Find Your Perfect Kitesurf Spot</title>
+        <title>Windy Session – Find Your Perfect Kitesurf Spot</title>
       </head>
       <body className={inter.className}>
         <div id="__next">

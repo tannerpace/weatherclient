@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react"
+import dayjs from "dayjs"
 import {
   MapContainer,
   TileLayer,
@@ -111,14 +112,17 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   }
 
   return (
-    <div
-      style={{ height: "100%", width: "100%", position: "relative", zIndex: 0 }}
-    >
+    <div style={{ height: "100%", width: "100%", zIndex: 0 }}>
       {position && kitesurfSpots.length ? (
         <MapContainer
           center={position}
           zoom={10}
-          style={{ height: "100%", width: "100%", zIndex: 1 }}
+          style={{
+            height: "100%",
+            width: "100%",
+            zIndex: 1,
+            minHeight: "calc(100vh - 60px)",
+          }}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {kitesurfSpots.map((spot) => (
@@ -195,12 +199,6 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                       </div>
                       <div>
                         <strong className="text-gray-400">Time:</strong>{" "}
-                        {
-                          formatDateTime(
-                            weatherData.properties.periods[0]
-                              .startTime as string
-                          ).time
-                        }
                       </div>
                     </div>
                   ) : (
@@ -243,45 +241,12 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                       <strong className="text-gray-400">Temperature:</strong>{" "}
                       {weatherData.properties.periods[0].temperature}°C
                     </div>
-                    <div
-                    // style={{
-                    //   color: getWindSpeedColor(
-                    //     weatherData.properties.periods[0].windSpeed as string
-                    //   ),
-                    // }}
-                    >
-                      <strong
-                        className="text-gray-400"
-                        // style={{
-                        //   color: getWindSpeedColor(
-                        //     weatherData.properties.periods[0]
-                        //       .windSpeed as string
-                        //   ),
-                        // }}
-                      >
-                        Wind Speed:
-                      </strong>{" "}
+                    <div>
+                      <strong className="text-gray-400">Wind Speed:</strong>{" "}
                       {weatherData.properties.periods[0].windSpeed}
                     </div>
-                    <div
-                    // style={{
-                    //   color: getWindDirectionColor(
-                    //     weatherData.properties.periods[0].windDirection,
-                    //     null
-                    //   ),
-                    // }}
-                    >
-                      <strong
-                        className="text-gray-400"
-                        // style={{
-                        //   color: getWindDirectionColor(
-                        //     weatherData.properties.periods[0].windDirection,
-                        //     null
-                        //   ),
-                        // }}
-                      >
-                        Wind Direction:
-                      </strong>{" "}
+                    <div>
+                      <strong className="text-gray-400">Wind Direction:</strong>{" "}
                       {weatherData.properties.periods[0].windDirection}
                     </div>
                     <div>
