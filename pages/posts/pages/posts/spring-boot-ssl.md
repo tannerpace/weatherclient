@@ -1,6 +1,6 @@
 ---
 title: Adding SSL to a Spring Boot Project and Removing the Load Balancer to Save Costs
-date: 2024-09-02
+date: 2024-09-16
 description: A guide to configuring SSL directly in your Spring Boot application and removing a load balancer to reduce costs.
 tag: cloud computing
 tags:
