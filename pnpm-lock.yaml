@@ -19,6 +19,7 @@ specifiers:
   dayjs: ^1.11.12
   eslint: ^8
   eslint-config-next: 14.2.4
+  framer-motion: ^11.7.0
   leaflet: ^1.9.4
   lodash: ^4.17.21
   next: 14.2.4
@@ -44,6 +45,7 @@ dependencies:
   axios: 1.7.2
   clsx: 2.1.1
   dayjs: 1.11.12
+  framer-motion: 11.7.0_nnrd3gsncyragczmpvfhocinkq
   leaflet: 1.9.4
   lodash: 4.17.21
   next: 14.2.4_nnrd3gsncyragczmpvfhocinkq
@@ -3490,6 +3492,25 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+    dev: false
+
+  /framer-motion/11.7.0_nnrd3gsncyragczmpvfhocinkq:
+    resolution: {integrity: sha512-m+1E3mMzDIQ5DsVghMvXyC+jSkZSm5RHBLA2gHa/LczcXwW6JbQK4Uz48LsuCTGV8bZFVUezcauHj3M33tY/5w==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
+      tslib: 2.6.3
     dev: false
 
   /fs-extra/9.1.0:

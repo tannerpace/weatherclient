@@ -1,14 +1,12 @@
-// pages/profile.tsx
 "use client"
 import { useRouter } from "next/navigation"
 import React, { useState, useEffect } from "react"
+import { motion } from "framer-motion" // Import Framer Motion
 import SavedLocationsMap from "@/components/SavedLocationsMap"
-import { KitesurfSpot, ViableDirections } from "@/app/api/mock"
-
 import { Checkbox, FormControlLabel, Slider } from "@mui/material"
 import ProfileRenderingInfo from "./ProfileRenderingInfo"
 
-const defaultViableDirections: ViableDirections = {
+const defaultViableDirections = {
   N: 0,
   NE: 0,
   E: 0,
@@ -20,14 +18,12 @@ const defaultViableDirections: ViableDirections = {
 }
 
 const SavedLocations: React.FC = () => {
-  const [locations, setLocations] = useState<KitesurfSpot[]>([])
+  const [locations, setLocations] = useState([])
   const [minWindspeed, setMinWindspeed] = useState<number>(0)
-  const [viableDirections, setViableDirections] = useState<ViableDirections>(
+  const [viableDirections, setViableDirections] = useState(
     defaultViableDirections
   )
-  const [selectedLocation, setSelectedLocation] = useState<KitesurfSpot | null>(
-    null
-  )
+  const [selectedLocation, setSelectedLocation] = useState(null)
   const [open, setOpen] = useState<boolean>(false)
   const [locationName, setLocationName] = useState<string>("")
 
@@ -43,29 +39,17 @@ const SavedLocations: React.FC = () => {
   }, [locations])
 
   const handleAddLocation = (lat: number, lng: number) => {
-    setSelectedLocation({
-      ...selectedLocation,
-      latitude: lat,
-      longitude: lng,
-    } as KitesurfSpot)
+    setSelectedLocation({ latitude: lat, longitude: lng })
     setOpen(true)
   }
 
   const handleSaveLocation = () => {
     if (!locationName) return
-    const newSpot: KitesurfSpot = {
+    const newSpot = {
       id: Date.now(),
       latitude: selectedLocation?.latitude || 0,
       longitude: selectedLocation?.longitude || 0,
       name: locationName,
-      island: "",
-      winddirections: "",
-      waves: "",
-      depth: "",
-      description: "",
-      experience: "",
-      references: "",
-      location_img_url: "",
       viable_directions: viableDirections,
       minWindspeed: minWindspeed,
     }
@@ -76,33 +60,25 @@ const SavedLocations: React.FC = () => {
     setMinWindspeed(0)
     setViableDirections(defaultViableDirections)
   }
+
   const router = useRouter()
-  const handleDeleteLocation = (id: number) => {
-    setLocations((prevLocations) =>
-      prevLocations.filter((location) => location.id !== id)
-    )
-  }
-
-  const handleViableDirectionChange = (direction: keyof ViableDirections) => {
-    setViableDirections((prev) => ({
-      ...prev,
-      [direction]: prev[direction] ? 0 : 1,
-    }))
-  }
-
-  const handleLocationSelect = (location: KitesurfSpot) => {
-    setSelectedLocation(location)
-  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4">
-      <h1 className="text-xl font-bold">Click on map to save a new location</h1>
+      {/* Animated title using Framer Motion */}
+      <motion.h1
+        className="text-xl font-bold"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        Click on map to save a new location
+      </motion.h1>
+
       <div className="mb-4" style={{ height: "400px" }}>
         <SavedLocationsMap
           locations={locations}
           onLocationAdd={handleAddLocation}
-          onLocationDelete={handleDeleteLocation}
-          onLocationSelect={handleLocationSelect}
         />
       </div>
       <button
@@ -111,12 +87,17 @@ const SavedLocations: React.FC = () => {
       >
         Home
       </button>
+
       <ul className="mb-4">
         {locations.map((location) => (
           <li key={location.id} className="mb-2">
             {location.name}
             <button
-              onClick={() => handleDeleteLocation(location.id)}
+              onClick={() =>
+                setLocations((prev) =>
+                  prev.filter((loc) => loc.id !== location.id)
+                )
+              }
               className="ml-2 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-700"
             >
               Delete
@@ -124,6 +105,7 @@ const SavedLocations: React.FC = () => {
           </li>
         ))}
       </ul>
+
       {selectedLocation && (
         <div className="mt-4">
           <h2 className="text-xl font-bold">
@@ -137,6 +119,7 @@ const SavedLocations: React.FC = () => {
           />
         </div>
       )}
+
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-800 p-4 rounded-lg w-80">
@@ -149,16 +132,12 @@ const SavedLocations: React.FC = () => {
               onChange={(e) => setLocationName(e.target.value)}
             />
             <div className="mb-4">
-              <label
-                className="block text-lg font-bold mb-2"
-                htmlFor="minWindspeed"
-              >
+              <label className="block text-lg font-bold mb-2">
                 Minimum Windspeed
               </label>
               <Slider
                 value={minWindspeed}
                 onChange={(e, value) => setMinWindspeed(value as number)}
-                aria-labelledby="minWindspeed"
                 min={0}
                 max={100}
                 valueLabelDisplay="auto"
@@ -171,17 +150,13 @@ const SavedLocations: React.FC = () => {
                   key={direction}
                   control={
                     <Checkbox
-                      checked={
-                        viableDirections[
-                          direction as keyof ViableDirections
-                        ] === 1
-                      }
+                      checked={viableDirections[direction] === 1}
                       onChange={() =>
-                        handleViableDirectionChange(
-                          direction as keyof ViableDirections
-                        )
+                        setViableDirections((prev) => ({
+                          ...prev,
+                          [direction]: prev[direction] ? 0 : 1,
+                        }))
                       }
-                      name={direction}
                     />
                   }
                   label={direction}
