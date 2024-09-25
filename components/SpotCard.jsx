@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useDebounce } from "@/app/hooks/useDebounce"
 import SpotMap from "./SpotMap"
 import WindDial from "./WindDial"
-import { Box, Typography, Stack } from "@mui/material"
+import { Typography, Stack } from "@mui/material"
 import WeatherService from "../api/weatherService"
 
 // Custom hook to get weather data using react-query and debounced coordinates

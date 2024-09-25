@@ -17,15 +17,7 @@ export default function WeatherPeriod({
   minWindspeed = 0,
   viableDirections = {},
 }: RenderingInfoProps) {
-  const {
-    weatherData,
-    loadingForecast,
-    loadingObservation,
-    loadingForecastGrid,
-    errorForecast,
-    errorObservation,
-    errorForecastGrid,
-  } = useWeather({
+  const { weatherData, loadingForecast } = useWeather({
     latitude: latitude.toString(),
     longitude: longitude.toString(),
   })
@@ -53,23 +45,9 @@ export default function WeatherPeriod({
     return []
   }, [weatherData, minWindspeed, viableDirections])
 
-  if (loadingForecast || loadingObservation || loadingForecastGrid) {
+  if (loadingForecast) {
     return (
       <div className="text-center text-gray-700">Loading weather data...</div>
-    )
-  }
-
-  if (errorForecast || errorObservation || errorForecastGrid) {
-    return (
-      <div className="text-center text-red-500">
-        {errorForecast && <p>Error fetching forecast: {errorForecast}</p>}
-        {errorObservation && (
-          <p>Error fetching observation: {errorObservation}</p>
-        )}
-        {errorForecastGrid && (
-          <p>Error fetching forecast grid data: {errorForecastGrid}</p>
-        )}
-      </div>
     )
   }
 

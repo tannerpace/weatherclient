@@ -109,8 +109,8 @@ export const Tab = ({
           {error && <p>Error: {error}</p>}
           {!loading && !error && (
             <ul>
-              {weatherData.properties.periods.map((period, index) => (
-                <li key={index}>
+              {weatherData.properties.periods.map((period) => (
+                <li key={period.number}>
                   <p>{new Date(period.startTime).toLocaleString()}</p>
                   <p>
                     {period.shortForecast}, {period.temperature}°

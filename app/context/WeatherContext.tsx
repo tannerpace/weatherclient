@@ -119,7 +119,7 @@ const getAdditionalData = async (
  */
 const useWeather = (data: GetWeatherQuery) => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
-  const [loadingForecast, setLoadingForecast] = useState<boolean>(false)
+  const [loadingForecast, setLoadingForecast] = useState<boolean>(true)
   const [loadingObservation, setLoadingObservation] = useState<boolean>(false)
   const [loadingForecastGrid, setLoadingForecastGrid] = useState<boolean>(false)
   const [errorForecast, setErrorForecast] = useState<string | null>(null)
@@ -138,12 +138,8 @@ const useWeather = (data: GetWeatherQuery) => {
       try {
         setLoadingForecast(true)
         setErrorForecast(null)
-        const {
-          forecast,
-          forecastHourly,
-          forecastGridData,
-          observationStations,
-        } = await getForecastUrls(debouncedLatitude, debouncedLongitude)
+        const { forecast, forecastGridData, observationStations } =
+          await getForecastUrls(debouncedLatitude, debouncedLongitude)
         const forecastData = await getWeatherData(forecast)
         setWeatherData(forecastData)
         setLoadingForecast(false)
