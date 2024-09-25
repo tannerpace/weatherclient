@@ -14,7 +14,6 @@ import {
 import LocationModal from "@/components/LocationModal"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useRouter } from "next/navigation"
-import { usePathname } from "next/navigation"
 import BottomNavigationBar from "@/components/BottomNavBar"
 
 config.autoAddCss = false
@@ -113,6 +112,20 @@ const Page: React.FC = () => {
 }
 
 const AppPage: React.FC = () => {
+  useEffect(() => {
+    // Adjust viewport height for mobile devices
+    const handleResize = () => {
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty("--vh", `${vh}px`)
+    }
+
+    // Set height on load and resize
+    handleResize()
+    window.addEventListener("resize", handleResize)
+
+    // Cleanup event listener on unmount
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
   return (
     <div className="min-h-screen overflow-scroll">
       <ClientProviders>
