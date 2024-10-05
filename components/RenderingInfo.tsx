@@ -17,7 +17,7 @@ export default function WeatherPeriod({
   minWindspeed = 0,
   viableDirections = {},
 }: RenderingInfoProps) {
-  const { weatherData, loadingForecast } = useWeather({
+  const { weatherData, loading } = useWeather({
     latitude: latitude.toString(),
     longitude: longitude.toString(),
   })
@@ -45,7 +45,7 @@ export default function WeatherPeriod({
     return []
   }, [weatherData, minWindspeed, viableDirections])
 
-  if (loadingForecast) {
+  if (loading) {
     return (
       <div className="text-center text-gray-700">Loading weather data...</div>
     )
