@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document"
+import Script from "next/script"
 
 class MyDocument extends Document {
   render() {
@@ -13,6 +14,11 @@ class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          {/* Material Tailwind tooltip script */}
+          <Script
+            src="https://unpkg.com/@material-tailwind/html@latest/scripts/tooltip.js"
+            strategy="afterInteractive"
+          />
         </body>
       </Html>
     )

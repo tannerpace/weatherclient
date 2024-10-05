@@ -1,4 +1,5 @@
 "use client"
+import Tooltip from "@mui/material/Tooltip"
 import React, { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
 import { KitesurfSpot } from "@/app/api/mock"
@@ -16,6 +17,8 @@ import { useSelectedLocationContext } from "@/app/context/SelectedLocationContex
 import BottomNavigationBar from "@/components/BottomNavBar"
 import { useWeatherContext } from "@/app/context/WeatherContext"
 import CircularProgress from "@mui/material/CircularProgress" // Import CircularProgress
+import { MapsUgc, MapsUgcOutlined } from "@mui/icons-material"
+import MyLocationIcon from "@mui/icons-material/MyLocation"
 
 config.autoAddCss = false
 
@@ -88,17 +91,20 @@ const Page: React.FC = () => {
 
   return (
     <>
-      <button
-        onClick={handleGeolocationClick}
-        className="absolute top-15 left-4 z-10 bg-black p-2 mt-6 rounded shadow flex items-center"
-        disabled={loading} // Disable button while loading
-      >
-        {loading ? (
-          <CircularProgress size={20} className="mr-2 text-white" />
-        ) : (
-          "Show My Location"
-        )}
-      </button>
+      <Tooltip title="Center On Me">
+        <button
+          onClick={handleGeolocationClick}
+          className="absolute top-34 right-4 z-10 bg-white p-2 mt-6 rounded shadow flex items-center text-black"
+          disabled={loading} // Disable button while loading
+        >
+          {loading ? (
+            <CircularProgress size={20} className="mr-2 text-white" />
+          ) : (
+            <MyLocationIcon />
+          )}
+        </button>
+      </Tooltip>
+
       {error && (
         <div className="absolute top-16 left-4 z-10 text-red-500">{error}</div>
       )}
