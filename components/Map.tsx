@@ -21,6 +21,7 @@ import { useSelectedLocationContext } from "@/app/context/SelectedLocationContex
 import { useWeatherContext } from "@/app/context/WeatherContext"
 import { debounce } from "@mui/material"
 import { blueGrey } from "@mui/material/colors"
+import BottomNavigationBar from "./BottomNavBar"
 
 config.autoAddCss = false
 
@@ -317,6 +318,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
               </Popup>
             </Marker>
             <MapEvents />
+            <BottomNavigationBar />
           </MapContainer>
         ) : (
           <div style={{ height: "100%", width: "100%" }}></div>

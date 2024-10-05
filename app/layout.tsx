@@ -37,7 +37,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={inter.className}>
         <div id="__next">
           <main>{children}</main>
-          <BottomNavigationBar />
         </div>
       </body>
     </html>
