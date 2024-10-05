@@ -31,7 +31,7 @@ const BottomNavigationBar = () => {
   }
 
   return (
-    <div className="fixed bottom-0 w-full bg-white shadow-lg">
+    <div className="fixed bottom-0 w-full bg-black shadow-lg">
       <div className="flex justify-around py-2">
         {routes.map((route, index) => (
           <div
@@ -42,7 +42,17 @@ const BottomNavigationBar = () => {
             onClick={() => handleNavigation(route.path)}
           >
             {route.icon}
-            <span className="text-xs">{route.label}</span>
+            <span
+              className="text-xs"
+              style={{
+                color:
+                  pathname === route.path
+                    ? "var(--primary-color)"
+                    : "var(--text-color)",
+              }}
+            >
+              {route.label}
+            </span>
           </div>
         ))}
       </div>

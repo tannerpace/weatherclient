@@ -124,6 +124,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
 
   return (
     <div
+      className="map-container  bg-black shadow-lg min-h-screen bg-gray-900 text-white p-2"
       style={{
         height: "calc(100vh - 60px)",
         width: "100%",

@@ -95,7 +95,7 @@ const SavedLocations: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
+    <div className="min-h-screen bg-gray-900 text-white p-2">
       <h1 className="text-xl font-bold">Click on map to save a new location</h1>
       <div className="mb-4" style={{ height: "400px" }}>
         <SavedLocationsMap

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import React, { ReactNode } from "react"
 import Head from "next/head"
 import "./globals.css"
+import BottomNavigationBar from "@/components/BottomNavBar"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={inter.className}>
         <div id="__next">
           <main>{children}</main>
+          <BottomNavigationBar />
         </div>
       </body>
     </html>

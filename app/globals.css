@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #385551;
-  --secondary-color: #d9f2f1;
-  --background-color: #f3f8f7;
+  --primary-color: #abb7b5;
+  --secondary-color: #b0b0b0;
+  --background-color: #2b7163;
   --text-color: #2e3d3b;
   --accent-color: #9dbeb9;
   --link-color: #0077b6;
@@ -97,7 +97,6 @@ a:hover {
 
 nav {
   background-color: var(--primary-color);
-  /* padding: 0.75rem; */
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
 }
@@ -113,9 +112,10 @@ nav a:hover {
   color: var(--accent-color);
 }
 
+/* Adjusted bottom navigation bar */
 .bottom-nav {
-  background-color: var(--primary-color);
-  color: #ffffff;
+  background-color: var(--background-color); /* Match the map background */
+  color: var(--primary-color);
   box-shadow: var(--box-shadow);
 }
 
@@ -126,3 +126,5 @@ nav a:hover {
 .text-primary {
   color: var(--primary-color);
 }
+
+/* Add this class to the map container */
