@@ -23,7 +23,7 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
           setQuery(value)
           handleSearch(value)
         }}
-        placeholder="Search for a beach"
+        placeholder="Search for a location"
         required
         className="w-full py-2 rounded-lg p-2"
       />
