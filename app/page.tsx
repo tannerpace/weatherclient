@@ -74,7 +74,7 @@ const Page: React.FC = () => {
               "Location access denied. Please enable location services in your browser settings."
             )
             alert(
-              "Location access denied. Please enable location services in your browser settings to use this feature."
+              "Location access denied.\n\nTo enable location access in Chrome:\n1. Click on the padlock icon in the address bar.\n2. Select 'Site settings'.\n3. Find 'Location' and set it to 'Allow'.\n4. Refresh the page and try again."
             )
           } else {
             setError("Error fetching location data: " + error.message)
