@@ -1,5 +1,6 @@
+"use client"
 import React, { useEffect, useState, useRef } from "react"
-import dayjs from "dayjs"
+
 import {
   MapContainer,
   TileLayer,

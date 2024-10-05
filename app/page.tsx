@@ -114,7 +114,7 @@ const Page: React.FC = () => {
 
 const AppPage: React.FC = () => {
   return (
-    <div className="min-h-screen overflow-scroll p-1">
+    <div className="min-h-screen overflow-scroll">
       <ClientProviders>
         <Page />
       </ClientProviders>
