@@ -129,11 +129,11 @@ const Page: React.FC = () => {
       <Tooltip title="Center On Me">
         <button
           onClick={handleGeolocationClick}
-          className="absolute top-34 right-4 z-10 bg-white p-2 mt-6 rounded shadow flex items-center text-black"
+          className="absolute top-40 right-6 z-10 bg-white p-2 rounded shadow flex items-center text-black"
           disabled={loading} // Disable button while loading
         >
           {loading ? (
-            <CircularProgress size={20} className="mr-2 text-white" />
+            <CircularProgress size={20} className="mr-2 text-black" />
           ) : (
             <MyLocationIcon />
           )}
