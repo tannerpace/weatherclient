@@ -31,8 +31,8 @@ const BottomNavigationBar = () => {
   }
 
   return (
-    <div className="fixed bottom-0 w-full bg-black shadow-lg">
-      <div className="flex justify-around py-2">
+    <div className="fixed bottom-0 w-full bg-black shadow-lg z-30 p-2">
+      <div className="flex justify-around">
         {routes.map((route, index) => (
           <div
             key={index}

@@ -27,13 +27,14 @@ const FilteredApp: React.FC<{
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full mb-50">
       {!isLoading && (
         <Map
           position={center}
           kitesurfSpots={kitesurfSpots as KitesurfSpot[]}
         />
       )}
+      <BottomNavigationBar />
     </div>
   )
 }
@@ -110,11 +111,9 @@ const Page: React.FC = () => {
 
 const AppPage: React.FC = () => {
   return (
-    <div className="h-[calc(100vh-38px)] overflow-scroll">
-      <ClientProviders>
-        <Page />
-      </ClientProviders>
-    </div>
+    <ClientProviders>
+      <Page />
+    </ClientProviders>
   )
 }
 
