@@ -69,7 +69,16 @@ const Page: React.FC = () => {
           setLoading(false) // Set loading to false
         },
         (error) => {
-          setError("Error fetching location data: " + error.message)
+          if (error.code === error.PERMISSION_DENIED) {
+            setError(
+              "Location access denied. Please enable location services in your browser settings."
+            )
+            alert(
+              "Location access denied. Please enable location services in your browser settings to use this feature."
+            )
+          } else {
+            setError("Error fetching location data: " + error.message)
+          }
           setLoading(false) // Set loading to false
         }
       )
