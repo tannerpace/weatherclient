@@ -24,8 +24,12 @@ import Search from "@/components/Search"
 config.autoAddCss = false
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false })
+export interface FilteredAppProps {
+  center: [number, number]
+  userLocation: [number, number] | null
+}
 
-const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
+const FilteredApp: React.FC<FilteredAppProps> = ({ center, userLocation }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
   const [filteredSpots, setFilteredSpots] = useState<KitesurfSpot[]>([])
 
@@ -50,7 +54,10 @@ const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
       <Search onSearch={handleSearch} />
       {!isLoading && (
         <Map
-          position={center}
+          userLocation={
+            userLocation as unknown as Pick<FilteredAppProps, "userLocation">
+          }
+          center={center}
           kitesurfSpots={filteredSpots || (kitesurfSpots as KitesurfSpot[])}
         />
       )}
@@ -71,20 +78,20 @@ const Page: React.FC = () => {
     parseFloat(longitude),
   ])
   const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState<boolean>(false) // Track loading state
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleGeolocationClick = () => {
-    setLoading(true) // Set loading to true
+    setLoading(true)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const newLat = position.coords.latitude.toString()
           const newLong = position.coords.longitude.toString()
           setCoordinates(newLat, newLong)
-          setUserLocation([parseFloat(newLat), parseFloat(newLong)]) // Set userLocation state
+          setUserLocation([parseFloat(newLat), parseFloat(newLong)])
           setCenter([parseFloat(newLat), parseFloat(newLong)])
-          setLocation(newLat, newLong) // Update location in the context
-          setError(null) // Clear any previous errors
+          setLocation(newLat, newLong)
+          setError(null)
           setLoading(false) // Set loading to false
         },
         (error) => {
@@ -136,7 +143,7 @@ const Page: React.FC = () => {
       {error && (
         <div className="absolute top-16 left-4 z-10 text-red-500">{error}</div>
       )}
-      <FilteredApp center={center} />
+      <FilteredApp center={center} userLocation={userLocation} />
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <LocationModal onClose={handleCloseModal} />

@@ -7,8 +7,9 @@ import {
   Marker,
   Popup,
   useMapEvents,
+  MarkerProps,
 } from "react-leaflet"
-import L from "leaflet"
+import L, { LatLngLiteral } from "leaflet"
 import "leaflet/dist/leaflet.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
@@ -22,6 +23,7 @@ import { useWeatherContext } from "@/app/context/WeatherContext"
 import { debounce } from "@mui/material"
 import { blueGrey } from "@mui/material/colors"
 import BottomNavigationBar from "./BottomNavBar"
+import { FilteredAppProps } from "@/app/page"
 
 config.autoAddCss = false
 
@@ -42,11 +44,12 @@ const userIcon = new L.Icon({
 })
 
 interface MapProps {
-  position: [number, number] | null
+  center: [number, number] | null
   kitesurfSpots: KitesurfSpot[]
+  userLocation: Pick<FilteredAppProps, "userLocation">
 }
 
-const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
+const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
   const { setCoordinates } = useFilterContext()
   const { setSelectedLocation, setShowModal } = useSelectedLocationContext()
   const { weatherData, setLocation } = useWeatherContext()
@@ -125,17 +128,16 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
 
   return (
     <div
-      className="map-container  bg-black shadow-lg min-h-screen bg-gray-900 text-white p-2"
+      className="map-container  bg-black shadow-lg min-h-screen text-white p-2"
       style={{
-        height: "calc(100vh - 60px)",
         width: "100%",
         backgroundColor: "blueGrey",
       }}
     >
       <div style={{ height: "100%", width: "100%", zIndex: 0 }}>
-        {position && kitesurfSpots.length ? (
+        {center && kitesurfSpots.length ? (
           <MapContainer
-            center={position}
+            center={center}
             zoom={10}
             style={{
               height: "100%",
@@ -257,66 +259,75 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                 </Popup>
               </Marker>
             ))}
-            <Marker position={position} icon={userIcon}>
-              <Popup>
-                <div>
-                  <strong className="text-gray-800">
-                    Showing Weather for {}
-                  </strong>
-                  {weatherData ? (
-                    <div className="text-gray-700">
-                      <div>
-                        <strong className="text-gray-400">Temperature:</strong>{" "}
-                        {weatherData.properties.periods[0].temperature}°C
+            {userLocation && (
+              <Marker
+                position={userLocation as unknown as LatLngLiteral}
+                icon={userIcon}
+              >
+                <Popup>
+                  <div>
+                    {weatherData ? (
+                      <div className="text-gray-700">
+                        <div>
+                          <strong className="text-gray-400">
+                            Temperature:
+                          </strong>{" "}
+                          {weatherData.properties.periods[0].temperature}°C
+                        </div>
+                        <div>
+                          <strong className="text-gray-400">Wind Speed:</strong>{" "}
+                          {weatherData.properties.periods[0].windSpeed}
+                        </div>
+                        <div>
+                          <strong className="text-gray-400">
+                            Wind Direction:
+                          </strong>{" "}
+                          {weatherData.properties.periods[0].windDirection}
+                        </div>
+                        <div>
+                          <strong className="text-gray-400">Forecast:</strong>{" "}
+                          {weatherData.properties.periods[0].shortForecast}
+                        </div>
+                        <div>
+                          <strong className="text-gray-400">Date:</strong>{" "}
+                          {
+                            formatDateTime(
+                              weatherData.properties.periods[0]
+                                .startTime as string
+                            ).date
+                          }
+                        </div>
+                        <div>
+                          <strong className="text-gray-400">Time:</strong>{" "}
+                          {
+                            formatDateTime(
+                              weatherData.properties.periods[0]
+                                .startTime as string
+                            ).time
+                          }
+                        </div>
                       </div>
-                      <div>
-                        <strong className="text-gray-400">Wind Speed:</strong>{" "}
-                        {weatherData.properties.periods[0].windSpeed}
+                    ) : (
+                      <div className="text-gray-500">
+                        Loading weather data...
                       </div>
-                      <div>
-                        <strong className="text-gray-400">
-                          Wind Direction:
-                        </strong>{" "}
-                        {weatherData.properties.periods[0].windDirection}
-                      </div>
-                      <div>
-                        <strong className="text-gray-400">Forecast:</strong>{" "}
-                        {weatherData.properties.periods[0].shortForecast}
-                      </div>
-                      <div>
-                        <strong className="text-gray-400">Date:</strong>{" "}
-                        {
-                          formatDateTime(
-                            weatherData.properties.periods[0]
-                              .startTime as string
-                          ).date
-                        }
-                      </div>
-                      <div>
-                        <strong className="text-gray-400">Time:</strong>{" "}
-                        {
-                          formatDateTime(
-                            weatherData.properties.periods[0]
-                              .startTime as string
-                          ).time
-                        }
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="text-gray-500">Loading weather data...</div>
-                  )}
-                  <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${position[0]},${position[1]}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center text-green-600 underline text-lg mt-2 hover:text-green-800"
-                  >
-                    <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
-                    Drive to this location
-                  </a>
-                </div>
-              </Popup>
-            </Marker>
+                    )}
+                    <a
+                      href={`https://www.google.com/maps/dir/?api=1&destination=${center[0]},${center[1]}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center text-green-600 underline text-lg mt-2 hover:text-green-800"
+                    >
+                      <FontAwesomeIcon
+                        icon={faLocationArrow}
+                        className="mr-2"
+                      />
+                      Drive to this location
+                    </a>
+                  </div>
+                </Popup>
+              </Marker>
+            )}
             <MapEvents />
             <BottomNavigationBar />
           </MapContainer>
