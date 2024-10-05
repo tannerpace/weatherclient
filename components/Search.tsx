@@ -1,30 +1,31 @@
 "use client"
-
 import React, { useState } from "react"
 import Input from "./Input"
 
 type SearchProps = {
-  onSearch: (query: string) => void
+  onSearch: (query: React.SetStateAction<string>) => void
 }
 
 const Search: React.FC<SearchProps> = ({ onSearch }) => {
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState<string>("")
 
-  const handleSearch = () => {
-    onSearch(query)
+  const handleSearch = (term: React.SetStateAction<string>) => {
+    onSearch(term)
   }
 
   return (
-    <div className="bg-cyan-200 flex items-center p-2 rounded-lg relative">
+    <div className="flex items-center rounded-lg relative">
       <Input
         type="text"
         value={query}
-        onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
-          setQuery(e.target.value)
-        }
-        placeholder="Search for restaurants..."
+        onChange={(e: { target: { value: any } }) => {
+          const value = e.target.value
+          setQuery(value)
+          handleSearch(value)
+        }}
+        placeholder="Search for a beach"
         required
-        className="w-full pl-10 pr-4 py-2 rounded-lg"
+        className="w-full py-2 rounded-lg"
       />
     </div>
   )

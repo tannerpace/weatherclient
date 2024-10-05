@@ -19,6 +19,7 @@ import { useWeatherContext } from "@/app/context/WeatherContext"
 import CircularProgress from "@mui/material/CircularProgress" // Import CircularProgress
 import { MapsUgc, MapsUgcOutlined } from "@mui/icons-material"
 import MyLocationIcon from "@mui/icons-material/MyLocation"
+import Search from "@/components/Search"
 
 config.autoAddCss = false
 
@@ -26,13 +27,30 @@ const Map = dynamic(() => import("@/components/Map"), { ssr: false })
 
 const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
+  const [filteredSpots, setFilteredSpots] = useState<KitesurfSpot[]>([])
+
+  useEffect(() => {
+    // Update filteredSpots whenever kitesurfSpots change
+    if (kitesurfSpots) {
+      setFilteredSpots(kitesurfSpots)
+    }
+  }, [kitesurfSpots])
+
+  const handleSearch = (searchTerm: React.SetStateAction<string>) => {
+    const filtered = kitesurfSpots?.filter((kiteSpot) =>
+      kiteSpot.name.toLowerCase().includes((searchTerm as string).toLowerCase())
+    ) as KitesurfSpot[]
+
+    setFilteredSpots(filtered)
+  }
 
   return (
     <div className="flex flex-col h-full mb-50">
+      <Search onSearch={handleSearch} />
       {!isLoading && (
         <Map
           position={center}
-          kitesurfSpots={kitesurfSpots as KitesurfSpot[]}
+          kitesurfSpots={filteredSpots || (kitesurfSpots as KitesurfSpot[])}
         />
       )}
       <BottomNavigationBar />
