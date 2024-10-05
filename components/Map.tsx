@@ -20,6 +20,7 @@ import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useWeatherContext } from "@/app/context/WeatherContext"
 import { debounce } from "@mui/material"
+import { blueGrey } from "@mui/material/colors"
 
 config.autoAddCss = false
 
@@ -122,46 +123,46 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   }
 
   return (
-    <div style={{ height: "100%", width: "100%", zIndex: 0 }}>
-      {position && kitesurfSpots.length ? (
-        <MapContainer
-          center={position}
-          zoom={10}
-          style={{
-            height: "100%",
-            width: "100%",
-            zIndex: 1,
-            minHeight: "calc(100vh - 60px)",
-          }}
-        >
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          {kitesurfSpots.map((spot) => (
-            <Marker
-              key={spot.id}
-              position={[spot.latitude, spot.longitude]}
-              eventHandlers={{ click: () => setSelectedSpot(spot) }}
-            >
-              <Popup>
-                <div>
-                  <div className="font-bold text-xl text-gray-800 mb-2">
-                    {spot.name}
-                  </div>
-                  {weatherData ? (
-                    <div className="text-gray-700">
-                      <div>
-                        <strong className="text-gray-400">Temperature:</strong>{" "}
-                        {weatherData.properties.periods[0].temperature}°C
-                      </div>
-                      <div
-                        style={{
-                          color: getWindSpeedColor(
-                            weatherData.properties.periods[0]
-                              .windSpeed as string
-                          ),
-                        }}
-                      >
-                        <strong
-                          className="text-gray-400"
+    <div
+      style={{
+        height: "calc(100vh - 60px)",
+        width: "100%",
+        backgroundColor: "blueGrey",
+      }}
+    >
+      <div style={{ height: "100%", width: "100%", zIndex: 0 }}>
+        {position && kitesurfSpots.length ? (
+          <MapContainer
+            center={position}
+            zoom={10}
+            style={{
+              height: "100%",
+              width: "100%",
+              zIndex: 1,
+              minHeight: "calc(100vh - 60px)",
+            }}
+          >
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            {kitesurfSpots.map((spot) => (
+              <Marker
+                key={spot.id}
+                position={[spot.latitude, spot.longitude]}
+                eventHandlers={{ click: () => setSelectedSpot(spot) }}
+              >
+                <Popup>
+                  <div>
+                    <div className="font-bold text-xl text-gray-800 mb-2">
+                      {spot.name}
+                    </div>
+                    {weatherData ? (
+                      <div className="text-gray-700">
+                        <div>
+                          <strong className="text-gray-400">
+                            Temperature:
+                          </strong>{" "}
+                          {weatherData.properties.periods[0].temperature}°C
+                        </div>
+                        <div
                           style={{
                             color: getWindSpeedColor(
                               weatherData.properties.periods[0]
@@ -169,20 +170,20 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                             ),
                           }}
                         >
-                          Wind Speed:
-                        </strong>{" "}
-                        {weatherData.properties.periods[0].windSpeed}
-                      </div>
-                      <div
-                        style={{
-                          color: getWindDirectionColor(
-                            weatherData.properties.periods[0].windDirection,
-                            spot.viable_directions
-                          ),
-                        }}
-                      >
-                        <strong
-                          className="text-gray-400"
+                          <strong
+                            className="text-gray-400"
+                            style={{
+                              color: getWindSpeedColor(
+                                weatherData.properties.periods[0]
+                                  .windSpeed as string
+                              ),
+                            }}
+                          >
+                            Wind Speed:
+                          </strong>{" "}
+                          {weatherData.properties.periods[0].windSpeed}
+                        </div>
+                        <div
                           style={{
                             color: getWindDirectionColor(
                               weatherData.properties.periods[0].windDirection,
@@ -190,6 +191,88 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                             ),
                           }}
                         >
+                          <strong
+                            className="text-gray-400"
+                            style={{
+                              color: getWindDirectionColor(
+                                weatherData.properties.periods[0].windDirection,
+                                spot.viable_directions
+                              ),
+                            }}
+                          >
+                            Wind Direction:
+                          </strong>{" "}
+                          {weatherData.properties.periods[0].windDirection}
+                        </div>
+                        <div>
+                          <strong className="text-gray-400">Forecast:</strong>{" "}
+                          {weatherData.properties.periods[0].shortForecast}
+                        </div>
+                        <div>
+                          <strong className="text-gray-400">Date:</strong>{" "}
+                          {
+                            formatDateTime(
+                              weatherData.properties.periods[0].startTime
+                            ).date
+                          }
+                        </div>
+                        <div>
+                          <strong className="text-gray-400">Time:</strong>{" "}
+                          {
+                            formatDateTime(
+                              weatherData.properties.periods[0].startTime
+                            ).time
+                          }
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-gray-500">
+                        Loading weather data...
+                      </div>
+                    )}
+                    <div className="flex space-x-4 mt-4">
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${spot.latitude},${spot.longitude}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center text-green-600 underline text-lg hover:text-green-800"
+                      >
+                        <FontAwesomeIcon
+                          icon={faLocationArrow}
+                          className="mr-2"
+                        />
+                        Go
+                      </a>
+                      <button
+                        onClick={() => handleShowModal(spot)}
+                        className="flex items-center text-white-900 underline text-lg hover:text-blue-800"
+                      >
+                        <FontAwesomeIcon icon={faWind} className="mr-2" />
+                        More Info
+                      </button>
+                    </div>
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+            <Marker position={position} icon={userIcon}>
+              <Popup>
+                <div>
+                  <strong className="text-gray-800">
+                    Showing Weather for {}
+                  </strong>
+                  {weatherData ? (
+                    <div className="text-gray-700">
+                      <div>
+                        <strong className="text-gray-400">Temperature:</strong>{" "}
+                        {weatherData.properties.periods[0].temperature}°C
+                      </div>
+                      <div>
+                        <strong className="text-gray-400">Wind Speed:</strong>{" "}
+                        {weatherData.properties.periods[0].windSpeed}
+                      </div>
+                      <div>
+                        <strong className="text-gray-400">
                           Wind Direction:
                         </strong>{" "}
                         {weatherData.properties.periods[0].windDirection}
@@ -202,7 +285,8 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                         <strong className="text-gray-400">Date:</strong>{" "}
                         {
                           formatDateTime(
-                            weatherData.properties.periods[0].startTime
+                            weatherData.properties.periods[0]
+                              .startTime as string
                           ).date
                         }
                       </div>
@@ -210,7 +294,8 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                         <strong className="text-gray-400">Time:</strong>{" "}
                         {
                           formatDateTime(
-                            weatherData.properties.periods[0].startTime
+                            weatherData.properties.periods[0]
+                              .startTime as string
                           ).time
                         }
                       </div>
@@ -218,92 +303,24 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                   ) : (
                     <div className="text-gray-500">Loading weather data...</div>
                   )}
-                  <div className="flex space-x-4 mt-4">
-                    <a
-                      href={`https://www.google.com/maps/dir/?api=1&destination=${spot.latitude},${spot.longitude}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-green-600 underline text-lg hover:text-green-800"
-                    >
-                      <FontAwesomeIcon
-                        icon={faLocationArrow}
-                        className="mr-2"
-                      />
-                      Go
-                    </a>
-                    <button
-                      onClick={() => handleShowModal(spot)}
-                      className="flex items-center text-white-900 underline text-lg hover:text-blue-800"
-                    >
-                      <FontAwesomeIcon icon={faWind} className="mr-2" />
-                      More Info
-                    </button>
-                  </div>
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${position[0]},${position[1]}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center text-green-600 underline text-lg mt-2 hover:text-green-800"
+                  >
+                    <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
+                    Drive to this location
+                  </a>
                 </div>
               </Popup>
             </Marker>
-          ))}
-          <Marker position={position} icon={userIcon}>
-            <Popup>
-              <div>
-                <strong className="text-gray-800">
-                  Showing Weather for {}
-                </strong>
-                {weatherData ? (
-                  <div className="text-gray-700">
-                    <div>
-                      <strong className="text-gray-400">Temperature:</strong>{" "}
-                      {weatherData.properties.periods[0].temperature}°C
-                    </div>
-                    <div>
-                      <strong className="text-gray-400">Wind Speed:</strong>{" "}
-                      {weatherData.properties.periods[0].windSpeed}
-                    </div>
-                    <div>
-                      <strong className="text-gray-400">Wind Direction:</strong>{" "}
-                      {weatherData.properties.periods[0].windDirection}
-                    </div>
-                    <div>
-                      <strong className="text-gray-400">Forecast:</strong>{" "}
-                      {weatherData.properties.periods[0].shortForecast}
-                    </div>
-                    <div>
-                      <strong className="text-gray-400">Date:</strong>{" "}
-                      {
-                        formatDateTime(
-                          weatherData.properties.periods[0].startTime as string
-                        ).date
-                      }
-                    </div>
-                    <div>
-                      <strong className="text-gray-400">Time:</strong>{" "}
-                      {
-                        formatDateTime(
-                          weatherData.properties.periods[0].startTime as string
-                        ).time
-                      }
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-gray-500">Loading weather data...</div>
-                )}
-                <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${position[0]},${position[1]}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center text-green-600 underline text-lg mt-2 hover:text-green-800"
-                >
-                  <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
-                  Drive to this location
-                </a>
-              </div>
-            </Popup>
-          </Marker>
-          <MapEvents />
-        </MapContainer>
-      ) : (
-        <div style={{ height: "100%", width: "100%" }}></div>
-      )}
+            <MapEvents />
+          </MapContainer>
+        ) : (
+          <div style={{ height: "100%", width: "100%" }}></div>
+        )}
+      </div>
     </div>
   )
 }
