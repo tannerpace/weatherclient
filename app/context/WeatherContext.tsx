@@ -1,18 +1,20 @@
-import { useEffect, useState, createContext, useContext, Key } from "react"
-import React from "react"
-import { useDebounce } from "../hooks/useDebounce"
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  ReactNode,
+  Key,
+} from "react"
+import { useDebounce } from "../hooks/useDebounce" // Adjust the import path to your debounce hook
 
-/**
- * Interface representing the query parameters for fetching weather data.
- */
+// Interface representing the coordinates for fetching weather data
 export interface Coordinates {
   latitude: string
   longitude: string
 }
 
-/**
- * Interface representing the structure of the weather data returned by the API.
- */
+// Interface representing the structure of the weather data returned by the API
 export interface WeatherData {
   properties: {
     periods: Array<{
@@ -31,13 +33,41 @@ export interface WeatherData {
   radarStation: string
 }
 
+// Interface for the weather context type
+interface WeatherContextType {
+  location: Coordinates
+  weatherData: WeatherData | null
+  // Individual loading states
+  loadingForecast: boolean
+  loadingObservation: boolean
+  loadingForecastGrid: boolean
+  // Individual error states
+  errorForecast: string | null
+  errorObservation: string | null
+  errorForecastGrid: string | null
+  // Method to set the location
+  setLocation: (latitude: string, longitude: string) => void
+}
+
+// Create the WeatherContext with an undefined initial state
+const WeatherContext = createContext<WeatherContextType | undefined>(undefined)
+
+// Hook to use WeatherContext
+export const useWeatherContext = () => {
+  const context = useContext(WeatherContext)
+  if (!context) {
+    throw new Error("useWeatherContext must be used within a WeatherProvider")
+  }
+  return context
+}
+
 /**
  * Fetches the forecast office information from the Weather API.
  */
-const getForecastUrls = async (
-  latitude: Pick<Coordinates, "latitude">,
-  longitude: Pick<Coordinates, "longitude">
-): Promise<{
+const getForecastUrls = async ({
+  latitude,
+  longitude,
+}: Coordinates): Promise<{
   forecast: string
   forecastHourly: string
   forecastGridData: string
@@ -59,11 +89,7 @@ const getForecastUrls = async (
 }
 
 /**
- * Fetches additional data from observation stations and radar station.
- *
- * @param {string} forecastUrl - The URL of the observation stations endpoint.
- * @returns {Promise<{ observationData: any; forecastGridData: any }>} The additional data fetched from the API.
- * @throws Will throw an error if the request fails.
+ * Fetches weather data from the API.
  */
 const getWeatherData = async (forecastUrl: string): Promise<WeatherData> => {
   const response = await fetch(forecastUrl)
@@ -127,7 +153,10 @@ const useWeather = (weatherQueryRequest: Coordinates) => {
         setErrors((prev) => ({ ...prev, forecast: null }))
 
         const { forecast, forecastGridData, observationStations } =
-          await getForecastUrls(debouncedLatitude, debouncedLongitude)
+          await getForecastUrls({
+            latitude: debouncedLatitude,
+            longitude: debouncedLongitude,
+          })
         const forecastData = await getWeatherData(forecast)
         setWeatherData(forecastData)
         setLoading((prev) => ({ ...prev, forecast: false }))
@@ -158,7 +187,12 @@ const useWeather = (weatherQueryRequest: Coordinates) => {
         }))
       } catch (err) {
         console.error("Error fetching weather data:", err)
-        setErrors((prev) => ({ ...prev, forecast: (err as Error).message }))
+        setErrors((prev) => ({
+          ...prev,
+          forecast: (err as Error).message,
+          observation: (err as Error).message,
+          forecastGrid: (err as Error).message,
+        }))
         setLoading({ forecast: false, observation: false, forecastGrid: false })
       }
     }
@@ -173,34 +207,17 @@ const useWeather = (weatherQueryRequest: Coordinates) => {
   }
 }
 
-export default useWeather
-
 /**
- * Context and Provider setup
+ * WeatherProvider component to provide weather data and controls to its children.
  */
-interface WeatherContextType {
-  location: Coordinates
-  weatherData: WeatherData | null
-  loading: { forecast: boolean; observation: boolean; forecastGrid: boolean }
-  errors: {
-    forecast: string | null
-    observation: string | null
-    forecastGrid: string | null
-  }
-  setLocation: (latitude: string, longitude: string) => void
-}
-
-const WeatherContext = createContext<WeatherContextType | undefined>(undefined)
-
-export const WeatherProvider: React.FC<{ children: React.ReactNode }> = ({
+export const WeatherProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [location, setLocation] = useState<Coordinates>(
-    "" as unknown as Coordinates
-  )
-  const { weatherData, loading, errors } = useWeather(
-    location ? location : { latitude: "", longitude: "" }
-  )
+  const [location, setLocation] = useState<Coordinates>({
+    latitude: "",
+    longitude: "",
+  })
+  const { weatherData, loading, errors } = useWeather(location)
 
   const updateLocation = (latitude: string, longitude: string) => {
     setLocation({ latitude, longitude })
@@ -209,22 +226,20 @@ export const WeatherProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <WeatherContext.Provider
       value={{
-        weatherData,
-        loading,
-        errors,
-        setLocation: updateLocation,
         location,
+        weatherData,
+        // Pass individual loading states
+        loadingForecast: loading.forecast,
+        loadingObservation: loading.observation,
+        loadingForecastGrid: loading.forecastGrid,
+        // Pass individual error states
+        errorForecast: errors.forecast,
+        errorObservation: errors.observation,
+        errorForecastGrid: errors.forecastGrid,
+        setLocation: updateLocation,
       }}
     >
       {children}
     </WeatherContext.Provider>
   )
-}
-
-export const useWeatherContext = () => {
-  const context = useContext(WeatherContext)
-  if (!context) {
-    throw new Error("useWeatherContext must be used within a WeatherProvider")
-  }
-  return context
 }
