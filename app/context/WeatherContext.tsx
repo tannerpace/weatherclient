@@ -243,3 +243,5 @@ export const WeatherProvider: React.FC<{ children: ReactNode }> = ({
     </WeatherContext.Provider>
   )
 }
+
+export default useWeather
