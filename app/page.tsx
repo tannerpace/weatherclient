@@ -13,17 +13,15 @@ import {
 } from "./context/FilterContext"
 import LocationModal from "@/components/LocationModal"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
-import { useRouter } from "next/navigation"
-import { usePathname } from "next/navigation"
 import BottomNavigationBar from "@/components/BottomNavBar"
+import { useWeatherContext } from "@/app/context/WeatherContext"
+import CircularProgress from "@mui/material/CircularProgress" // Import CircularProgress
 
 config.autoAddCss = false
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false })
 
-const FilteredApp: React.FC<{
-  center: [number, number]
-}> = ({ center }) => {
+const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
 
   return (
@@ -42,63 +40,68 @@ const FilteredApp: React.FC<{
 const Page: React.FC = () => {
   const { latitude, longitude, setCoordinates } = useFilterContext()
   const { showModal, setShowModal } = useSelectedLocationContext()
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+  const { setLocation } = useWeatherContext()
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(
+    null
+  )
   const [center, setCenter] = useState<[number, number]>([
     parseFloat(latitude),
     parseFloat(longitude),
   ])
-  const [locationName, setLocationName] = useState<string>("")
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(false) // Track loading state
 
-  const handleButtonClick = () => {
-    setLoading(true)
-    setError(null)
-
+  const handleGeolocationClick = () => {
+    setLoading(true) // Set loading to true
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const newLat = position.coords.latitude.toString()
           const newLong = position.coords.longitude.toString()
           setCoordinates(newLat, newLong)
+          setUserLocation([parseFloat(newLat), parseFloat(newLong)]) // Set userLocation state
           setCenter([parseFloat(newLat), parseFloat(newLong)])
-          setLoading(false)
+          setLocation(newLat, newLong) // Update location in the context
+          setError(null) // Clear any previous errors
+          setLoading(false) // Set loading to false
         },
         (error) => {
           setError("Error fetching location data: " + error.message)
-          setLoading(false)
+          setLoading(false) // Set loading to false
         }
       )
     } else {
       setError("Geolocation is not supported by your browser")
-      setLoading(false)
+      setLoading(false) // Set loading to false
     }
-  }
-
-  const handleNavigateToUserLocation = () => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`
-    window.open(url, "_blank")
   }
 
   useEffect(() => {
     if (latitude === DEFAULT_LATITUDE && longitude === DEFAULT_LONGITUDE) {
-      setLocationName("Charleston")
+      setCenter([parseFloat(DEFAULT_LATITUDE), parseFloat(DEFAULT_LONGITUDE)])
     } else {
-      // fetchLocationName(latitude, longitude)
+      setCenter([parseFloat(latitude), parseFloat(longitude)])
     }
-    setCenter([parseFloat(latitude), parseFloat(longitude)])
   }, [latitude, longitude])
 
-  const title =
-    center[0] === parseFloat(DEFAULT_LATITUDE) &&
-    center[1] === parseFloat(DEFAULT_LONGITUDE)
-      ? "Location: Charleston"
-      : `Showing Weather for : ${latitude}, ${longitude}`
-
   const handleCloseModal = () => setShowModal(false)
-  const router = useRouter()
 
   return (
     <>
+      <button
+        onClick={handleGeolocationClick}
+        className="absolute top-15 left-4 z-10 bg-black p-2 mt-6 rounded shadow flex items-center"
+        disabled={loading} // Disable button while loading
+      >
+        {loading ? (
+          <CircularProgress size={20} className="mr-2 text-white" />
+        ) : (
+          "Show My Location"
+        )}
+      </button>
+      {error && (
+        <div className="absolute top-16 left-4 z-10 text-red-500">{error}</div>
+      )}
       <FilteredApp center={center} />
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
