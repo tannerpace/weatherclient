@@ -107,8 +107,17 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
   const formatDateTime = (dateTime: string) => {
     const date = new Date(dateTime)
     return {
-      date: date.toLocaleDateString(),
-      time: date.toLocaleTimeString(),
+      date: date.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      time: date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
     }
   }
 
@@ -193,13 +202,17 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
                         <strong className="text-gray-400">Date:</strong>{" "}
                         {
                           formatDateTime(
-                            weatherData.properties.periods[0]
-                              .startTime as string
+                            weatherData.properties.periods[0].startTime
                           ).date
                         }
                       </div>
                       <div>
                         <strong className="text-gray-400">Time:</strong>{" "}
+                        {
+                          formatDateTime(
+                            weatherData.properties.periods[0].startTime
+                          ).time
+                        }
                       </div>
                     </div>
                   ) : (
@@ -234,7 +247,7 @@ const Map: React.FC<MapProps> = ({ position, kitesurfSpots }) => {
             <Popup>
               <div>
                 <strong className="text-gray-800">
-                  Showing Weather for this location
+                  Showing Weather for {}
                 </strong>
                 {weatherData ? (
                   <div className="text-gray-700">

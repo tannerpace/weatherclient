@@ -1,12 +1,11 @@
-import { useEffect, useState, createContext, useContext } from "react"
-import { Key, ReactNode } from "react"
+import { useEffect, useState, createContext, useContext, Key } from "react"
 import React from "react"
 import { useDebounce } from "../hooks/useDebounce"
 
 /**
  * Interface representing the query parameters for fetching weather data.
  */
-export interface GetWeatherQuery {
+export interface Coordinates {
   latitude: string
   longitude: string
 }
@@ -17,14 +16,15 @@ export interface GetWeatherQuery {
 export interface WeatherData {
   properties: {
     periods: Array<{
-      windSpeed: ReactNode
-      windDirection: ReactNode
-      temperature: ReactNode
-      startTime: ReactNode
-      shortForecast: ReactNode
-      number: Key | null | undefined
-      relativeHumidity: any
+      windSpeed: string
+      windDirection: string
+      temperature: number
+      startTime: string
+      shortForecast: string
+      number: Key
+      relativeHumidity?: { value: number }
       detailedForecast: string
+      icon: string
     }>
   }
   observationStations: string
@@ -33,15 +33,10 @@ export interface WeatherData {
 
 /**
  * Fetches the forecast office information from the Weather API.
- *
- * @param {string} latitude - The latitude coordinate.
- * @param {string} longitude - The longitude coordinate.
- * @returns {Promise<object>} The URLs of the relevant endpoints.
- * @throws Will throw an error if the request fails.
  */
 const getForecastUrls = async (
-  latitude: string,
-  longitude: string
+  latitude: Pick<Coordinates, "latitude">,
+  longitude: Pick<Coordinates, "longitude">
 ): Promise<{
   forecast: string
   forecastHourly: string
@@ -54,20 +49,20 @@ const getForecastUrls = async (
   if (!response.ok) {
     throw new Error("Error fetching forecast office information")
   }
-  const data = await response.json()
+  const weatherDataResponse = await response.json()
   return {
-    forecast: data.properties.forecast,
-    forecastHourly: data.properties.forecastHourly,
-    forecastGridData: data.properties.forecastGridData,
-    observationStations: data.properties.observationStations,
+    forecast: weatherDataResponse.properties.forecast,
+    forecastHourly: weatherDataResponse.properties.forecastHourly,
+    forecastGridData: weatherDataResponse.properties.forecastGridData,
+    observationStations: weatherDataResponse.properties.observationStations,
   }
 }
 
 /**
- * Fetches weather data from the API.
+ * Fetches additional data from observation stations and radar station.
  *
- * @param {string} forecastUrl - The URL of the forecast endpoint.
- * @returns {Promise<WeatherData>} The weather data fetched from the API.
+ * @param {string} forecastUrl - The URL of the observation stations endpoint.
+ * @returns {Promise<{ observationData: any; forecastGridData: any }>} The additional data fetched from the API.
  * @throws Will throw an error if the request fails.
  */
 const getWeatherData = async (forecastUrl: string): Promise<WeatherData> => {
@@ -82,107 +77,89 @@ const getWeatherData = async (forecastUrl: string): Promise<WeatherData> => {
 
 /**
  * Fetches additional data from observation stations and radar station.
- *
- * @param {string} observationStationsUrl - The URL of the observation stations endpoint.
- * @param {string} forecastGridDataUrl - The URL of the forecast grid data endpoint.
- * @returns {Promise<{ observationData: any; forecastGridData: any }>} The additional data fetched from the API.
- * @throws Will throw an error if the request fails.
  */
 const getAdditionalData = async (
   observationStationsUrl: string,
   forecastGridDataUrl: string
 ): Promise<{ observationData: any; forecastGridData: any }> => {
-  const observationResponse = await fetch(observationStationsUrl)
-  if (!observationResponse.ok) {
-    const errorText = await observationResponse.text()
-    console.error("Error fetching observation stations data:", errorText)
-    throw new Error("Error fetching observation stations data")
-  }
-  const observationData = await observationResponse.json()
-
-  const forecastGridDataResponse = await fetch(forecastGridDataUrl)
-  if (!forecastGridDataResponse.ok) {
-    const errorText = await forecastGridDataResponse.text()
-    console.error("Error fetching forecast grid data:", errorText)
-    throw new Error("Error fetching forecast grid data")
-  }
-  const forecastGridData = await forecastGridDataResponse.json()
-
+  const [observationData, forecastGridData] = await Promise.all([
+    fetch(observationStationsUrl).then((res) => {
+      if (!res.ok) throw new Error("Error fetching observation stations data")
+      return res.json()
+    }),
+    fetch(forecastGridDataUrl).then((res) => {
+      if (!res.ok) throw new Error("Error fetching forecast grid data")
+      return res.json()
+    }),
+  ])
   return { observationData, forecastGridData }
 }
 
 /**
  * Custom hook to get weather data using fetch and debounced coordinates.
- *
- * @param {GetWeatherQuery} data - The query parameters containing latitude and longitude.
- * @returns {Object} The state of the weather data fetching process, including statuses and data.
  */
-const useWeather = (data: GetWeatherQuery) => {
+const useWeather = (weatherQueryRequest: Coordinates) => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
-  const [loadingForecast, setLoadingForecast] = useState<boolean>(true)
-  const [loadingObservation, setLoadingObservation] = useState<boolean>(false)
-  const [loadingForecastGrid, setLoadingForecastGrid] = useState<boolean>(false)
-  const [errorForecast, setErrorForecast] = useState<string | null>(null)
-  const [errorObservation, setErrorObservation] = useState<string | null>(null)
-  const [errorForecastGrid, setErrorForecastGrid] = useState<string | null>(
-    null
-  )
+  const [loading, setLoading] = useState({
+    forecast: true,
+    observation: false,
+    forecastGrid: false,
+  })
+  const [errors, setErrors] = useState<{
+    forecast: string | null
+    observation: string | null
+    forecastGrid: string | null
+  }>({
+    forecast: null,
+    observation: null,
+    forecastGrid: null,
+  })
 
-  const debouncedLatitude = useDebounce(data.latitude, 800)
-  const debouncedLongitude = useDebounce(data.longitude, 800)
+  const debouncedLatitude = useDebounce(weatherQueryRequest.latitude, 800)
+  const debouncedLongitude = useDebounce(weatherQueryRequest.longitude, 800)
 
   useEffect(() => {
     const fetchWeatherData = async () => {
       if (!debouncedLatitude || !debouncedLongitude) return
 
       try {
-        setLoadingForecast(true)
-        setErrorForecast(null)
+        setLoading((prev) => ({ ...prev, forecast: true }))
+        setErrors((prev) => ({ ...prev, forecast: null }))
+
         const { forecast, forecastGridData, observationStations } =
           await getForecastUrls(debouncedLatitude, debouncedLongitude)
         const forecastData = await getWeatherData(forecast)
         setWeatherData(forecastData)
-        setLoadingForecast(false)
+        setLoading((prev) => ({ ...prev, forecast: false }))
 
-        try {
-          setLoadingObservation(true)
-          setErrorObservation(null)
-          const { observationData } = await getAdditionalData(
-            observationStations,
-            forecastGridData
-          )
-          setWeatherData((prevData) =>
-            prevData ? { ...prevData, observationData } : null
-          )
-          setLoadingObservation(false)
-        } catch (err) {
-          console.error("Error fetching observation stations data:", err)
-          setErrorObservation((err as Error).message)
-          setLoadingObservation(false)
-        }
+        setLoading((prev) => ({
+          ...prev,
+          observation: true,
+          forecastGrid: true,
+        }))
+        setErrors((prev) => ({
+          ...prev,
+          observation: null,
+          forecastGrid: null,
+        }))
 
-        try {
-          setLoadingForecastGrid(true)
-          setErrorForecastGrid(null)
-          const { forecastGridData: gridData } = await getAdditionalData(
-            observationStations,
-            forecastGridData
-          )
-          setWeatherData((prevData) =>
-            prevData ? { ...prevData, forecastGridData: gridData } : null
-          )
-          setLoadingForecastGrid(false)
-        } catch (err) {
-          console.error("Error fetching forecast grid data:", err)
-          setErrorForecastGrid((err as Error).message)
-          setLoadingForecastGrid(false)
-        }
+        const { observationData, forecastGridData: gridData } =
+          await getAdditionalData(observationStations, forecastGridData)
+
+        setWeatherData((prevData) =>
+          prevData
+            ? { ...prevData, observationData, forecastGridData: gridData }
+            : null
+        )
+        setLoading((prev) => ({
+          ...prev,
+          observation: false,
+          forecastGrid: false,
+        }))
       } catch (err) {
-        console.error("Error fetching forecast office information:", err)
-        setErrorForecast((err as Error).message)
-        setLoadingForecast(false)
-        setLoadingObservation(false)
-        setLoadingForecastGrid(false)
+        console.error("Error fetching weather data:", err)
+        setErrors((prev) => ({ ...prev, forecast: (err as Error).message }))
+        setLoading({ forecast: false, observation: false, forecastGrid: false })
       }
     }
 
@@ -191,27 +168,25 @@ const useWeather = (data: GetWeatherQuery) => {
 
   return {
     weatherData,
-    loadingForecast,
-    loadingObservation,
-    loadingForecastGrid,
-    errorForecast,
-    errorObservation,
-    errorForecastGrid,
+    loading,
+    errors,
   }
 }
 
 export default useWeather
 
-// Context and Provider setup
-
+/**
+ * Context and Provider setup
+ */
 interface WeatherContextType {
+  location: Coordinates
   weatherData: WeatherData | null
-  loadingForecast: boolean
-  loadingObservation: boolean
-  loadingForecastGrid: boolean
-  errorForecast: string | null
-  errorObservation: string | null
-  errorForecastGrid: string | null
+  loading: { forecast: boolean; observation: boolean; forecastGrid: boolean }
+  errors: {
+    forecast: string | null
+    observation: string | null
+    forecastGrid: string | null
+  }
   setLocation: (latitude: string, longitude: string) => void
 }
 
@@ -220,16 +195,12 @@ const WeatherContext = createContext<WeatherContextType | undefined>(undefined)
 export const WeatherProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [location, setLocation] = useState<GetWeatherQuery | null>(null)
-  const {
-    weatherData,
-    loadingForecast,
-    loadingObservation,
-    loadingForecastGrid,
-    errorForecast,
-    errorObservation,
-    errorForecastGrid,
-  } = useWeather(location ? location : { latitude: "", longitude: "" })
+  const [location, setLocation] = useState<Coordinates>(
+    "" as unknown as Coordinates
+  )
+  const { weatherData, loading, errors } = useWeather(
+    location ? location : { latitude: "", longitude: "" }
+  )
 
   const updateLocation = (latitude: string, longitude: string) => {
     setLocation({ latitude, longitude })
@@ -239,13 +210,10 @@ export const WeatherProvider: React.FC<{ children: React.ReactNode }> = ({
     <WeatherContext.Provider
       value={{
         weatherData,
-        loadingForecast,
-        loadingObservation,
-        loadingForecastGrid,
-        errorForecast,
-        errorObservation,
-        errorForecastGrid,
+        loading,
+        errors,
         setLocation: updateLocation,
+        location,
       }}
     >
       {children}

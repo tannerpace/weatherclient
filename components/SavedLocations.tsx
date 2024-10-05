@@ -6,7 +6,7 @@ import SavedLocationsMap from "@/components/SavedLocationsMap"
 import { KitesurfSpot, ViableDirections } from "@/app/api/mock"
 
 import { Checkbox, FormControlLabel, Slider } from "@mui/material"
-import ProfileRenderingInfo from "./ProfileRenderingInfo"
+import WeatherInfo from "./ProfileRenderingInfo"
 
 const defaultViableDirections: ViableDirections = {
   N: 0,
@@ -129,7 +129,7 @@ const SavedLocations: React.FC = () => {
           <h2 className="text-xl font-bold">
             Weather Information for {selectedLocation.name}
           </h2>
-          <ProfileRenderingInfo
+          <WeatherInfo
             latitude={selectedLocation.latitude}
             longitude={selectedLocation.longitude}
             minWindspeed={selectedLocation.minWindspeed || 0}

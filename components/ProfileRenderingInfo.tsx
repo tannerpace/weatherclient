@@ -12,19 +12,17 @@ interface RenderingInfoProps {
   viableDirections: { [key: string]: number }
 }
 
-export default function ProfileRenderingInfo({
+export default function WeatherInfo({
   latitude,
   longitude,
   minWindspeed,
   viableDirections,
 }: RenderingInfoProps) {
-  const { weatherData, errorForecast, errorObservation, errorForecastGrid } =
-    useWeather({
-      latitude: latitude.toString(),
-      longitude: longitude.toString(),
-    })
+  const { weatherData } = useWeather({
+    latitude: latitude.toString(),
+    longitude: longitude.toString(),
+  })
 
-  const error = errorForecast || errorObservation || errorForecastGrid
   const [selectedPeriod, setSelectedPeriod] = useState<number | null>(null)
   const [suitablePeriods, setSuitablePeriods] = useState<any[]>([])
   const [viewMode, setViewMode] = useState<string>("all")
@@ -53,10 +51,6 @@ export default function ProfileRenderingInfo({
       setSuitablePeriods(filteredPeriods)
     }
   }, [weatherData, minWindspeed, viableDirections])
-
-  if (error) {
-    return <div>Error fetching weather data</div>
-  }
 
   if (!weatherData) {
     return <div>No data available</div>

@@ -3,7 +3,7 @@ import { ViableDirections } from "@/app/api/mock"
 import { Checkbox, FormControlLabel, Slider } from "@mui/material"
 import { useEffect, useState } from "react"
 import SurfProfileMap from "./SurfProfileMap"
-import ProfileRenderingInfo from "./ProfileRenderingInfo"
+import WeatherInfo from "./ProfileRenderingInfo"
 
 export interface SurfSpot {
   id: number
@@ -130,7 +130,7 @@ const SurfProfile: React.FC = () => {
           <h2 className="text-xl font-bold">
             Weather Information for {selectedLocation.name}
           </h2>
-          <ProfileRenderingInfo
+          <WeatherInfo
             latitude={selectedLocation.latitude}
             longitude={selectedLocation.longitude}
             minWindspeed={selectedLocation.minWindSpeed || 0}
