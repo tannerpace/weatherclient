@@ -14,7 +14,7 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
   }
 
   return (
-    <div className="flex items-center rounded-lg relative">
+    <div className="flex items-center rounded relative">
       <Input
         type="text"
         value={query}
@@ -25,7 +25,7 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
         }}
         placeholder="Search for a beach"
         required
-        className="w-full py-2 rounded-lg"
+        className="w-full py-2 rounded-lg p-2"
       />
     </div>
   )

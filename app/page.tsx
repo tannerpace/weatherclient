@@ -30,18 +30,19 @@ const FilteredApp: React.FC<{ center: [number, number] }> = ({ center }) => {
   const [filteredSpots, setFilteredSpots] = useState<KitesurfSpot[]>([])
 
   useEffect(() => {
-    // Update filteredSpots whenever kitesurfSpots change
     if (kitesurfSpots) {
       setFilteredSpots(kitesurfSpots)
     }
   }, [kitesurfSpots])
 
   const handleSearch = (searchTerm: React.SetStateAction<string>) => {
-    const filtered = kitesurfSpots?.filter((kiteSpot) =>
-      kiteSpot.name.toLowerCase().includes((searchTerm as string).toLowerCase())
-    ) as KitesurfSpot[]
-
-    setFilteredSpots(filtered)
+    setFilteredSpots(
+      kitesurfSpots?.filter((kiteSpot) =>
+        kiteSpot.name
+          .toLowerCase()
+          .includes((searchTerm as string).toLowerCase())
+      ) as KitesurfSpot[]
+    )
   }
 
   return (
