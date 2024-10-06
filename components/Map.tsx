@@ -135,9 +135,9 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
       }}
     >
       <div style={{ height: "100%", width: "100%", zIndex: 0 }}>
-        {center && kitesurfSpots.length ? (
+        {center && center[0] ? (
           <MapContainer
-            center={center}
+            center={(userLocation as unknown as LatLngLiteral) || center}
             zoom={10}
             style={{
               height: "100%",
