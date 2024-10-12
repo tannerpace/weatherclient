@@ -18,6 +18,7 @@ import { useSelectedLocationContext } from "@/app/context/SelectedLocationContex
 import { useWeatherContext } from "@/app/context/WeatherContext"
 import { debounce } from "@mui/material"
 import BottomNavigationBar from "./BottomNavBar"
+import { FilteredAppProps } from "@/app/page"
 
 config.autoAddCss = false
 
@@ -43,14 +44,31 @@ interface MapProps {
   userLocation: LatLngLiteral | null
 }
 
+const getWindSpeedColor = (windSpeed: string): string => {
+  const speed = parseFloat(windSpeed)
+  return speed > 14 ? "green" : "inherit"
+}
+
+const getWindDirectionColor = (
+  windDirection: unknown,
+  viableDirections: ViableDirections | null
+): string => {
+  if (typeof windDirection === "string" && viableDirections) {
+    return viableDirections[
+      windDirection.toUpperCase() as keyof ViableDirections
+    ]
+      ? "green"
+      : "inherit"
+  }
+  return "inherit"
+}
+
 const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
   const { setCoordinates } = useFilterContext()
   const { setSelectedLocation, setShowModal } = useSelectedLocationContext()
   const { weatherData, setLocation } = useWeatherContext()
   const [selectedSpot, setSelectedSpot] = useState<KitesurfSpot | null>(null)
-  const [shouldCenterOnUser, setShouldCenterOnUser] = useState(false)
-
-  const mapRef = useRef<any>(null) // Reference for the map
+  const mapRef = useRef<any>(null)
 
   const debouncedSetLocationRef = useRef<any>()
 
@@ -87,19 +105,33 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
     return null
   }
 
-  const CenterOnUser = () => {
-    const map = useMap()
-
-    useEffect(() => {
-      if (shouldCenterOnUser && userLocation) {
-        map.setView(userLocation, 13, { animate: true })
-        setShouldCenterOnUser(false) // Reset after centering
-      }
-    }, [shouldCenterOnUser, userLocation, map])
-
-    return null
+  const formatDateTime = (dateTime: string) => {
+    const date = new Date(dateTime)
+    return {
+      date: date.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      time: date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
+    }
   }
 
+  // Custom hook to center the map on user location
+  const CenterOnUser = () => {
+    const map = useMap()
+    useEffect(() => {
+      if (userLocation) {
+        map.setView(userLocation, 13)
+      }
+    }, [map])
+    return null
+  }
   const handleMarkerClick = (spot: KitesurfSpot) => {
     setSelectedSpot(spot)
     if (mapRef.current) {
@@ -109,7 +141,6 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
       })
     }
   }
-
   return (
     <>
       <div
@@ -121,7 +152,7 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
             <MapContainer
               center={(userLocation as LatLngLiteral) || center}
               zoom={10}
-              ref={mapRef} // Reference the MapContainer
+              ref={mapRef}
               style={{
                 height: "100%",
                 width: "100%",
@@ -154,7 +185,10 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
                           </div>
                           <div
                             style={{
-                              color: "green",
+                              color: getWindSpeedColor(
+                                weatherData.properties.periods[0]
+                                  .windSpeed as string
+                              ),
                             }}
                           >
                             <strong className="text-gray-400">
@@ -162,21 +196,38 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
                             </strong>{" "}
                             {weatherData.properties.periods[0].windSpeed}
                           </div>
+                          <div
+                            style={{
+                              color: getWindDirectionColor(
+                                weatherData.properties.periods[0].windDirection,
+                                spot.viable_directions
+                              ),
+                            }}
+                          >
+                            <strong className="text-gray-400">
+                              Wind Direction:
+                            </strong>{" "}
+                            {weatherData.properties.periods[0].windDirection}
+                          </div>
                           <div>
                             <strong className="text-gray-400">Forecast:</strong>{" "}
                             {weatherData.properties.periods[0].shortForecast}
                           </div>
                           <div>
                             <strong className="text-gray-400">Date:</strong>{" "}
-                            {new Date(
-                              weatherData.properties.periods[0].startTime
-                            ).toLocaleDateString()}
+                            {
+                              formatDateTime(
+                                weatherData.properties.periods[0].startTime
+                              ).date
+                            }
                           </div>
                           <div>
                             <strong className="text-gray-400">Time:</strong>{" "}
-                            {new Date(
-                              weatherData.properties.periods[0].startTime
-                            ).toLocaleTimeString()}
+                            {
+                              formatDateTime(
+                                weatherData.properties.periods[0].startTime
+                              ).time
+                            }
                           </div>
                         </div>
                       ) : (
@@ -184,6 +235,27 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
                           Loading weather data...
                         </div>
                       )}
+                      <div className="flex space-x-4 mt-4">
+                        <a
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${spot.latitude},${spot.longitude}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center text-green-600 underline text-lg hover:text-green-800"
+                        >
+                          <FontAwesomeIcon
+                            icon={faLocationArrow}
+                            className="mr-2"
+                          />
+                          Go
+                        </a>
+                        <button
+                          onClick={() => handleShowModal(spot)}
+                          className="flex items-center text-white-900 underline text-lg hover:text-blue-800"
+                        >
+                          <FontAwesomeIcon icon={faWind} className="mr-2" />
+                          More Info
+                        </button>
+                      </div>
                     </div>
                   </Popup>
                 </Marker>
@@ -205,10 +277,14 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
             <div style={{ height: "100%", width: "100%" }}></div>
           )}
         </div>
-
-        {/* Button to center on user location */}
+        {/* center and zoom user location */}
         <button
-          onClick={() => setShouldCenterOnUser(true)}
+          onClick={() => {
+            if (userLocation) {
+              const map = L.map("map")
+              map.setView(userLocation, 13)
+            }
+          }}
           className="center-button"
         >
           <FontAwesomeIcon icon={faLocationArrow} /> Center on me
