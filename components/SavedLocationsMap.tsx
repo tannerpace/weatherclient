@@ -117,8 +117,6 @@ const SavedLocationsMap: React.FC<MapProps> = ({
         style={{ height: "500px", width: "100%", zIndex: 1 }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-        {/* Render existing locations */}
         {locations.map((location) => (
           <Marker
             key={location.id}
@@ -152,7 +150,6 @@ const SavedLocationsMap: React.FC<MapProps> = ({
           </Marker>
         ))}
 
-        {/* Render draft marker if available */}
         {draftLocation && (
           <Marker position={draftLocation}>
             <Popup>
@@ -164,7 +161,6 @@ const SavedLocationsMap: React.FC<MapProps> = ({
         <MapEvents />
       </MapContainer>
 
-      {/* Modal for confirming location */}
       <Modal
         isOpen={modalOpen}
         onClose={closeModal}
