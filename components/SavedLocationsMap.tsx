@@ -14,6 +14,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faClipboard } from "@fortawesome/free-solid-svg-icons"
+import { KitesurfSpot } from "@/app/api/mock"
 
 const Modal: React.FC<{
   isOpen: boolean
@@ -101,19 +102,8 @@ interface ViableDirections {
   NW: number
 }
 
-interface KitesurfSpot {
-  id: number
-  name: string
-  island: string
-  latitude: number
-  longitude: number
-  location_img_url: string
-  minWindspeed: number
-  viable_directions: ViableDirections
-}
-
 interface MapProps {
-  locations: KitesurfSpot[]
+  locations: KitesurfSpot[] | null
   onLocationAdd: (lat: number, lng: number) => void
   onLocationDelete: (id: number) => void
   onLocationSelect: (location: KitesurfSpot) => void
@@ -212,38 +202,39 @@ const SavedLocationsMap: React.FC<MapProps> = ({
         className="h-[500px] w-full z-1 rounded-lg shadow-md"
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {locations.map((location) => (
-          <Marker
-            key={location.id}
-            position={[location.latitude, location.longitude]}
-            eventHandlers={{
-              click: () => {
-                onLocationSelect(location)
-              },
-            }}
-          >
-            <Popup>
-              <div className="p-2">
-                <div className="font-bold">{location.name}</div>
-                <div>Min Windspeed: {location.minWindspeed} mph</div>
-                <div>Viable Directions:</div>
-                <ul className="list-disc ml-5">
-                  {Object.entries(location.viable_directions || {}).map(
-                    ([direction, isViable]) =>
-                      isViable === 1 && <li key={direction}>{direction}</li>
-                  )}
-                </ul>
-                <button
-                  onClick={() => onLocationDelete(location.id)}
-                  className="mt-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                >
-                  <FontAwesomeIcon icon={faTrash} className="mr-2" />
-                  Delete
-                </button>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
+        {locations &&
+          locations.map((location) => (
+            <Marker
+              key={location.id}
+              position={[location.latitude, location.longitude]}
+              eventHandlers={{
+                click: () => {
+                  onLocationSelect(location)
+                },
+              }}
+            >
+              <Popup>
+                <div className="p-2">
+                  <div className="font-bold">{location.name}</div>
+                  <div>Min Windspeed: {location.minWindspeed} mph</div>
+                  <div>Viable Directions:</div>
+                  <ul className="list-disc ml-5">
+                    {Object.entries(location.viable_directions || {}).map(
+                      ([direction, isViable]) =>
+                        isViable === 1 && <li key={direction}>{direction}</li>
+                    )}
+                  </ul>
+                  <button
+                    onClick={() => onLocationDelete(location.id)}
+                    className="mt-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                  >
+                    <FontAwesomeIcon icon={faTrash} className="mr-2" />
+                    Delete
+                  </button>
+                </div>
+              </Popup>
+            </Marker>
+          ))}
 
         {draftLocation && (
           <Marker position={draftLocation}>
