@@ -138,7 +138,7 @@ const SavedLocations: React.FC = () => {
         </div>
       )}
       {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-800 p-4 rounded-lg w-80">
             <h2 className="text-xl font-bold mb-4">Add New Location</h2>
             <input
