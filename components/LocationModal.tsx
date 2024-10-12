@@ -14,6 +14,7 @@ import { useSelectedLocationContext } from "@/app/context/SelectedLocationContex
 import { useWeatherContext } from "@/app/context/WeatherContext"
 import Card from "@/components/Card"
 import DateComponent from "./DateComponent"
+import Image from "next/image"
 
 const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { selectedLocation, setSelectedLocation } = useSelectedLocationContext()
@@ -118,9 +119,11 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </>
           ) : (
             <>
-              <img
+              <Image
                 src={selectedLocation.location_img_url}
                 alt={selectedLocation.name}
+                width={200}
+                height={200}
                 className="w-full h-auto rounded-lg"
               />
               <p className="mt-4 text-center">{selectedLocation.description}</p>
