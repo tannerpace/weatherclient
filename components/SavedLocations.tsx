@@ -7,6 +7,7 @@ import { ActivitySpot, ViableDirections } from "@/app/api/mock"
 
 import { Checkbox, FormControlLabel, Slider } from "@mui/material"
 import WeatherInfo from "./ProfileRenderingInfo"
+import ActivityEnum from "@/app/enums/ActivityEnum"
 
 const defaultViableDirections: ViableDirections = {
   N: 0,
@@ -68,6 +69,7 @@ const SavedLocations: React.FC = () => {
       location_img_url: "",
       viable_directions: viableDirections,
       minWindspeed: minWindspeed,
+      activity: ActivityEnum.Kitesurfing,
     }
     setLocations((prevLocations) => [...prevLocations, newSpot])
     setOpen(false)
