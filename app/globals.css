@@ -127,4 +127,6 @@ nav a:hover {
   color: var(--primary-color);
 }
 
-/* Add this class to the map container */
+.modal {
+  z-index: 9999;
+}
