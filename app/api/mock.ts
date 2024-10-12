@@ -317,8 +317,8 @@ const locations: ActivitySpotWithSringCoordinates[] = [
   {
     activity: ActivityEnum.Hiking,
     id: 12,
-    latitude: "33.03030038554651",
-    longitude: "-79.72154658493405",
+    latitude: "33.030781",
+    longitude: "-79.721074",
     name: "Palmetto Trail",
     island: "Mount Pleasant",
     winddirections: "N,S",
@@ -353,8 +353,8 @@ const locations: ActivitySpotWithSringCoordinates[] = [
   {
     activity: ActivityEnum.FishingRedfish,
     id: 14,
-    latitude: "32.7638",
-    longitude: "-79.8741",
+    latitude: "32.913733",
+    longitude: "-79.592918",
     name: "Bull Island",
     island: "Bull Island",
     winddirections: "SW,W,NW",
