@@ -6,7 +6,7 @@ import { KitesurfSpot } from "@/app/api/mock"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 import ClientProviders from "./context/ClientProviders"
-import useKiteSurfSpots from "./hooks/useKiteSurfSpots"
+import { useKiteSurfSpots } from "./hooks/useKiteSurfSpots"
 import {
   useFilterContext,
   DEFAULT_LATITUDE,

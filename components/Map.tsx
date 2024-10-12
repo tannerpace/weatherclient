@@ -7,7 +7,6 @@ import {
   Marker,
   Popup,
   useMapEvents,
-  MarkerProps,
 } from "react-leaflet"
 import L, { LatLngLiteral } from "leaflet"
 import "leaflet/dist/leaflet.css"
@@ -21,7 +20,6 @@ import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useWeatherContext } from "@/app/context/WeatherContext"
 import { debounce } from "@mui/material"
-import { blueGrey } from "@mui/material/colors"
 import BottomNavigationBar from "./BottomNavBar"
 import { FilteredAppProps } from "@/app/page"
 

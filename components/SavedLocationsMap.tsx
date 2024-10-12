@@ -13,7 +13,6 @@ import { KitesurfSpot } from "@/app/api/mock"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
 
-// Assuming you have a basic modal component, but you can use any modal library (e.g., Material UI, Bootstrap, etc.)
 const Modal: React.FC<{
   isOpen: boolean
   onClose: () => void
@@ -21,11 +20,23 @@ const Modal: React.FC<{
 }> = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <h2>Confirm Location</h2>
-        <button onClick={onConfirm}>Confirm</button>
-        <button onClick={onClose}>Cancel</button>
+    <div className="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="modal-content bg-gray-800 p-4 rounded-lg w-80">
+        <h2 className="text-xl font-bold mb-4 text-white">Confirm Location</h2>
+        <div className="flex justify-between">
+          <button
+            onClick={onConfirm}
+            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
+          >
+            Confirm
+          </button>
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -53,7 +64,7 @@ const SavedLocationsMap: React.FC<MapProps> = ({
   onLocationDelete,
   onLocationSelect,
 }) => {
-  const [modalOpen, setModalOpen] = useState(false) // State to manage modal visibility
+  const [modalOpen, setModalOpen] = useState(false)
   const [draftLocation, setDraftLocation] = useState<[number, number] | null>(
     null
   )
@@ -62,12 +73,13 @@ const SavedLocationsMap: React.FC<MapProps> = ({
     useMapEvents({
       click(e) {
         setDraftLocation([e.latlng.lat, e.latlng.lng])
-        setModalOpen(true) // Open modal when a location is selected
+        setModalOpen(true)
       },
     })
     return null
   }
 
+  // Handle pasting coordinates from clipboard
   const handlePasteClipboardLocation = async () => {
     try {
       const clipboardText = await navigator.clipboard.readText()
@@ -75,7 +87,7 @@ const SavedLocationsMap: React.FC<MapProps> = ({
 
       if (!isNaN(lat) && !isNaN(lng)) {
         setDraftLocation([lat, lng])
-        setModalOpen(true) // Open modal when location is pasted
+        setModalOpen(true)
       } else {
         alert(
           "Invalid coordinates in clipboard. Please copy in 'lat,lng' format."
@@ -89,14 +101,14 @@ const SavedLocationsMap: React.FC<MapProps> = ({
   const confirmLocation = () => {
     if (draftLocation) {
       onLocationAdd(draftLocation[0], draftLocation[1])
-      setDraftLocation(null) // Clear draft location
+      setDraftLocation(null)
     }
-    setModalOpen(false) // Close modal
+    setModalOpen(false)
   }
 
   const closeModal = () => {
-    setDraftLocation(null) // Discard draft location
-    setModalOpen(false) // Close modal
+    setDraftLocation(null)
+    setModalOpen(false)
   }
 
   return (
@@ -110,7 +122,6 @@ const SavedLocationsMap: React.FC<MapProps> = ({
         </button>
       </div>
 
-      {/* Map Container */}
       <MapContainer
         center={[32.7765, -79.9311]}
         zoom={10}
