@@ -18,7 +18,7 @@ const routes: Route[] = [
   {
     path: "/savedlocations",
     icon: <Person />,
-    label: "My Locations",
+    label: "Edit Locations",
   },
 ]
 
