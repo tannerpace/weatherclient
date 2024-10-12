@@ -2,7 +2,7 @@
 import Tooltip from "@mui/material/Tooltip"
 import React, { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
-import { KitesurfSpot } from "@/app/api/mock"
+import { ActivitySpot } from "@/app/api/mock"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 import ClientProviders from "./context/ClientProviders"
@@ -32,7 +32,7 @@ export interface FilteredAppProps {
 
 const FilteredApp: React.FC<FilteredAppProps> = ({ center, userLocation }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
-  const [filteredSpots, setFilteredSpots] = useState<KitesurfSpot[]>([])
+  const [filteredSpots, setFilteredSpots] = useState<ActivitySpot[]>([])
 
   useEffect(() => {
     if (kitesurfSpots) {
@@ -46,7 +46,7 @@ const FilteredApp: React.FC<FilteredAppProps> = ({ center, userLocation }) => {
         kiteSpot.name
           .toLowerCase()
           .includes((searchTerm as string).toLowerCase())
-      ) as KitesurfSpot[]
+      ) as ActivitySpot[]
     )
   }
 
@@ -57,7 +57,7 @@ const FilteredApp: React.FC<FilteredAppProps> = ({ center, userLocation }) => {
         <Map
           userLocation={userLocation as unknown as LatLngLiteral}
           center={center}
-          kitesurfSpots={filteredSpots || (kitesurfSpots as KitesurfSpot[])}
+          kitesurfSpots={filteredSpots || (kitesurfSpots as ActivitySpot[])}
         />
       )}
       <BottomNavigationBar />
