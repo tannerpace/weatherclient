@@ -200,7 +200,7 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
                             style={{
                               color: getWindDirectionColor(
                                 weatherData.properties.periods[0].windDirection,
-                                spot.viable_directions
+                                spot.viable_directions || null
                               ),
                             }}
                           >
