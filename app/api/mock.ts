@@ -5,6 +5,9 @@ const capersIslandImageUrl = '/party.jpg'
 const birdKeyLat = "32.62833267361373"
 const birdKeyLong = "-79.98719329863708"
 export interface ActivitySpot {
+  wildlife?: string;
+  trail_length?: string;
+  best_times?: string;
   activity: ActivityEnum;
   location_img_url: string;
   id: number;
@@ -258,8 +261,98 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     },
   },
   {
-    activity: ActivityEnum.FishingRedfish,
+    activity: ActivityEnum.Kayaking,
     id: 10,
+    latitude: "32.8682",
+    longitude: "-79.6790",
+    name: "Capers Island",
+    island: "Capers Island",
+    winddirections: "NE,E,SE",
+    waves: "2",
+    depth: "shallow to deep",
+    description: "Capers Island is a barrier island located about 15 miles north of Charleston, South Carolina. It is an undeveloped island, accessible only by boat, making it a pristine location for kayaking. Wildlife is abundant, and it's common to see dolphins and various bird species.",
+    experience: "intermediate",
+    best_times: "Morning and evening",
+    wildlife: "Dolphins, birds",
+    references: "https://en.wikipedia.org/wiki/Capers_Island",
+    location_img_url: capersIslandImageUrl,
+    viable_directions: {
+      N: 0,
+      S: 0,
+      E: 1,
+      W: 0,
+      NE: 1,
+      NW: 0,
+      SE: 1,
+      SW: 0,
+    },
+  },
+  {
+    activity: ActivityEnum.FishingRedfish,
+    id: 11,
+    latitude: "32.7638",
+    longitude: "-79.8741",
+    name: "Bull Island",
+    island: "Bull Island",
+    winddirections: "SW,W,NW",
+    waves: "calm",
+    depth: "shallow",
+    description: "Bull Island is a nature preserve and a prime spot for fishing, especially for redfish. Accessible by boat, the island offers serene fishing spots and beautiful views. The best fishing times are during early mornings and late evenings when the tides are moving.",
+    experience: "intermediate",
+    best_times: "Early mornings, late evenings",
+    wildlife: "Redfish, other aquatic life",
+    references: "https://www.dnr.sc.gov/fishing.html",
+    location_img_url: "/bullisland.jpg",
+    viable_directions: {
+      N: 0,
+      S: 0,
+      E: 0,
+      W: 1,
+      NE: 0,
+      NW: 1,
+      SE: 0,
+      SW: 1,
+    },
+  },
+  {
+    activity: ActivityEnum.Hiking,
+    id: 12,
+    latitude: "33.03030038554651",
+    longitude: "-79.72154658493405",
+    name: "Palmetto Trail",
+    island: "Mount Pleasant",
+    winddirections: "N,S",
+    waves: "none",
+    depth: "land",
+    description: "The Palmetto Trail is one of the best hiking destinations in the Charleston area, offering miles of trails through woods, marsh, and wetlands. The trail is well-marked and suitable for all skill levels.",
+    experience: "beginner",
+    trail_length: "10 miles",
+    wildlife: "Deer, birds",
+    references: "https://palmettoconservation.org/palmetto-trail/",
+    location_img_url: "/palmettotrail.jpg",
+    viable_directions: null,
+  },
+  {
+    activity: ActivityEnum.HuntingDeer,
+    id: 13,
+    latitude: "  33.07445696020566",
+    longitude: "-79.76219466876957",
+    name: "Francis Marion National Forest",
+    island: "Mainland",
+    winddirections: "all",
+    waves: "none",
+    depth: "land",
+    description: "Francis Marion National Forest is a prime spot for deer hunting, located just north of Charleston. The forest offers vast land to explore and hunt, with deer and other wildlife abundant in the area.",
+    experience: "intermediate",
+    best_times: "Dawn and dusk",
+    wildlife: "Deer, wild turkey",
+    references: "https://www.fs.usda.gov/francis_marion",
+    location_img_url: "/francismarion.jpg",
+    viable_directions: null,
+  },
+  {
+    activity: ActivityEnum.FishingRedfish,
+    id: 14,
     latitude: "32.7638",
     longitude: "-79.8741",
     name: "Bull Island",
@@ -284,7 +377,7 @@ const locations: ActivitySpotWithSringCoordinates[] = [
   },
   {
     activity: ActivityEnum.Kayaking,
-    id: 11,
+    id: 15,
     latitude: "32.8470",
     longitude: "-79.8136",
     name: "Shem Creek",
@@ -309,7 +402,7 @@ const locations: ActivitySpotWithSringCoordinates[] = [
   },
   {
     activity: ActivityEnum.Hiking,
-    id: 12,
+    id: 16,
     latitude: "32.9022",
     longitude: "-79.7812",
     name: "Palmetto Trail",
@@ -325,7 +418,7 @@ const locations: ActivitySpotWithSringCoordinates[] = [
   },
   {
     activity: ActivityEnum.HuntingDeer,
-    id: 13,
+    id: 17,
     latitude: "33.1202",
     longitude: "-80.5232",
     name: "Francis Marion National Forest",
@@ -343,7 +436,7 @@ const locations: ActivitySpotWithSringCoordinates[] = [
 
   {
     activity: ActivityEnum.FishingRedfish,
-    id: 10,
+    id: 18,
     latitude: "32.7638",
     longitude: "-79.8741",
     name: "Bull Island",
@@ -359,7 +452,7 @@ const locations: ActivitySpotWithSringCoordinates[] = [
   },
   {
     activity: ActivityEnum.Kayaking,
-    id: 11,
+    id: 19,
     latitude: "32.8470",
     longitude: "-79.8136",
     name: "Shem Creek",
@@ -373,10 +466,10 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     location_img_url: "/shemcreek.jpg",
     viable_directions: null
   },
-  // Palmetto Trail (Hiking)
+
   {
     activity: ActivityEnum.Hiking,
-    id: 12,
+    id: 20,
     latitude: "32.9022",
     longitude: "-79.7812",
     name: "Palmetto Trail",
@@ -390,10 +483,9 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     location_img_url: "/palmettotrail.jpg",
     viable_directions: null,
   },
-  // Francis Marion National Forest (Hunting Deer)
   {
     activity: ActivityEnum.HuntingDeer,
-    id: 13,
+    id: 21,
     latitude: "33.1202",
     longitude: "-80.5232",
     name: "Francis Marion National Forest",
