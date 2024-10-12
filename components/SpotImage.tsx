@@ -1,10 +1,10 @@
 "use client"
 import React from "react"
 import Image from "next/image"
-import { KitesurfSpot } from "../app/api/mock"
+import { ActivitySpot } from "../app/api/mock"
 
 interface SpotImageProps {
-  spot: KitesurfSpot
+  spot: ActivitySpot
 }
 
 const SpotImage: React.FC<SpotImageProps> = ({ spot }) => {
