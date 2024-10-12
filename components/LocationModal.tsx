@@ -15,6 +15,7 @@ import { useWeatherContext } from "@/app/context/WeatherContext"
 import Card from "@/components/Card"
 import DateComponent from "./DateComponent"
 import Image from "next/image"
+import ActivityEnum from "@/app/enums/ActivityEnum"
 
 const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { selectedLocation, setSelectedLocation } = useSelectedLocationContext()
@@ -47,6 +48,92 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     onClose()
   }
 
+  // Function to render content based on the activity type
+  const renderActivityDetails = () => {
+    switch (selectedLocation.activity) {
+      case ActivityEnum.Kitesurfing:
+        return (
+          <>
+            <Card title="Wind Directions">
+              <FontAwesomeIcon icon={faWind} className="mr-2 text-blue-500" />
+              <span className="text-gray-700">
+                {selectedLocation.winddirections}
+              </span>
+            </Card>
+            <Card title="Waves">
+              <FontAwesomeIcon icon={faWater} className="mr-2 text-blue-500" />
+              <span className="text-gray-700">{selectedLocation.waves}</span>
+            </Card>
+            <Card title="Depth">
+              <FontAwesomeIcon
+                icon={faRulerVertical}
+                className="mr-2 text-blue-500"
+              />
+              <span className="text-gray-700">{selectedLocation.depth}</span>
+            </Card>
+          </>
+        )
+      case ActivityEnum.Surfing:
+        return (
+          <>
+            <Card title="Waves">
+              <FontAwesomeIcon icon={faWater} className="mr-2 text-blue-500" />
+              <span className="text-gray-700">{selectedLocation.waves}</span>
+            </Card>
+            <Card title="Experience Level">
+              <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-500" />
+              <span className="text-gray-700">
+                {selectedLocation.experience}
+              </span>
+            </Card>
+          </>
+        )
+      case ActivityEnum.Fishing:
+      case ActivityEnum.FishingRedfish:
+        return (
+          <>
+            <Card title="Depth">
+              <FontAwesomeIcon
+                icon={faRulerVertical}
+                className="mr-2 text-blue-500"
+              />
+              <span className="text-gray-700">{selectedLocation.depth}</span>
+            </Card>
+            <Card title="Fishing Tips">
+              <FontAwesomeIcon icon={faBook} className="mr-2 text-blue-500" />
+              <span className="text-gray-700">
+                Best times:{" "}
+                {selectedLocation.best_times || "early mornings, late evenings"}
+              </span>
+            </Card>
+          </>
+        )
+      case ActivityEnum.Hiking:
+        return (
+          <>
+            <Card title="Trail Details">
+              <FontAwesomeIcon
+                icon={faMapMarkedAlt}
+                className="mr-2 text-blue-500"
+              />
+              <span className="text-gray-700">
+                Trail Length: {selectedLocation.trail_length || "various"}
+              </span>
+            </Card>
+            <Card title="Wildlife">
+              <FontAwesomeIcon icon={faBook} className="mr-2 text-blue-500" />
+              <span className="text-gray-700">
+                {selectedLocation.wildlife || "deer, birds"}
+              </span>
+            </Card>
+          </>
+        )
+      // Add more cases for other activities as needed
+      default:
+        return <p>No additional details available for this activity.</p>
+    }
+  }
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-10 flex justify-center items-center z-150 p-1"
@@ -61,145 +148,38 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </button>
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-4">{selectedLocation.name}</h2>
-          <button
-            onClick={() => setShowWeatherDetails(true)}
-            className="mt-4 mb-4  py-2 bg-purple-500 text-white rounded hover:bg-blue-700"
-          >
-            Show Detailed Weather
-          </button>
-          {showWeatherDetails ? (
-            <>
-              <div className="mt-4 w-full">
-                {loadingForecast ||
-                loadingObservation ||
-                loadingForecastGrid ? (
-                  <p>Loading weather data...</p>
-                ) : errorForecast || errorObservation || errorForecastGrid ? (
-                  <div>
-                    {errorForecast && (
-                      <p>Error fetching forecast: {errorForecast}</p>
-                    )}
-                    {errorObservation && (
-                      <p>Error fetching observation: {errorObservation}</p>
-                    )}
-                    {errorForecastGrid && (
-                      <p>
-                        Error fetching forecast grid data: {errorForecastGrid}
-                      </p>
-                    )}
-                  </div>
-                ) : weatherData ? (
-                  <div>
-                    <h3 className="text-lg font-bold">Weather Forecast:</h3>
-                    {weatherData.properties.periods.map(
-                      (
-                        period: {
-                          startTime: React.ReactNode
-                          detailedForecast: React.ReactNode
-                        },
-                        index: React.Key | null | undefined
-                      ) => (
-                        <div key={index} className="mt-2">
-                          <DateComponent
-                            dateInput={period.startTime as string}
-                          />
-                          <p>{period.detailedForecast}</p>
-                        </div>
-                      )
-                    )}
-                  </div>
-                ) : null}
-              </div>
-              <button
-                onClick={() => setShowWeatherDetails(false)}
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+          <Image
+            src={selectedLocation.location_img_url}
+            alt={selectedLocation.name}
+            width={200}
+            height={200}
+            className="w-full h-auto rounded-lg"
+          />
+          <p className="mt-4 text-center">{selectedLocation.description}</p>
+          <div className="mt-4 space-y-4 w-full">
+            {renderActivityDetails()}
+            <Card title="References">
+              <FontAwesomeIcon icon={faBook} className="mr-2 text-blue-500" />
+              <a
+                href={selectedLocation.references}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline break-words"
               >
-                Show Location Details
-              </button>
-            </>
-          ) : (
-            <>
-              <Image
-                src={selectedLocation.location_img_url}
-                alt={selectedLocation.name}
-                width={200}
-                height={200}
-                className="w-full h-auto rounded-lg"
-              />
-              <p className="mt-4 text-center">{selectedLocation.description}</p>
-              <div className="mt-4 space-y-4 w-full">
-                <Card title="Island">
-                  <FontAwesomeIcon
-                    icon={faMapMarkedAlt}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-gray-700">
-                    {selectedLocation.island}
-                  </span>
-                </Card>
-                <Card title="Wind Directions">
-                  <FontAwesomeIcon
-                    icon={faWind}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-gray-700">
-                    {selectedLocation.winddirections}
-                  </span>
-                </Card>
-                <Card title="Waves">
-                  <FontAwesomeIcon
-                    icon={faWater}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-gray-700">
-                    {selectedLocation.waves}
-                  </span>
-                </Card>
-                <Card title="Depth">
-                  <FontAwesomeIcon
-                    icon={faRulerVertical}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-gray-700">
-                    {selectedLocation.depth}
-                  </span>
-                </Card>
-                <Card title="Experience">
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-gray-700">
-                    {selectedLocation.experience}
-                  </span>
-                </Card>
-                <Card title="References">
-                  <FontAwesomeIcon
-                    icon={faBook}
-                    className="mr-2 text-blue-500"
-                  />
-                  <a
-                    href={selectedLocation.references}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline break-words"
-                  >
-                    Learn More
-                  </a>
-                </Card>
-              </div>
-              <div className="mt-6">
-                <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.latitude},${selectedLocation.longitude}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block text-blue-500 hover:underline"
-                >
-                  Navigate to {selectedLocation.name}
-                </a>
-              </div>
-            </>
-          )}
+                Learn More
+              </a>
+            </Card>
+          </div>
+          <div className="mt-6">
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.latitude},${selectedLocation.longitude}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-blue-500 hover:underline"
+            >
+              Navigate to {selectedLocation.name}
+            </a>
+          </div>
           <button
             onClick={closeModal}
             className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
