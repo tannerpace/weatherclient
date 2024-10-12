@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useState } from "react"
 import {
   MapContainer,
@@ -11,16 +12,33 @@ import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faClipboard } from "@fortawesome/free-solid-svg-icons"
-import { KitesurfSpot } from "@/app/api/mock"
+import { ActivitySpot } from "@/app/api/mock"
+import ActivityEnum from "@/app/enums/ActivityEnum"
+
+// Default Leaflet icon options
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+})
+
+interface MapProps {
+  locations: ActivitySpot[] | null
+  onLocationAdd: (lat: number, lng: number, activity: string) => void
+  onLocationDelete: (id: number) => void
+  onLocationSelect: (location: ActivitySpot) => void
+}
 
 const Modal: React.FC<{
   isOpen: boolean
   onClose: () => void
   onConfirm: () => void
-  location: Partial<KitesurfSpot> | null
+  location: Partial<ActivitySpot> | null
 }> = ({ isOpen, onClose, onConfirm, location }) => {
   const handleCopyToClipboard = () => {
     if (location !== null) {
@@ -52,6 +70,9 @@ const Modal: React.FC<{
             <p className="digital-clock font-mono text-green-400">
               Longitude: {location.longitude}
             </p>
+            <p className="digital-clock font-mono text-green-400">
+              Activity: {location.activity}
+            </p>
           </div>
           <button
             onClick={handleCopyToClipboard}
@@ -80,36 +101,6 @@ const Modal: React.FC<{
   )
 }
 
-// Default Leaflet icon options
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-})
-
-// Define types for KitesurfSpot and ViableDirections
-interface ViableDirections {
-  N: number
-  E: number
-  S: number
-  W: number
-  NE: number
-  SE: number
-  SW: number
-  NW: number
-}
-
-interface MapProps {
-  locations: KitesurfSpot[] | null
-  onLocationAdd: (lat: number, lng: number) => void
-  onLocationDelete: (id: number) => void
-  onLocationSelect: (location: KitesurfSpot) => void
-}
-
-// Main Map Component
 const SavedLocationsMap: React.FC<MapProps> = ({
   locations,
   onLocationAdd,
@@ -120,12 +111,19 @@ const SavedLocationsMap: React.FC<MapProps> = ({
   const [draftLocation, setDraftLocation] = useState<[number, number] | null>(
     null
   )
+  const [selectedActivity, setSelectedActivity] = useState<ActivityEnum | null>(
+    null
+  )
 
   const MapEvents = () => {
     useMapEvents({
       click(e) {
-        setDraftLocation([e.latlng.lat, e.latlng.lng])
-        setModalOpen(true)
+        if (selectedActivity) {
+          setDraftLocation([e.latlng.lat, e.latlng.lng])
+          setModalOpen(true)
+        } else {
+          alert("Please select an activity type before adding a location.")
+        }
       },
     })
     return null
@@ -137,9 +135,11 @@ const SavedLocationsMap: React.FC<MapProps> = ({
       const clipboardText = await navigator.clipboard.readText()
       const [lat, lng] = clipboardText.split(",").map(Number)
 
-      if (!isNaN(lat) && !isNaN(lng)) {
+      if (!isNaN(lat) && !isNaN(lng) && selectedActivity) {
         setDraftLocation([lat, lng])
         setModalOpen(true)
+      } else if (!selectedActivity) {
+        alert("Please select an activity type before adding a location.")
       } else {
         alert(
           "Invalid coordinates in clipboard. Please copy in 'lat,lng' format."
@@ -151,29 +151,11 @@ const SavedLocationsMap: React.FC<MapProps> = ({
   }
 
   const confirmLocation = () => {
-    if (draftLocation) {
-      const newLocation: Partial<KitesurfSpot> = {
-        id: Date.now(),
-        name: "New Spot",
-        island: "Unknown Island",
-        latitude: draftLocation[0],
-        longitude: draftLocation[1],
-        location_img_url: "https://example.com/default-image.jpg",
-        minWindspeed: 10,
-        viable_directions: {
-          N: 1,
-          E: 1,
-          S: 1,
-          W: 1,
-          NE: 0, // Defaulting missing directions to 0
-          SE: 0,
-          SW: 0,
-          NW: 0,
-        },
-      }
+    if (draftLocation && selectedActivity) {
       onLocationAdd(
-        newLocation.latitude as number,
-        newLocation.longitude as number
+        draftLocation[0],
+        draftLocation[1],
+        selectedActivity as unknown as string
       )
       setDraftLocation(null)
     }
@@ -216,14 +198,7 @@ const SavedLocationsMap: React.FC<MapProps> = ({
               <Popup>
                 <div className="p-2">
                   <div className="font-bold">{location.name}</div>
-                  <div>Min Windspeed: {location.minWindspeed} mph</div>
-                  <div>Viable Directions:</div>
-                  <ul className="list-disc ml-5">
-                    {Object.entries(location.viable_directions || {}).map(
-                      ([direction, isViable]) =>
-                        isViable === 1 && <li key={direction}>{direction}</li>
-                    )}
-                  </ul>
+                  <div>Activity Type: {location.activity}</div>
                   <button
                     onClick={() => onLocationDelete(location.id)}
                     className="mt-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
@@ -245,35 +220,57 @@ const SavedLocationsMap: React.FC<MapProps> = ({
         )}
 
         <MapEvents />
-        <Modal
-          location={
-            draftLocation
-              ? {
-                  id: Date.now(),
-                  name: "New Spot",
-                  island: "Unknown Island",
-                  latitude: draftLocation[0],
-                  longitude: draftLocation[1],
-                  location_img_url: "https://example.com/default-image.jpg",
-                  minWindspeed: 10,
-                  viable_directions: {
-                    N: 1,
-                    E: 1,
-                    S: 1,
-                    W: 1,
-                    NE: 0,
-                    SE: 0,
-                    SW: 0,
-                    NW: 0,
-                  },
-                }
-              : null
-          }
-          isOpen={modalOpen}
-          onClose={closeModal}
-          onConfirm={confirmLocation}
-        />
+
+        {selectedActivity && (
+          <Modal
+            location={
+              draftLocation
+                ? {
+                    id: Date.now(),
+                    name: "New Spot",
+                    island: "Unknown Island",
+                    latitude: draftLocation[0],
+                    longitude: draftLocation[1],
+                    location_img_url: "https://example.com/default-image.jpg",
+                    minWindspeed: 10,
+                    viable_directions: {
+                      N: 1,
+                      E: 1,
+                      S: 1,
+                      W: 1,
+                      NE: 0,
+                      SE: 0,
+                      SW: 0,
+                      NW: 0,
+                    },
+                    activity: selectedActivity,
+                  }
+                : null
+            }
+            isOpen={modalOpen}
+            onClose={closeModal}
+            onConfirm={confirmLocation}
+          />
+        )}
       </MapContainer>
+      <div className="w-full flex justify-center items-center mt-4">
+        <select
+          value={selectedActivity || ""}
+          onChange={(e) =>
+            setSelectedActivity(e.target.value as unknown as ActivityEnum)
+          }
+          className="px-4 py-2 bg-white text-black rounded-lg"
+        >
+          <option value="" disabled>
+            Select Activity Type
+          </option>
+          {Object.values(ActivityEnum).map((activity) => (
+            <option key={activity} value={activity}>
+              {activity}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   )
 }

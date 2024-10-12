@@ -12,42 +12,9 @@ import {
 } from "@mui/material"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faFilter, faTimes } from "@fortawesome/free-solid-svg-icons"
+import ActivityEnum, { activities } from "@/app/enums/ActivityEnum"
 
 const OutdoorActivitySelector: React.FC = () => {
-  enum ActivityEnum {
-    Kitesurfing = 1 << 0,
-    Hiking = 1 << 1,
-    Cycling = 1 << 2,
-    Fishing = 1 << 3,
-    HuntingDuck = 1 << 4,
-    HuntingDeer = 1 << 5,
-    HuntingTurkey = 1 << 6,
-    Running = 1 << 7,
-    Surfing = 1 << 8,
-    FishingRedfish = 1 << 9,
-    ShrimpingWithPoles = 1 << 10,
-  }
-
-  const activities = [
-    { label: "Kitesurfing", value: ActivityEnum.Kitesurfing.toString() },
-    { label: "Hiking", value: ActivityEnum.Hiking.toString() },
-    { label: "Cycling", value: ActivityEnum.Cycling.toString() },
-    { label: "Fishing", value: ActivityEnum.Fishing.toString() },
-    { label: "Hunting - Duck", value: ActivityEnum.HuntingDuck.toString() },
-    { label: "Hunting - Deer", value: ActivityEnum.HuntingDeer.toString() },
-    { label: "Hunting - Turkey", value: ActivityEnum.HuntingTurkey.toString() },
-    { label: "Running", value: ActivityEnum.Running.toString() },
-    { label: "Surfing", value: ActivityEnum.Surfing.toString() },
-    {
-      label: "Fishing - Redfish",
-      value: ActivityEnum.FishingRedfish.toString(),
-    },
-    {
-      label: "Shrimping with Poles",
-      value: ActivityEnum.ShrimpingWithPoles.toString(),
-    },
-  ]
-
   const decodeActivities = (bitmask: number): ActivityEnum[] => {
     return Object.values(ActivityEnum).filter(
       (activity) =>

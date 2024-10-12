@@ -1,10 +1,10 @@
 "use client"
 import React, { createContext, useContext, useState, ReactNode } from "react"
-import { KitesurfSpot } from "../api/mock"
+import { ActivitySpot } from "../api/mock"
 
 interface SelectedLocationContextType {
-  selectedLocation: KitesurfSpot | null
-  setSelectedLocation: (location: KitesurfSpot | null) => void
+  selectedLocation: ActivitySpot | null
+  setSelectedLocation: (location: ActivitySpot | null) => void
   showModal: boolean
   setShowModal: (show: boolean) => void
 }
@@ -27,7 +27,7 @@ export const SelectedLocationProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [showModal, setShowModal] = useState(false)
-  const [selectedLocation, setSelectedLocation] = useState<KitesurfSpot | null>(
+  const [selectedLocation, setSelectedLocation] = useState<ActivitySpot | null>(
     null
   )
 

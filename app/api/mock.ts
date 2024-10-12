@@ -1,9 +1,11 @@
 import { WindDirection } from "../context/FilterContext";
+import ActivityEnum from "../enums/ActivityEnum";
 
 const capersIslandImageUrl = '/party.jpg'
 const birdKeyLat = "32.62833267361373"
 const birdKeyLong = "-79.98719329863708"
-export interface KitesurfSpot {
+export interface ActivitySpot {
+  activity: ActivityEnum;
   location_img_url: string;
   id: number;
   latitude: number;
@@ -16,7 +18,7 @@ export interface KitesurfSpot {
   description: string;
   experience: string;
   references: string;
-  viable_directions: ViableDirections | null;
+  viable_directions?: ViableDirections | null;
   minWindspeed?: number | undefined | null
 }
 
@@ -24,10 +26,11 @@ export type ViableDirections = {
   [key in WindDirection]: number;
 };
 
-type KitesurfSpotWithStringCoordinates = Omit<KitesurfSpot, 'latitude' | 'longitude'> & { latitude: string; longitude: string };
+type ActivitySpotWithSringCoordinates = Omit<ActivitySpot, 'latitude' | 'longitude'> & { latitude: string; longitude: string };
 
-const locations: KitesurfSpotWithStringCoordinates[] = [
+const locations: ActivitySpotWithSringCoordinates[] = [
   {
+    activity: ActivityEnum.Kitesurfing,
     id: 1,
     latitude: "32.76562356586255",
     longitude: "-79.82115738187443",
@@ -52,6 +55,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     },
   },
   {
+    activity: ActivityEnum.Kitesurfing,
     id: 2,
     latitude: "32.640900462604456",
     longitude: "-79.96962012816843",
@@ -76,6 +80,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     },
   },
   {
+    activity: ActivityEnum.Kitesurfing,
     id: 3,
     latitude: "32.681369379215994",
     longitude: "-79.89118925044373",
@@ -102,6 +107,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     },
   },
   {
+    activity: ActivityEnum.Kitesurfing,
     id: 5,
     latitude: "32.751914138739735",
     longitude: "-79.88115077805551",
@@ -127,6 +133,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     },
   },
   {
+    activity: ActivityEnum.Kitesurfing,
     id: 6,
     latitude: "32.757628",
     longitude: "-79.857808",
@@ -151,6 +158,7 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
     },
   },
   {
+    activity: ActivityEnum.Kitesurfing,
     id: 7,
     latitude: "32.814271180990076",
     longitude: "-79.71980425914779",
@@ -174,31 +182,33 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
       "SW": 1
     },
   },
-  // {
-  //   id: 8,
-  //   latitude: "32.810150",
-  //   longitude: "-79.714939",
-  //   name: "Capers Island",
-  //   island: "Capers Island",
-  //   winddirections: "NE,E,SE",
-  //   waves: "2",
-  //   depth: "shallow to deep",
-  //   description: "Capers Island is a barrier island located about 15 miles north of Charleston, South Carolina. It is an undeveloped island, accessible only by boat, making it a pristine location for kiteboarding. The island offers a mix of shallow and deep waters, and the best winds come from the NE, E, and SE directions. It is a great spot for intermediate to advanced kiteboarders looking for a more secluded and natural setting. Wildlife is abundant, and it's common to see dolphins and various bird species.",
-  //   experience: "intermediate",
-  //   references: "https://en.wikipedia.org/wiki/Capers_Island",
-  //   location_img_url: capersIslandImageUrl,
-  //   viable_directions: {
-  //     "N": 0,
-  //     "S": 0,
-  //     "E": 1,
-  //     "W": 0,
-  //     "NE": 1,
-  //     "NW": 0,
-  //     "SE": 1,
-  //     "SW": 0
-  //   },
-  // },
   {
+    activity: ActivityEnum.Kayaking,
+    id: 8,
+    latitude: "32.8682",
+    longitude: "-79.6790",
+    name: "Capers Island",
+    island: "Capers Island",
+    winddirections: "NE,E,SE",
+    waves: "2",
+    depth: "shallow to deep",
+    description: "Capers Island is a barrier island located about 15 miles north of Charleston, South Carolina. It is an undeveloped island, accessible only by boat, making it a pristine location for kiteboarding. The island offers a mix of shallow and deep waters, and the best winds come from the NE, E, and SE directions. It is a great spot for intermediate to advanced kiteboarders looking for a more secluded and natural setting. Wildlife is abundant, and it's common to see dolphins and various bird species.",
+    experience: "intermediate",
+    references: "https://en.wikipedia.org/wiki/Capers_Island",
+    location_img_url: capersIslandImageUrl,
+    viable_directions: {
+      "N": 0,
+      "S": 0,
+      "E": 1,
+      "W": 0,
+      "NE": 1,
+      "NW": 0,
+      "SE": 1,
+      "SW": 0
+    },
+  },
+  {
+    activity: ActivityEnum.Kitesurfing,
     id: 8,
     latitude: birdKeyLat,
     longitude: birdKeyLong,
@@ -221,7 +231,182 @@ const locations: KitesurfSpotWithStringCoordinates[] = [
       "SE": 1,
       "SW": 0
     },
-  }
+  },
+  {
+    activity: ActivityEnum.Surfing,
+    id: 9,
+    latitude: "32.6553",
+    longitude: "-79.9422",
+    name: "Folly Beach Pier",
+    island: "Folly Island",
+    winddirections: "S,SW",
+    waves: "4",
+    depth: "medium",
+    description: "The Folly Beach Pier is one of the most iconic surf spots in South Carolina. With consistent swells and a long stretch of beach, it's a great spot for beginner to advanced surfers. The pier is also a popular fishing spot and has a café nearby for post-surf snacks.",
+    experience: "all levels",
+    references: "https://www.charlestoncountyparks.com/94/Folly-Beach-Pier",
+    location_img_url: "/follypier.jpg",
+    viable_directions: {
+      "N": 0,
+      "S": 1,
+      "E": 0,
+      "W": 0,
+      "NE": 0,
+      "NW": 0,
+      "SE": 1,
+      "SW": 1
+    },
+  },
+  {
+    activity: ActivityEnum.FishingRedfish,
+    id: 10,
+    latitude: "32.7638",
+    longitude: "-79.8741",
+    name: "Bull Island",
+    island: "Bull Island",
+    winddirections: "SW,W,NW",
+    waves: "calm",
+    depth: "shallow",
+    description: "Bull Island is a nature preserve and a prime spot for fishing, especially for redfish. Accessible by boat, the island offers serene fishing spots and beautiful views. The best fishing times are during early mornings and late evenings when the tides are moving.",
+    experience: "intermediate",
+    references: "https://www.dnr.sc.gov/fishing.html",
+    location_img_url: "/bullisland.jpg",
+    viable_directions: {
+      "N": 0,
+      "S": 0,
+      "E": 0,
+      "W": 1,
+      "NE": 0,
+      "NW": 1,
+      "SE": 0,
+      "SW": 1
+    },
+  },
+  {
+    activity: ActivityEnum.Kayaking,
+    id: 11,
+    latitude: "32.8470",
+    longitude: "-79.8136",
+    name: "Shem Creek",
+    island: "Mount Pleasant",
+    winddirections: "N,S,E,W",
+    waves: "calm",
+    depth: "shallow",
+    description: "Shem Creek is a popular kayaking destination known for its calm waters and scenic views. Paddle through the marshlands and enjoy the wildlife. The area is also home to restaurants and bars, making it a great spot to relax after a paddle.",
+    experience: "beginner",
+    references: "https://www.shemcreek.com/",
+    location_img_url: "/shemcreek.jpg",
+    viable_directions: {
+      "N": 1,
+      "S": 1,
+      "E": 1,
+      "W": 1,
+      "NE": 1,
+      "NW": 1,
+      "SE": 1,
+      "SW": 1
+    },
+  },
+  {
+    activity: ActivityEnum.Hiking,
+    id: 12,
+    latitude: "32.9022",
+    longitude: "-79.7812",
+    name: "Palmetto Trail",
+    island: "Mount Pleasant",
+    winddirections: "N,S",
+    waves: "none",
+    depth: "land",
+    description: "The Palmetto Trail is one of the best hiking destinations in the Charleston area, offering miles of trails through the woods, marsh, and wetlands. The trail is well-marked and suitable for all skill levels.",
+    experience: "beginner",
+    references: "https://palmettoconservation.org/palmetto-trail/",
+    location_img_url: "/palmettotrail.jpg",
+    viable_directions: null,
+  },
+  {
+    activity: ActivityEnum.HuntingDeer,
+    id: 13,
+    latitude: "33.1202",
+    longitude: "-80.5232",
+    name: "Francis Marion National Forest",
+    island: "Mainland",
+    winddirections: "all",
+    waves: "none",
+    depth: "land",
+    description: "Francis Marion National Forest is a prime spot for deer hunting, located just north of Charleston. The forest offers vast land to explore and hunt, with deer and other wildlife abundant in the area.",
+    experience: "intermediate",
+    references: "https://www.fs.usda.gov/francis_marion",
+    location_img_url: "/francismarion.jpg",
+    viable_directions: null,
+  },
+
+
+  {
+    activity: ActivityEnum.FishingRedfish,
+    id: 10,
+    latitude: "32.7638",
+    longitude: "-79.8741",
+    name: "Bull Island",
+    island: "Bull Island",
+    winddirections: "SW,W,NW",
+    waves: "calm",
+    depth: "shallow",
+    description: "Bull Island is a nature preserve and a prime spot for fishing, especially for redfish. Accessible by boat, the island offers serene fishing spots and beautiful views.",
+    experience: "intermediate",
+    references: "https://www.dnr.sc.gov/fishing.html",
+    location_img_url: "/bullisland.jpg",
+    viable_directions: null
+  },
+  {
+    activity: ActivityEnum.Kayaking,
+    id: 11,
+    latitude: "32.8470",
+    longitude: "-79.8136",
+    name: "Shem Creek",
+    island: "Mount Pleasant",
+    winddirections: "N,S,E,W",
+    waves: "calm",
+    depth: "shallow",
+    description: "Shem Creek is a popular kayaking destination known for its calm waters and scenic views. Paddle through the marshlands and enjoy the wildlife.",
+    experience: "beginner",
+    references: "https://www.shemcreek.com/",
+    location_img_url: "/shemcreek.jpg",
+    viable_directions: null
+  },
+  // Palmetto Trail (Hiking)
+  {
+    activity: ActivityEnum.Hiking,
+    id: 12,
+    latitude: "32.9022",
+    longitude: "-79.7812",
+    name: "Palmetto Trail",
+    island: "Mount Pleasant",
+    winddirections: "N,S",
+    waves: "none",
+    depth: "land",
+    description: "The Palmetto Trail offers miles of hiking trails through marsh and wetlands. Suitable for all skill levels.",
+    experience: "beginner",
+    references: "https://palmettoconservation.org/palmetto-trail/",
+    location_img_url: "/palmettotrail.jpg",
+    viable_directions: null,
+  },
+  // Francis Marion National Forest (Hunting Deer)
+  {
+    activity: ActivityEnum.HuntingDeer,
+    id: 13,
+    latitude: "33.1202",
+    longitude: "-80.5232",
+    name: "Francis Marion National Forest",
+    island: "Mainland",
+    winddirections: "all",
+    waves: "none",
+    depth: "land",
+    description: "A prime spot for deer hunting, located just north of Charleston. Vast land to explore and hunt.",
+    experience: "intermediate",
+    references: "https://www.fs.usda.gov/francis_marion",
+    location_img_url: "/francismarion.jpg",
+    viable_directions: null,
+  },
 ];
 
 export default locations;

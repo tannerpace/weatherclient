@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
-import locations, { KitesurfSpot } from '../api/mock';
+import locations, { ActivitySpot } from '../api/mock';
 
 
-const initialLocations: KitesurfSpot[] = locations.map((location) => ({
+const initialLocations: ActivitySpot[] = locations.map((location) => ({
   ...location,
   latitude: parseFloat(location.latitude),
   longitude: parseFloat(location.longitude),
 }));
 
 
-const fetchKitesurfSpots = async (): Promise<KitesurfSpot[]> => {
+const fetchKitesurfSpots = async (): Promise<ActivitySpot[]> => {
   const userLocations = JSON.parse(localStorage.getItem("userLocations") || "[]");
   return [...initialLocations, ...userLocations];
 };
 
 
 const useKiteSurfSpots = () => {
-  const [data, setData] = useState<KitesurfSpot[]>();
+  const [data, setData] = useState<ActivitySpot[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
 
@@ -39,7 +39,7 @@ const useKiteSurfSpots = () => {
 };
 
 
-const fetchUserLocations = async (): Promise<KitesurfSpot[]> => {
+const fetchUserLocations = async (): Promise<ActivitySpot[]> => {
   const userLocations = JSON.parse(localStorage.getItem("userLocations") || "[]");
   return userLocations.map((location: any) => ({
     ...location,
@@ -50,7 +50,7 @@ const fetchUserLocations = async (): Promise<KitesurfSpot[]> => {
 
 
 const useUserLocations = () => {
-  const [data, setData] = useState<KitesurfSpot[]>();
+  const [data, setData] = useState<ActivitySpot[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
 
@@ -70,7 +70,7 @@ const useUserLocations = () => {
   }, []);
 
 
-  const setUserLocations = (newLocations: KitesurfSpot[]) => {
+  const setUserLocations = (newLocations: ActivitySpot[]) => {
     localStorage.setItem("userLocations", JSON.stringify(newLocations));
     setData(newLocations);
   };

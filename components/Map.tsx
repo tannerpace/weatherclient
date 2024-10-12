@@ -12,7 +12,7 @@ import "leaflet/dist/leaflet.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationArrow, faWind } from "@fortawesome/free-solid-svg-icons"
 import { config } from "@fortawesome/fontawesome-svg-core"
-import { KitesurfSpot, ViableDirections } from "../app/api/mock"
+import { ActivitySpot, ViableDirections } from "../app/api/mock"
 import { useFilterContext } from "@/app/context/FilterContext"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useWeatherContext } from "@/app/context/WeatherContext"
@@ -40,7 +40,7 @@ const userIcon = new L.Icon({
 
 interface MapProps {
   center: [number, number] | null
-  kitesurfSpots: KitesurfSpot[]
+  kitesurfSpots: ActivitySpot[]
   userLocation: LatLngLiteral | null
 }
 
@@ -67,7 +67,7 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
   const { setCoordinates } = useFilterContext()
   const { setSelectedLocation, setShowModal } = useSelectedLocationContext()
   const { weatherData, setLocation } = useWeatherContext()
-  const [selectedSpot, setSelectedSpot] = useState<KitesurfSpot | null>(null)
+  const [selectedSpot, setSelectedSpot] = useState<ActivitySpot | null>(null)
   const mapRef = useRef<any>(null)
 
   const debouncedSetLocationRef = useRef<any>()
@@ -90,7 +90,7 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
     }
   }, [selectedSpot])
 
-  const handleShowModal = (spot: KitesurfSpot) => {
+  const handleShowModal = (spot: ActivitySpot) => {
     setSelectedLocation(spot)
     setShowModal(true)
   }
@@ -132,7 +132,7 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
     }, [map])
     return null
   }
-  const handleMarkerClick = (spot: KitesurfSpot) => {
+  const handleMarkerClick = (spot: ActivitySpot) => {
     setSelectedSpot(spot)
     if (mapRef.current) {
       // Center the map on the clicked marker

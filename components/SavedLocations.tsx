@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import React, { useState, useEffect } from "react"
 import SavedLocationsMap from "@/components/SavedLocationsMap"
-import { KitesurfSpot, ViableDirections } from "@/app/api/mock"
+import { ActivitySpot, ViableDirections } from "@/app/api/mock"
 
 import { Checkbox, FormControlLabel, Slider } from "@mui/material"
 import WeatherInfo from "./ProfileRenderingInfo"
@@ -20,12 +20,12 @@ const defaultViableDirections: ViableDirections = {
 }
 
 const SavedLocations: React.FC = () => {
-  const [locations, setLocations] = useState<KitesurfSpot[]>([])
+  const [locations, setLocations] = useState<ActivitySpot[]>([])
   const [minWindspeed, setMinWindspeed] = useState<number>(0)
   const [viableDirections, setViableDirections] = useState<ViableDirections>(
     defaultViableDirections
   )
-  const [selectedLocation, setSelectedLocation] = useState<KitesurfSpot | null>(
+  const [selectedLocation, setSelectedLocation] = useState<ActivitySpot | null>(
     null
   )
   const [open, setOpen] = useState<boolean>(false)
@@ -47,13 +47,13 @@ const SavedLocations: React.FC = () => {
       ...selectedLocation,
       latitude: lat,
       longitude: lng,
-    } as KitesurfSpot)
+    } as ActivitySpot)
     setOpen(true)
   }
 
   const handleSaveLocation = () => {
     if (!locationName) return
-    const newSpot: KitesurfSpot = {
+    const newSpot: ActivitySpot = {
       id: Date.now(),
       latitude: selectedLocation?.latitude || 0,
       longitude: selectedLocation?.longitude || 0,
@@ -90,7 +90,7 @@ const SavedLocations: React.FC = () => {
     }))
   }
 
-  const handleLocationSelect = (location: KitesurfSpot) => {
+  const handleLocationSelect = (location: ActivitySpot) => {
     setSelectedLocation(location)
   }
 
