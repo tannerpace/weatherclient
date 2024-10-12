@@ -20,6 +20,7 @@ import CircularProgress from "@mui/material/CircularProgress" // Import Circular
 import { MapsUgc, MapsUgcOutlined } from "@mui/icons-material"
 import MyLocationIcon from "@mui/icons-material/MyLocation"
 import Search from "@/components/Search"
+import { LatLngLiteral } from "leaflet"
 
 config.autoAddCss = false
 
@@ -54,9 +55,7 @@ const FilteredApp: React.FC<FilteredAppProps> = ({ center, userLocation }) => {
       <Search onSearch={handleSearch} />
       {!isLoading && (
         <Map
-          userLocation={
-            userLocation as unknown as Pick<FilteredAppProps, "userLocation">
-          }
+          userLocation={userLocation as unknown as LatLngLiteral}
           center={center}
           kitesurfSpots={filteredSpots || (kitesurfSpots as KitesurfSpot[])}
         />
