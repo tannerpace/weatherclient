@@ -12,11 +12,12 @@ const SearchAndActivitiesLayout: FC<SearchAndActivitiesLayoutProps> = ({
   onSearch,
 }) => {
   return (
-    <div className="flex flex-row w-full justify-between items-center p-2 bg-black">
-      <div className="flex-grow mr-2">
+    <div className="flex flex-col md:flex-row w-full justify-between items-center bg-black lg:space-y-0 lg:space-x-4">
+      <div className="w-full md:w-2/3">
         <Search onSearch={onSearch} />
       </div>
-      <div className="flex-shrink-0">
+
+      <div className="w-full md:w-auto">
         <OutdoorActivitySelector />
       </div>
     </div>

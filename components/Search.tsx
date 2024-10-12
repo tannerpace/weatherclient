@@ -1,15 +1,16 @@
 "use client"
+
 import React, { useState } from "react"
 import Input from "./Input"
 
 type SearchProps = {
-  onSearch: (query: React.SetStateAction<string>) => void
+  onSearch: (query: string) => void
 }
 
 const Search: React.FC<SearchProps> = ({ onSearch }) => {
   const [query, setQuery] = useState<string>("")
 
-  const handleSearch = (term: React.SetStateAction<string>) => {
+  const handleSearch = (term: string) => {
     onSearch(term)
   }
 
@@ -22,9 +23,9 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
         setQuery(value)
         handleSearch(value)
       }}
-      placeholder="Search for a location"
+      placeholder="  Search for a location"
       required
-      className="w-full rounded-lg"
+      className="w-full min-h-10 md:min-h-12 rounded-lg px-3"
     />
   )
 }
