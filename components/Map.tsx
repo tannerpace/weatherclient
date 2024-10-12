@@ -49,6 +49,25 @@ interface MapProps {
   userLocation: Pick<FilteredAppProps, "userLocation">
 }
 
+const getWindSpeedColor = (windSpeed: string): string => {
+  const speed = parseFloat(windSpeed)
+  return speed > 14 ? "green" : "inherit"
+}
+
+const getWindDirectionColor = (
+  windDirection: unknown,
+  viableDirections: ViableDirections | null
+): string => {
+  if (typeof windDirection === "string" && viableDirections) {
+    return viableDirections[
+      windDirection.toUpperCase() as keyof ViableDirections
+    ]
+      ? "green"
+      : "inherit"
+  }
+  return "inherit"
+}
+
 const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
   const { setCoordinates } = useFilterContext()
   const { setSelectedLocation, setShowModal } = useSelectedLocationContext()
@@ -88,25 +107,6 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
       },
     })
     return null
-  }
-
-  const getWindDirectionColor = (
-    windDirection: unknown,
-    viableDirections: ViableDirections | null
-  ): string => {
-    if (typeof windDirection === "string" && viableDirections) {
-      return viableDirections[
-        windDirection.toUpperCase() as keyof ViableDirections
-      ]
-        ? "green"
-        : "inherit"
-    }
-    return "inherit"
-  }
-
-  const getWindSpeedColor = (windSpeed: string): string => {
-    const speed = parseFloat(windSpeed)
-    return speed > 14 ? "green" : "inherit"
   }
 
   const formatDateTime = (dateTime: string) => {
