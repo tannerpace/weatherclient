@@ -8,7 +8,7 @@ import React, {
 } from "react"
 
 import { useKiteSurfSpots } from "../hooks/useKiteSurfSpots"
-import { KitesurfSpot } from "../api/mock"
+import { ActivitySpot } from "../api/mock"
 
 export type WindDirection = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
 
@@ -16,7 +16,7 @@ export const DEFAULT_LATITUDE = "32.78621094914123"
 export const DEFAULT_LONGITUDE = "-79.9387649781444"
 
 interface FilterContextType {
-  filteredKitesurfSpots: KitesurfSpot[]
+  filteredKitesurfSpots: ActivitySpot[]
   selectedWindDirections: WindDirection[]
   searchTerm: string
   latitude: string
@@ -40,11 +40,11 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const { data: initialKitesurfSpots } = useKiteSurfSpots()
-  const [kitesurfSpots, setKitesurfSpots] = useState<KitesurfSpot[]>(
+  const [kitesurfSpots, setKitesurfSpots] = useState<ActivitySpot[]>(
     initialKitesurfSpots || []
   )
   const [filteredKitesurfSpots, setFilteredKitesurfSpots] = useState<
-    KitesurfSpot[]
+    ActivitySpot[]
   >(initialKitesurfSpots || [])
   const [selectedWindDirections, setSelectedWindDirections] = useState<
     WindDirection[]
@@ -54,7 +54,7 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
   const [longitude, setLongitude] = useState(DEFAULT_LONGITUDE)
 
   useEffect(() => {
-    let filtered: KitesurfSpot[] = kitesurfSpots
+    let filtered: ActivitySpot[] = kitesurfSpots
 
     if (selectedWindDirections.length > 0) {
       filtered = filtered.filter(
