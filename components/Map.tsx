@@ -17,6 +17,10 @@ import { useSelectedLocationContext } from "@/app/context/SelectedLocationContex
 import { useWeatherContext } from "@/app/context/WeatherContext"
 import { debounce } from "@mui/material"
 import BottomNavigationBar from "./BottomNavBar"
+import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css"
+import GestureHandling from "leaflet-gesture-handling"
+
+L.Map.addInitHook("addHandler", "gestureHandling", GestureHandling)
 
 config.autoAddCss = false
 
@@ -109,6 +113,13 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
     }
   }, [selectedSpot])
 
+  useEffect(() => {
+    if (mapRef.current) {
+      const mapInstance = mapRef.current
+      mapInstance.gestureHandling.enable() // Enable gesture handling when map is initialized
+    }
+  }, [])
+
   const handleShowModal = (spot: ActivitySpot) => {
     setSelectedLocation(spot)
     setShowModal(true)
@@ -159,7 +170,7 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
         <div style={{ height: "100%", width: "100%", zIndex: 0 }}>
           {center && center[0] ? (
             <MapContainer
-              center={(userLocation as LatLngLiteral) || center}
+              center={userLocation || center}
               zoom={10}
               ref={mapRef}
               style={{
