@@ -4,7 +4,6 @@ import {
   TileLayer,
   Marker,
   Popup,
-  useMap,
   useMapEvents,
 } from "react-leaflet"
 import L, { LatLngLiteral } from "leaflet"
@@ -60,6 +59,27 @@ const getWindDirectionColor = (
       : "inherit"
   }
   return "inherit"
+}
+
+const getWindRotation = (direction: string): number => {
+  const directions: {
+    [key in "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"]: number
+  } = {
+    N: 0,
+    NE: 45,
+    E: 90,
+    SE: 135,
+    S: 180,
+    SW: 225,
+    W: 270,
+    NW: 315,
+  }
+  return (
+    (directions[direction.toUpperCase() as keyof typeof directions] -
+      90 +
+      360) %
+    360
+  )
 }
 
 const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
@@ -124,12 +144,12 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
   const handleMarkerClick = (spot: ActivitySpot) => {
     setSelectedSpot(spot)
     if (mapRef.current) {
-      // Center the map on the clicked marker
       mapRef.current.setView([spot.latitude, spot.longitude], 13, {
         animate: true,
       })
     }
   }
+
   return (
     <>
       <div
@@ -175,8 +195,7 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
                           <div
                             style={{
                               color: getWindSpeedColor(
-                                weatherData.properties.periods[0]
-                                  .windSpeed as string
+                                weatherData.properties.periods[0].windSpeed
                               ),
                             }}
                           >
@@ -197,6 +216,19 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
                               Wind Direction:
                             </strong>{" "}
                             {weatherData.properties.periods[0].windDirection}
+                            <FontAwesomeIcon
+                              icon={faWind}
+                              style={{
+                                transform: `rotate(${getWindRotation(
+                                  weatherData.properties.periods[0]
+                                    .windDirection
+                                )}deg)`,
+                                marginLeft: "10px",
+                                color: getWindSpeedColor(
+                                  weatherData.properties.periods[0].windSpeed
+                                ),
+                              }}
+                            />
                           </div>
                           <div>
                             <strong className="text-gray-400">Forecast:</strong>{" "}
