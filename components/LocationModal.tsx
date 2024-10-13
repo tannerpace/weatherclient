@@ -13,33 +13,11 @@ import {
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import { useWeatherContext } from "@/app/context/WeatherContext"
 import Card from "@/components/Card"
-import DateComponent from "./DateComponent"
 import Image from "next/image"
 import ActivityEnum from "@/app/enums/ActivityEnum"
 
 const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { selectedLocation, setSelectedLocation } = useSelectedLocationContext()
-  const {
-    weatherData,
-    loadingForecast,
-    loadingObservation,
-    loadingForecastGrid,
-    errorForecast,
-    errorObservation,
-    errorForecastGrid,
-    setLocation,
-  } = useWeatherContext()
-
-  const [showWeatherDetails, setShowWeatherDetails] = useState(false)
-
-  useEffect(() => {
-    if (selectedLocation) {
-      setLocation(
-        selectedLocation.latitude.toString(),
-        selectedLocation.longitude.toString()
-      )
-    }
-  }, [selectedLocation, setLocation])
 
   if (!selectedLocation) return null
 
@@ -48,7 +26,6 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     onClose()
   }
 
-  // Function to render content based on the activity type
   const renderActivityDetails = () => {
     switch (selectedLocation.activity) {
       case ActivityEnum.Kitesurfing:
@@ -128,7 +105,6 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Card>
           </>
         )
-      // Add more cases for other activities as needed
       default:
         return <p>No additional details available for this activity.</p>
     }
