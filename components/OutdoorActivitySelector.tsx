@@ -1,40 +1,21 @@
-"use client"
 import React, { useState } from "react"
-import {
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Checkbox,
-  ListItemText,
-  Button,
-  Popover,
-  Box,
-} from "@mui/material"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faFilter, faTimes } from "@fortawesome/free-solid-svg-icons"
 import ActivityEnum, { activities } from "@/app/enums/ActivityEnum"
 import { useFilterContext } from "@/app/context/FilterContext"
 
 interface OutdoorActivitySelectorProps {
-  onActivityFilter: (activities: ActivityEnum[]) => void // Accept the prop
+  onActivityFilter: (activities: ActivityEnum[]) => void
 }
 
 const OutdoorActivitySelector: React.FC<OutdoorActivitySelectorProps> = ({
   onActivityFilter,
 }) => {
   const { selectedActivities, handleActivityChange } = useFilterContext()
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
 
-  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  const open = Boolean(anchorEl)
+  const handleOpen = () => setIsOpen(true)
+  const handleClose = () => setIsOpen(false)
 
   const toggleActivity = (activityValue: string) => {
     const activity = parseInt(activityValue) as number
@@ -43,93 +24,64 @@ const OutdoorActivitySelector: React.FC<OutdoorActivitySelectorProps> = ({
       : [...selectedActivities, activity]
 
     handleActivityChange(updatedActivities)
-    onActivityFilter(updatedActivities) // Call the onActivityFilter function with the updated activities
+    onActivityFilter(updatedActivities)
   }
 
   const clearActivities = () => {
     handleActivityChange([])
-    onActivityFilter([]) // Clear the filter when activities are cleared
+    onActivityFilter([])
   }
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" padding={2}>
-      <Button
-        startIcon={<FontAwesomeIcon icon={faFilter} />}
-        variant="contained"
-        color="primary"
+    <div className="flex flex-col items-center space-y-4 p-2">
+      <button
+        className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
         onClick={handleOpen}
-        sx={{ marginBottom: "16px" }}
       >
-        Select Activities
-      </Button>
+        <FontAwesomeIcon icon={faFilter} />
+        <span>Select Activities</span>
+      </button>
 
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-      >
-        <Box padding={2} minWidth={300}>
-          <FormControl fullWidth>
-            <InputLabel id="activity-select-label">Activities</InputLabel>
-            <Select
-              labelId="activity-select-label"
-              id="activity-select"
-              multiple
-              value={selectedActivities.map((activity) => activity.toString())}
-              onChange={(event) => {
-                const value = event.target.value as string[]
-                const selectedActivityEnums = value.map((activityValue) =>
-                  parseInt(activityValue)
-                )
-                handleActivityChange(selectedActivityEnums)
-                onActivityFilter(selectedActivityEnums) // Call the filter function here
-              }}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return "No activities selected"
-                }
-                return (selected as string[])
-                  .map(
-                    (value) =>
-                      activities.find((activity) => activity.value === value)
-                        ?.label
-                  )
-                  .join(", ")
-              }}
+      {isOpen && (
+        <div className="absolute bg-white shadow-lg rounded-lg p-4 w-80">
+          <h3 className="text-lg font-semibold mb-4">Activities</h3>
+          <div className="space-y-2">
+            {activities.map((activity) => (
+              <div key={activity.value} className="flex items-center">
+                <input
+                  type="checkbox"
+                  id={activity.value}
+                  checked={selectedActivities
+                    .map((activity) => activity.toString())
+                    .includes(activity.value)}
+                  onChange={() => toggleActivity(activity.value)}
+                  className="mr-2"
+                />
+                <label htmlFor={activity.value} className="cursor-pointer">
+                  {activity.label}
+                </label>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-end mt-4 space-x-2">
+            <button
+              onClick={clearActivities}
+              className="flex items-center bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300"
             >
-              {activities.map((activity) => (
-                <MenuItem key={activity.value} value={activity.value}>
-                  <Checkbox
-                    checked={selectedActivities
-                      .map((activity) => activity.toString())
-                      .includes(activity.value)}
-                  />
-                  <ListItemText primary={activity.label} />
-                </MenuItem>
-              ))}
-            </Select>
-            <Box display="flex" justifyContent="flex-end" marginTop={2}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                startIcon={<FontAwesomeIcon icon={faTimes} />}
-                onClick={clearActivities}
-              >
-                Clear
-              </Button>
-            </Box>
-          </FormControl>
-        </Box>
-      </Popover>
-    </Box>
+              <FontAwesomeIcon icon={faTimes} className="mr-2" />
+              <span>Clear</span>
+            </button>
+            <button
+              onClick={handleClose}
+              className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
 
