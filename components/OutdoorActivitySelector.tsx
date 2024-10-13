@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faFilter, faTimes } from "@fortawesome/free-solid-svg-icons"
@@ -33,9 +35,9 @@ const OutdoorActivitySelector: React.FC<OutdoorActivitySelectorProps> = ({
   }
 
   return (
-    <div className="flex flex-col items-center space-y-4 p-2">
+    <div className="relative flex flex-col items-center space-y-4">
       <button
-        className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+        className="flex items-center justify-center space-x-2 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md"
         onClick={handleOpen}
       >
         <FontAwesomeIcon icon={faFilter} />
@@ -43,8 +45,17 @@ const OutdoorActivitySelector: React.FC<OutdoorActivitySelectorProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute bg-white shadow-lg rounded-lg p-4 w-80">
-          <h3 className="text-lg font-semibold mb-4">Activities</h3>
+        <div className="absolute top-full mt-2 bg-white shadow-lg rounded-lg p-4 w-full max-w-sm z-10">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold">Activities</h3>
+            <button
+              onClick={handleClose}
+              className="text-gray-600 hover:text-gray-800"
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+          </div>
+
           <div className="space-y-2">
             {activities.map((activity) => (
               <div key={activity.value} className="flex items-center">
@@ -55,26 +66,29 @@ const OutdoorActivitySelector: React.FC<OutdoorActivitySelectorProps> = ({
                     .map((activity) => activity.toString())
                     .includes(activity.value)}
                   onChange={() => toggleActivity(activity.value)}
-                  className="mr-2"
+                  className="mr-2 h-5 w-5 rounded focus:ring-blue-500"
                 />
-                <label htmlFor={activity.value} className="cursor-pointer">
+                <label
+                  htmlFor={activity.value}
+                  className="cursor-pointer text-gray-700"
+                >
                   {activity.label}
                 </label>
               </div>
             ))}
           </div>
 
-          <div className="flex justify-end mt-4 space-x-2">
+          <div className="flex justify-between mt-6 space-x-2">
             <button
               onClick={clearActivities}
               className="flex items-center bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300"
             >
               <FontAwesomeIcon icon={faTimes} className="mr-2" />
-              <span>Clear</span>
+              Clear
             </button>
             <button
               onClick={handleClose}
-              className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
             >
               Done
             </button>

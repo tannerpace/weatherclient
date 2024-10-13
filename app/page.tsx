@@ -65,8 +65,8 @@ const FilteredApp: React.FC<{
   }
 
   return (
-    <div className="relative h-screen w-full">
-      <div className="absolute top-4 left-4 right-4 z-10 flex flex-col lg:flex-row lg:justify-between items-center space-y-4 lg:space-y-0 bg-white/10 backdrop-blur-md p-4 rounded-lg shadow-lg">
+    <div className="relative h-screen w-full bg-gradient-to-b from-blue-100 to-blue-300">
+      <div className="absolute top-4 left-4 right-4 z-10 flex flex-col lg:flex-row lg:justify-between items-center space-y-4 lg:space-y-0 bg-white/60 backdrop-blur-xl p-4 rounded-2xl shadow-2xl transition-all duration-300 ease-in-out">
         <div className="w-full lg:w-1/2">
           <Search onSearch={handleSearch} />
         </div>
@@ -74,6 +74,7 @@ const FilteredApp: React.FC<{
           <OutdoorActivitySelector onActivityFilter={handleActivityFilter} />
         </div>
       </div>
+
       {!isLoading && (
         <Map
           userLocation={userLocation as unknown as LatLngLiteral}
@@ -149,7 +150,7 @@ const Page: React.FC = () => {
       <Tooltip title="Show my location">
         <button
           onClick={handleGeolocationClick}
-          className="absolute top-40 right-6 z-10 bg-white p-3 rounded-full shadow-lg flex items-center justify-center hover:bg-gray-100 transition-colors disabled:opacity-50"
+          className="absolute top-40 right-6 z-10 bg-white p-3 rounded-full shadow-xl flex items-center justify-center hover:bg-gray-100 transition-all duration-300 ease-in-out disabled:opacity-50"
           disabled={loading}
         >
           {loading ? (
@@ -161,7 +162,7 @@ const Page: React.FC = () => {
       </Tooltip>
 
       {error && (
-        <div className="absolute top-16 left-4 z-10 text-red-500 bg-white p-2 rounded shadow-md">
+        <div className="absolute top-16 left-4 z-10 text-red-500 bg-white p-4 rounded-xl shadow-md">
           {error}
         </div>
       )}
