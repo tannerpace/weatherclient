@@ -1,17 +1,16 @@
 import React, {
   createContext,
-  useContext,
-  useEffect,
-  useState,
   ReactNode,
+  useContext,
+  useState,
   useMemo,
+  useEffect,
 } from "react"
-
-import { useKiteSurfSpots } from "../hooks/useKiteSurfSpots"
 import { ActivitySpot } from "../api/mock"
+import ActivityEnum from "@/app/enums/ActivityEnum"
+import { useKiteSurfSpots } from "../hooks/useKiteSurfSpots"
 
 export type WindDirection = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
-
 export const DEFAULT_LATITUDE = "32.78621094914123"
 export const DEFAULT_LONGITUDE = "-79.9387649781444"
 
@@ -21,13 +20,17 @@ interface FilterContextType {
   searchTerm: string
   latitude: string
   longitude: string
+  selectedActivities: ActivityEnum[]
   handleWindDirectionChange: (value: WindDirection) => void
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleActivityChange: (activities: ActivityEnum[]) => void
   setCoordinates: (lat: string, long: string) => void
 }
 
+// Create the context
 const FilterContext = createContext<FilterContextType | undefined>(undefined)
 
+// Custom hook to use the FilterContext
 export const useFilterContext = () => {
   const context = useContext(FilterContext)
   if (!context) {
@@ -49,10 +52,14 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
   const [selectedWindDirections, setSelectedWindDirections] = useState<
     WindDirection[]
   >([])
+  const [selectedActivities, setSelectedActivities] = useState<ActivityEnum[]>(
+    []
+  )
   const [searchTerm, setSearchTerm] = useState("")
   const [latitude, setLatitude] = useState(DEFAULT_LATITUDE)
   const [longitude, setLongitude] = useState(DEFAULT_LONGITUDE)
 
+  // Filter logic
   useEffect(() => {
     let filtered: ActivitySpot[] = kitesurfSpots
 
@@ -66,6 +73,12 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
       )
     }
 
+    if (selectedActivities.length > 0) {
+      filtered = filtered.filter((spot) =>
+        selectedActivities.includes(spot.activity as ActivityEnum)
+      )
+    }
+
     if (searchTerm) {
       filtered = filtered.filter((spot) =>
         spot.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -73,8 +86,9 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
     }
 
     setFilteredKitesurfSpots(filtered)
-  }, [selectedWindDirections, searchTerm, kitesurfSpots])
+  }, [selectedWindDirections, selectedActivities, searchTerm, kitesurfSpots])
 
+  // Handlers
   const handleWindDirectionChange = (value: WindDirection) => {
     setSelectedWindDirections((prevSelected) =>
       !prevSelected.includes(value)
@@ -85,6 +99,10 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
+  }
+
+  const handleActivityChange = (activities: ActivityEnum[]) => {
+    setSelectedActivities(activities)
   }
 
   const setCoordinates = (lat: string, long: string) => {
@@ -99,8 +117,10 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
       searchTerm,
       latitude,
       longitude,
+      selectedActivities,
       handleWindDirectionChange,
       handleSearchChange,
+      handleActivityChange,
       setCoordinates,
     }),
     [
@@ -109,6 +129,7 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
       searchTerm,
       latitude,
       longitude,
+      selectedActivities,
     ]
   )
 

@@ -17,20 +17,21 @@ import { useSelectedLocationContext } from "@/app/context/SelectedLocationContex
 import BottomNavigationBar from "@/components/BottomNavBar"
 import { useWeatherContext } from "@/app/context/WeatherContext"
 import CircularProgress from "@mui/material/CircularProgress" // Import CircularProgress
-import { MapsUgc, MapsUgcOutlined } from "@mui/icons-material"
+
 import MyLocationIcon from "@mui/icons-material/MyLocation"
 import Search from "@/components/Search"
 import { LatLngLiteral } from "leaflet"
+import OutdoorActivitySelector from "@/components/OutdoorActivitySelector"
+import ActivityEnum from "./enums/ActivityEnum"
 
 config.autoAddCss = false
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false })
-export interface FilteredAppProps {
+
+const FilteredApp: React.FC<{
   center: [number, number]
   userLocation: [number, number] | null
-}
-
-const FilteredApp: React.FC<FilteredAppProps> = ({ center, userLocation }) => {
+}> = ({ center, userLocation }) => {
   const { data: kitesurfSpots, isLoading } = useKiteSurfSpots()
   const [filteredSpots, setFilteredSpots] = useState<ActivitySpot[]>([])
 
@@ -50,9 +51,24 @@ const FilteredApp: React.FC<FilteredAppProps> = ({ center, userLocation }) => {
     )
   }
 
+  const handleActivityFilter = (activities: ActivityEnum[]) => {
+    if (kitesurfSpots) {
+      if (activities.length === 0) {
+        setFilteredSpots(kitesurfSpots)
+      } else {
+        setFilteredSpots(
+          kitesurfSpots.filter((spot) =>
+            activities.includes(spot.activity as ActivityEnum)
+          )
+        )
+      }
+    }
+  }
+
   return (
     <div className="flex flex-col h-full mb-50">
       <Search onSearch={handleSearch} />
+      <OutdoorActivitySelector onActivityFilter={handleActivityFilter} />
       {!isLoading && (
         <Map
           userLocation={userLocation as unknown as LatLngLiteral}
@@ -91,7 +107,7 @@ const Page: React.FC = () => {
           setCenter([parseFloat(newLat), parseFloat(newLong)])
           setLocation(newLat, newLong)
           setError(null)
-          setLoading(false) // Set loading to false
+          setLoading(false)
         },
         (error) => {
           if (error.code === error.PERMISSION_DENIED) {
@@ -104,12 +120,12 @@ const Page: React.FC = () => {
           } else {
             setError("Error fetching location data: " + error.message)
           }
-          setLoading(false) // Set loading to false
+          setLoading(false)
         }
       )
     } else {
       setError("Geolocation is not supported by your browser")
-      setLoading(false) // Set loading to false
+      setLoading(false)
     }
   }
 
@@ -129,7 +145,7 @@ const Page: React.FC = () => {
         <button
           onClick={handleGeolocationClick}
           className="absolute top-40 right-6 z-10 bg-white p-2 rounded shadow flex items-center text-black"
-          disabled={loading} // Disable button while loading
+          disabled={loading}
         >
           {loading ? (
             <CircularProgress size={20} className="mr-2 text-black" />

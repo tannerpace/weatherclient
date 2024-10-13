@@ -18,7 +18,6 @@ import { useSelectedLocationContext } from "@/app/context/SelectedLocationContex
 import { useWeatherContext } from "@/app/context/WeatherContext"
 import { debounce } from "@mui/material"
 import BottomNavigationBar from "./BottomNavBar"
-import { FilteredAppProps } from "@/app/page"
 
 config.autoAddCss = false
 
@@ -122,16 +121,6 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
     }
   }
 
-  // Custom hook to center the map on user location
-  const CenterOnUser = () => {
-    const map = useMap()
-    useEffect(() => {
-      if (userLocation) {
-        map.setView(userLocation, 13)
-      }
-    }, [map])
-    return null
-  }
   const handleMarkerClick = (spot: ActivitySpot) => {
     setSelectedSpot(spot)
     if (mapRef.current) {
@@ -167,7 +156,7 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
                   key={spot.id}
                   position={[spot.latitude, spot.longitude]}
                   eventHandlers={{
-                    click: () => handleMarkerClick(spot), // Center on marker click
+                    click: () => handleMarkerClick(spot),
                   }}
                 >
                   <Popup>
@@ -270,14 +259,12 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
               )}
 
               <MapEvents />
-              <CenterOnUser />
               <BottomNavigationBar />
             </MapContainer>
           ) : (
             <div style={{ height: "100%", width: "100%" }}></div>
           )}
         </div>
-        {/* center and zoom user location */}
         <button
           onClick={() => {
             if (userLocation) {
@@ -287,7 +274,7 @@ const Map: React.FC<MapProps> = ({ center, kitesurfSpots, userLocation }) => {
           }}
           className="center-button"
         >
-          <FontAwesomeIcon icon={faLocationArrow} /> Center on me
+          <FontAwesomeIcon icon={faLocationArrow} /> Show My Location
         </button>
       </div>
     </>

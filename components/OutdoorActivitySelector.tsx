@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react"
+"use client"
+import React, { useState } from "react"
 import {
   Select,
   MenuItem,
@@ -13,49 +14,16 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faFilter, faTimes } from "@fortawesome/free-solid-svg-icons"
 import ActivityEnum, { activities } from "@/app/enums/ActivityEnum"
+import { useFilterContext } from "@/app/context/FilterContext"
 
-const OutdoorActivitySelector: React.FC = () => {
-  const decodeActivities = (bitmask: number): ActivityEnum[] => {
-    return Object.values(ActivityEnum).filter(
-      (activity) =>
-        typeof activity === "number" && bitmask & (activity as number)
-    ) as ActivityEnum[]
-  }
+interface OutdoorActivitySelectorProps {
+  onActivityFilter: (activities: ActivityEnum[]) => void // Accept the prop
+}
 
-  const encodeActivities = (activities: ActivityEnum[]): number => {
-    return activities.reduce((bitmask, activity) => bitmask | activity, 0)
-  }
-
-  const [selectedActivities, setSelectedActivities] = useState<ActivityEnum[]>(
-    []
-  )
-
-  useEffect(() => {
-    const storedBitmask = localStorage.getItem("outdoorActivitiesBitmask")
-    if (storedBitmask) {
-      const bitmask = parseInt(storedBitmask, 10)
-      setSelectedActivities(decodeActivities(bitmask))
-    }
-  }, [])
-
-  useEffect(() => {
-    const encodedBitmask = encodeActivities(selectedActivities)
-    localStorage.setItem("outdoorActivitiesBitmask", encodedBitmask.toString())
-  }, [selectedActivities])
-
-  const toggleActivity = (activityValue: string) => {
-    const activity = parseInt(activityValue) as ActivityEnum
-    setSelectedActivities((prevActivities) =>
-      prevActivities.includes(activity)
-        ? prevActivities.filter((a) => a !== activity)
-        : [...prevActivities, activity]
-    )
-  }
-
-  const clearActivities = () => {
-    setSelectedActivities([])
-  }
-
+const OutdoorActivitySelector: React.FC<OutdoorActivitySelectorProps> = ({
+  onActivityFilter,
+}) => {
+  const { selectedActivities, handleActivityChange } = useFilterContext()
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -67,6 +35,21 @@ const OutdoorActivitySelector: React.FC = () => {
   }
 
   const open = Boolean(anchorEl)
+
+  const toggleActivity = (activityValue: string) => {
+    const activity = parseInt(activityValue) as number
+    const updatedActivities = selectedActivities.includes(activity)
+      ? selectedActivities.filter((a) => a !== activity)
+      : [...selectedActivities, activity]
+
+    handleActivityChange(updatedActivities)
+    onActivityFilter(updatedActivities) // Call the onActivityFilter function with the updated activities
+  }
+
+  const clearActivities = () => {
+    handleActivityChange([])
+    onActivityFilter([]) // Clear the filter when activities are cleared
+  }
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" padding={2}>
@@ -103,10 +86,11 @@ const OutdoorActivitySelector: React.FC = () => {
               value={selectedActivities.map((activity) => activity.toString())}
               onChange={(event) => {
                 const value = event.target.value as string[]
-                const selectedActivityEnums = value.map(
-                  (activityValue) => parseInt(activityValue) as ActivityEnum
+                const selectedActivityEnums = value.map((activityValue) =>
+                  parseInt(activityValue)
                 )
-                setSelectedActivities(selectedActivityEnums)
+                handleActivityChange(selectedActivityEnums)
+                onActivityFilter(selectedActivityEnums) // Call the filter function here
               }}
               renderValue={(selected) => {
                 if (selected.length === 0) {

@@ -22,6 +22,7 @@ interface ActivityItem {
   value: string;
 }
 
+// Define the labels for each activity
 const ActivityLabels: Record<ActivityEnum, string> = {
   [ActivityEnum.Kitesurfing]: "Kitesurfing",
   [ActivityEnum.Hiking]: "Hiking",
@@ -41,17 +42,16 @@ const ActivityLabels: Record<ActivityEnum, string> = {
   [ActivityEnum.JetSkiing]: "Jet Skiing",
 };
 
+// map over the enum values and generate a list of activity items
 const getActivities = (): ActivityItem[] => {
-  return Object.keys(ActivityEnum)
-    .filter((key) => isNaN(Number(key))) // Filter out numeric keys
-    .map((key) => {
-      const enumValue = ActivityEnum[key as keyof typeof ActivityEnum];
-      return {
-        label: ActivityLabels[enumValue],
-        value: enumValue.toString(),
-      };
-    });
+  return Object.values(ActivityEnum)
+    .filter((value) => typeof value === "number") // Filter out non-numeric values
+    .map((enumValue) => ({
+      label: ActivityLabels[enumValue as ActivityEnum],
+      value: enumValue.toString(),
+    }));
 };
+
 
 const activities: ActivityItem[] = getActivities();
 

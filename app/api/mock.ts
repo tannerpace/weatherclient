@@ -378,9 +378,9 @@ const locations: ActivitySpotWithSringCoordinates[] = [
   {
     activity: ActivityEnum.Kayaking,
     id: 15,
-    latitude: "32.8470",
-    longitude: "-79.8136",
-    name: "Shem Creek",
+    latitude: "32.793105",
+    longitude: " -79.877131",
+    name: "Shem Creek Boat Landing",
     island: "Mount Pleasant",
     winddirections: "N,S,E,W",
     waves: "calm",
