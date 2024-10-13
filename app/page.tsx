@@ -147,7 +147,7 @@ const Page: React.FC = () => {
 
   return (
     <>
-      <Tooltip title="Center On Me">
+      <Tooltip title="Show my location">
         <button
           onClick={handleGeolocationClick}
           className="absolute top-40 right-6 z-10 bg-white p-2 rounded shadow flex items-center text-black"
