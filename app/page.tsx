@@ -66,9 +66,15 @@ const FilteredApp: React.FC<{
   }
 
   return (
-    <div className="flex flex-col h-full mb-50">
-      <Search onSearch={handleSearch} />
-      <OutdoorActivitySelector onActivityFilter={handleActivityFilter} />
+    <div className="relative h-full w-full">
+      <div className="absolute top-4 left-4 right-4 z-10 flex justify-between items-center space-x-4 bg-white/10 backdrop-blur-md p-4 rounded-md shadow-md">
+        <div className="w-1/2">
+          <Search onSearch={handleSearch} />
+        </div>
+        <div className="w-1/3">
+          <OutdoorActivitySelector onActivityFilter={handleActivityFilter} />
+        </div>
+      </div>
       {!isLoading && (
         <Map
           userLocation={userLocation as unknown as LatLngLiteral}
