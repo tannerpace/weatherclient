@@ -35,9 +35,9 @@ const OutdoorActivitySelector: React.FC<OutdoorActivitySelectorProps> = ({
   }
 
   return (
-    <div className="relative flex flex-col items-center space-y-4">
+    <div className="relative flex flex-col items-center space-y-2">
       <button
-        className="flex items-center justify-center space-x-2 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md"
+        className="flex items-center justify-center space-x-2 bg-blue-500 text-white py-1 px-4 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md"
         onClick={handleOpen}
       >
         <FontAwesomeIcon icon={faFilter} />
