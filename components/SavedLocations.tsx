@@ -1,10 +1,8 @@
-// pages/profile.tsx
 "use client"
 import { useRouter } from "next/navigation"
 import React, { useState, useEffect } from "react"
 import SavedLocationsMap from "@/components/SavedLocationsMap"
 import { ActivitySpot, ViableDirections } from "@/app/api/mock"
-
 import { Checkbox, FormControlLabel, Slider } from "@mui/material"
 import WeatherInfo from "./ProfileRenderingInfo"
 import ActivityEnum from "@/app/enums/ActivityEnum"
@@ -78,7 +76,9 @@ const SavedLocations: React.FC = () => {
     setMinWindspeed(0)
     setViableDirections(defaultViableDirections)
   }
+
   const router = useRouter()
+
   const handleDeleteLocation = (id: number) => {
     setLocations((prevLocations) =>
       prevLocations.filter((location) => location.id !== id)
@@ -97,9 +97,9 @@ const SavedLocations: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-2">
-      <h1 className="text-xl font-bold">Click on map to save a new location</h1>
-      <div className="mb-4" style={{ height: "400px" }}>
+    <div className="min-h-screen bg-gray-900 text-white p-4">
+      <h1 className="text-2xl font-bold mb-6">Manage Your Saved Locations</h1>
+      <div className="mb-6 h-80">
         <SavedLocationsMap
           locations={locations}
           onLocationAdd={handleAddLocation}
@@ -109,17 +109,20 @@ const SavedLocations: React.FC = () => {
       </div>
       <button
         onClick={() => router.push("/")}
-        className="mt-4 px-4 py-2 bg-purple-500 text-white rounded flex items-center justify-center hover:bg-green-700 w-full md:w-auto"
+        className="mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg flex items-center justify-center hover:bg-blue-700 transition-all duration-300 w-full md:w-auto"
       >
-        Home
+        Go to Home
       </button>
-      <ul className="mb-4">
+      <ul className="mt-6">
         {locations.map((location) => (
-          <li key={location.id} className="mb-2">
-            {location.name}
+          <li
+            key={location.id}
+            className="mb-4 flex justify-between items-center"
+          >
+            <span>{location.name}</span>
             <button
               onClick={() => handleDeleteLocation(location.id)}
-              className="ml-2 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-700"
+              className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-300"
             >
               Delete
             </button>
@@ -127,9 +130,9 @@ const SavedLocations: React.FC = () => {
         ))}
       </ul>
       {selectedLocation && (
-        <div className="mt-4">
+        <div className="mt-8">
           <h2 className="text-xl font-bold">
-            Weather Information for {selectedLocation.name}
+            Weather Info for {selectedLocation.name}
           </h2>
           <WeatherInfo
             latitude={selectedLocation.latitude}
@@ -140,19 +143,19 @@ const SavedLocations: React.FC = () => {
         </div>
       )}
       {open && (
-        <div className="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 p-4 rounded-lg w-80">
-            <h2 className="text-xl font-bold mb-4">Add New Location</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 modal">
+          <div className="bg-gray-800 p-6 rounded-lg w-96">
+            <h2 className="text-lg font-semibold mb-4">Add New Location</h2>
             <input
               type="text"
               placeholder="Enter location name"
-              className="mb-4 p-2 border border-gray-300 rounded bg-gray-800 text-white w-full"
+              className="w-full mb-4 p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500"
               value={locationName}
               onChange={(e) => setLocationName(e.target.value)}
             />
             <div className="mb-4">
               <label
-                className="block text-lg font-bold mb-2"
+                className="block text-sm font-medium mb-2"
                 htmlFor="minWindspeed"
               >
                 Minimum Windspeed
@@ -164,41 +167,47 @@ const SavedLocations: React.FC = () => {
                 min={0}
                 max={100}
                 valueLabelDisplay="auto"
+                className="text-blue-500"
               />
             </div>
             <div className="mb-4">
-              <h2 className="text-lg font-bold mb-2">Viable Wind Directions</h2>
-              {Object.keys(defaultViableDirections).map((direction) => (
-                <FormControlLabel
-                  key={direction}
-                  control={
-                    <Checkbox
-                      checked={
-                        viableDirections[
-                          direction as keyof ViableDirections
-                        ] === 1
-                      }
-                      onChange={() =>
-                        handleViableDirectionChange(
-                          direction as keyof ViableDirections
-                        )
-                      }
-                      name={direction}
-                    />
-                  }
-                  label={direction}
-                />
-              ))}
+              <h3 className="text-sm font-medium mb-2">
+                Viable Wind Directions
+              </h3>
+              <div className="grid grid-cols-2 gap-2 modal">
+                {Object.keys(defaultViableDirections).map((direction) => (
+                  <FormControlLabel
+                    key={direction}
+                    control={
+                      <Checkbox
+                        checked={
+                          viableDirections[
+                            direction as keyof ViableDirections
+                          ] === 1
+                        }
+                        onChange={() =>
+                          handleViableDirectionChange(
+                            direction as keyof ViableDirections
+                          )
+                        }
+                        name={direction}
+                        className="text-blue-500"
+                      />
+                    }
+                    label={direction}
+                  />
+                ))}
+              </div>
             </div>
             <button
               onClick={handleSaveLocation}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 w-full"
+              className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300"
             >
-              Save
+              Save Location
             </button>
             <button
               onClick={() => setOpen(false)}
-              className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 w-full"
+              className="w-full mt-2 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-300"
             >
               Cancel
             </button>
