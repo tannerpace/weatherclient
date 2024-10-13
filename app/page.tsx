@@ -66,7 +66,7 @@ const FilteredApp: React.FC<{
 
   return (
     <div className="relative h-screen w-full bg-gradient-to-b from-blue-100 to-blue-900">
-      <div className="absolute top-4 left-4 right-4 z-10 flex flex-col lg:flex-row lg:justify-between items-center space-y-4 lg:space-y-0 bg-white/60 backdrop-blur-xl p-4 rounded-2xl shadow-2xl transition-all duration-300 ease-in-out">
+      <div className="absolute top-4 left-4 right-4 z-10 flex flex-col lg:flex-row lg:justify-between items-center space-y-4 lg:space-y-0 bg-gradient-to-b from-white/0 via-white/20 to-white/1 backdrop-blur-xl p-4 rounded-2xl shadow-2xl transition-all duration-300 ease-in-out">
         <div className="w-full lg:w-1/2">
           <Search onSearch={handleSearch} />
         </div>

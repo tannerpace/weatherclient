@@ -2,11 +2,7 @@
 
 import React, { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faFilter,
-  faTimes,
-  faCheckCircle,
-} from "@fortawesome/free-solid-svg-icons"
+import { faFilter, faTimes } from "@fortawesome/free-solid-svg-icons"
 import ActivityEnum, { activities } from "@/app/enums/ActivityEnum"
 import { useFilterContext } from "@/app/context/FilterContext"
 import { Switch } from "@headlessui/react"
@@ -21,8 +17,11 @@ const OutdoorActivitySelector: React.FC<OutdoorActivitySelectorProps> = ({
   const { selectedActivities, handleActivityChange } = useFilterContext()
   const [isOpen, setIsOpen] = useState(false)
 
+  const handleOpen = () => setIsOpen(true)
+  const handleClose = () => setIsOpen(false)
+
   const toggleActivity = (activityValue: string) => {
-    const activity = parseInt(activityValue)
+    const activity = parseInt(activityValue) as number
     const updatedActivities = selectedActivities.includes(activity)
       ? selectedActivities.filter((a) => a !== activity)
       : [...selectedActivities, activity]
@@ -37,28 +36,28 @@ const OutdoorActivitySelector: React.FC<OutdoorActivitySelectorProps> = ({
   }
 
   return (
-    <div className="relative w-full">
+    <div className="relative flex flex-col items-center space-y-2">
       <button
-        className="flex items-center space-x-2 bg-blue-500 text-white py-2 px-5 rounded-md hover:bg-blue-400 transition"
-        onClick={() => setIsOpen(true)}
+        className="flex items-center justify-center space-x-2 bg-black text-green-500 font-mono py-1 px-4 rounded-md border-2 border-green-500 transition duration-300 hover:bg-green-500 hover:text-black"
+        onClick={handleOpen}
       >
         <FontAwesomeIcon icon={faFilter} />
-        <span>Filter Activities</span>
+        <span>Select Activities</span>
       </button>
 
       {isOpen && (
-        <div className="absolute top-full mt-2 w-80 bg-white shadow-lg rounded-md p-4 z-20">
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-lg font-semibold text-gray-700">Activities</h3>
+        <div className="absolute top-full mt-2 bg-black text-green-500 border-2 border-green-500 rounded-md p-4 w-full max-w-sm z-10 font-mono">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg">Activities</h3>
             <button
-              onClick={() => setIsOpen(false)}
-              className="text-gray-400 hover:text-gray-600"
+              onClick={handleClose}
+              className="text-green-500 hover:text-black bg-green-500 rounded-md px-2 py-1 hover:bg-black"
             >
               <FontAwesomeIcon icon={faTimes} />
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-2">
             {activities.map((activity) => (
               <div key={activity.value} className="flex items-center">
                 <Switch.Group>
@@ -70,37 +69,38 @@ const OutdoorActivitySelector: React.FC<OutdoorActivitySelectorProps> = ({
                     className={`${
                       selectedActivities.includes(parseInt(activity.value))
                         ? "bg-green-500"
-                        : "bg-gray-300"
-                    } relative inline-flex h-6 w-11 items-center rounded-full transition-colors ease-in-out`}
+                        : "bg-black border border-green-500"
+                    } relative inline-flex h-6 w-12 items-center rounded-none transition-colors duration-300 ease-in-out`}
                   >
                     <span
                       className={`${
                         selectedActivities.includes(parseInt(activity.value))
-                          ? "translate-x-6 bg-white"
-                          : "translate-x-1 bg-white"
-                      } inline-block h-4 w-4 rounded-full transition-transform`}
+                          ? "translate-x-6"
+                          : "translate-x-0"
+                      } inline-block h-5 w-5 transform bg-black rounded-none border-2 border-green-500 transition-transform duration-300 ease-in-out`}
                     />
                   </Switch>
-                  <span className="ml-3 text-gray-700">{activity.label}</span>
+                  <span className="ml-3 text-green-500 text-sm">
+                    {activity.label}
+                  </span>
                 </Switch.Group>
               </div>
             ))}
           </div>
 
-          <div className="flex justify-between mt-4">
+          <div className="flex justify-between mt-6 space-x-2">
             <button
               onClick={clearActivities}
-              className="flex items-center space-x-2 bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition"
+              className="flex items-center bg-black text-green-500 border-2 border-green-500 px-4 py-1 rounded-md hover:bg-green-500 hover:text-black transition duration-300"
             >
-              <FontAwesomeIcon icon={faTimes} />
-              <span>Clear</span>
+              <FontAwesomeIcon icon={faTimes} className="mr-2" />
+              Clear
             </button>
             <button
-              onClick={() => setIsOpen(false)}
-              className="flex items-center space-x-2 bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 transition"
+              onClick={handleClose}
+              className="bg-green-500 text-black px-4 py-1 rounded-md border-2 border-black hover:bg-black hover:text-green-500 transition duration-300"
             >
-              <FontAwesomeIcon icon={faCheckCircle} />
-              <span>Done</span>
+              Done
             </button>
           </div>
         </div>
