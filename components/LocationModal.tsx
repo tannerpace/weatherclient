@@ -15,6 +15,7 @@ import { useWeatherContext } from "@/app/context/WeatherContext"
 import Card from "@/components/Card"
 import Image from "next/image"
 import ActivityEnum from "@/app/enums/ActivityEnum"
+import Link from "next/link"
 
 const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { selectedLocation, setSelectedLocation } = useSelectedLocationContext()
@@ -123,7 +124,20 @@ const LocationModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <FontAwesomeIcon icon={faTimes} />
         </button>
         <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-bold mb-4">{selectedLocation.name}</h2>
+          {selectedLocation.activity === ActivityEnum.Kitesurfing && (
+            <a
+              className="text-2xl font-bold mb-4 text-blue-400 hover:text-blue-600 transition-colors duration-300 underline"
+              href="https://kitesurf.ninja"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              More helpful info for {selectedLocation.name} on KiteSurf.Ninja
+            </a>
+          )}
+          <h2 className="text-2xl font-bold mb-4">
+            {selectedLocation.activity !== ActivityEnum.Kitesurfing &&
+              selectedLocation.name}
+          </h2>
           <Image
             src={selectedLocation.location_img_url}
             alt={selectedLocation.name}
