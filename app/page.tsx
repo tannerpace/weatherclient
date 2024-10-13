@@ -16,8 +16,7 @@ import LocationModal from "@/components/LocationModal"
 import { useSelectedLocationContext } from "@/app/context/SelectedLocationContext"
 import BottomNavigationBar from "@/components/BottomNavBar"
 import { useWeatherContext } from "@/app/context/WeatherContext"
-import CircularProgress from "@mui/material/CircularProgress" // Import CircularProgress
-
+import CircularProgress from "@mui/material/CircularProgress"
 import MyLocationIcon from "@mui/icons-material/MyLocation"
 import Search from "@/components/Search"
 import { LatLngLiteral } from "leaflet"
@@ -66,12 +65,12 @@ const FilteredApp: React.FC<{
   }
 
   return (
-    <div className="relative h-full w-full">
-      <div className="absolute top-4 left-4 right-4 z-10 flex justify-between items-center space-x-4 bg-white/10 backdrop-blur-md p-4 rounded-md shadow-md">
-        <div className="w-1/2">
+    <div className="relative h-screen w-full">
+      <div className="absolute top-4 left-4 right-4 z-10 flex flex-col lg:flex-row lg:justify-between items-center space-y-4 lg:space-y-0 bg-white/10 backdrop-blur-md p-4 rounded-lg shadow-lg">
+        <div className="w-full lg:w-1/2">
           <Search onSearch={handleSearch} />
         </div>
-        <div className="w-1/3">
+        <div className="w-full lg:w-1/3">
           <OutdoorActivitySelector onActivityFilter={handleActivityFilter} />
         </div>
       </div>
@@ -150,24 +149,28 @@ const Page: React.FC = () => {
       <Tooltip title="Show my location">
         <button
           onClick={handleGeolocationClick}
-          className="absolute top-40 right-6 z-10 bg-white p-2 rounded shadow flex items-center text-black"
+          className="absolute top-40 right-6 z-10 bg-white p-3 rounded-full shadow-lg flex items-center justify-center hover:bg-gray-100 transition-colors disabled:opacity-50"
           disabled={loading}
         >
           {loading ? (
             <CircularProgress size={20} className="mr-2 text-black" />
           ) : (
-            <MyLocationIcon />
+            <MyLocationIcon className="text-black" />
           )}
         </button>
       </Tooltip>
 
       {error && (
-        <div className="absolute top-16 left-4 z-10 text-red-500">{error}</div>
+        <div className="absolute top-16 left-4 z-10 text-red-500 bg-white p-2 rounded shadow-md">
+          {error}
+        </div>
       )}
       <FilteredApp center={center} userLocation={userLocation} />
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <LocationModal onClose={handleCloseModal} />
+        <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <LocationModal onClose={handleCloseModal} />
+          </div>
         </div>
       )}
     </>
