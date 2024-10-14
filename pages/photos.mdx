@@ -21,6 +21,7 @@ import Image from 'next/image'
     <Image
       src="/images/photo_pano1.jpg"
       alt="Panorama Photo"
+      layout="responsive"
       width={13473}
       height={3804}
       priority
@@ -29,87 +30,138 @@ import Image from 'next/image'
   </div>
 </div>
 
+{' '}
+
 <div className="pano-container">
   <Image
     src="/images/photo14.jpg"
     alt="Photo"
+    layout="responsive"
     width={9974}
     height={4995}
-    priority
     className="next-image"
   />
 </div>
+
+{' '}
 
 <div className="wrapper">
   <div className="full-width-container">
     <Image
       src="/images/photo_pano2.jpg"
       alt="Panorama Photo"
+      layout="responsive"
       width={8384}
       height={3278}
-      priority
       className="next-image pano-img"
     />
   </div>
 </div>
 
+{' '}
+
 <div className="pano-container">
-
-    <Image
-      src="/images/photo11.jpg"
-      alt="Photo"
-      width={5430}
-      height={2897}
-      priority
-      className="next-image"
-    />
-
+  <Image
+    src="/images/photo11.jpg"
+    alt="Photo"
+    layout="responsive"
+    width={5430}
+    height={2897}
+    className="next-image"
+  />
 </div>
+
+{' '}
 
 <div className="pano-container">
   <Image
     src="/images/photo_pano3.jpg"
     alt="Panorama Photo"
+    layout="responsive"
     width={5474}
     height={2923}
-    priority
     className="next-image pano-img"
   />
 </div>
+
+{' '}
 
 <div className="img-container">
   <Image
     src="/images/photo13.jpg"
     alt="Photo"
+    layout="responsive"
     width={5083}
     height={3389}
-    priority
     className="next-image"
   />
 </div>
+
+{' '}
 
 <div className="pano-container">
   <Image
     src="/images/photo12.bmp"
     alt="Photo"
+    layout="responsive"
     width={4558}
     height={3568}
-    priority
     className="next-image"
   />
 </div>
+
+{' '}
 
 <div className="wrapper">
   <div className="full-width-container">
     <Image
       src="/images/photo15.png"
       alt="Photo"
+      layout="responsive"
       width={5450}
       height={3633}
-      priority
-      className="next-image"
+      className="next-image pano-img"
     />
   </div>
 </div>
 
 </div>
+
+<style jsx>{`
+  .photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+  }
+
+  .next-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .full-width-container {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+
+  .photo-title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    color: #333;
+  }
+
+  @media (min-width: 1024px) {
+    .photo-gallery {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+
+    .pano-container {
+      grid-column: span 2;
+    }
+  }
+`}</style>
