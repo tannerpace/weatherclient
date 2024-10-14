@@ -6,8 +6,6 @@ date: 2021-03-18
 
 # Photos
 
-Here's some of my photography.
-
 import Image from 'next/image'
 
 <div className="photo-title">
@@ -15,23 +13,6 @@ import Image from 'next/image'
 </div>
 
 <div className="photo-gallery">
-
-{/* Standard Photos */}
-
-{' '}
-
-<div className="img-container">
-  <Image
-    src="/images/photo.jpg"
-    alt="Photo"
-    width={600}
-    height={334}
-    priority
-    className="next-image"
-  />
-</div>
-
-{' '}
 
 <div className="pano-container">
   <Image
@@ -44,7 +25,16 @@ import Image from 'next/image'
   />
 </div>
 
-{' '}
+<div className="img-container">
+  <Image
+    src="/images/photo14.jpg"
+    alt="Photo"
+    width={9974}
+    height={4995}
+    priority
+    className="next-image"
+  />
+</div>
 
 <div className="img-container">
   <Image
@@ -69,9 +59,6 @@ import Image from 'next/image'
     className="next-image pano-img"
   />
 </div>
-
-{' '}
-
 <div className="img-container">
   <Image
     src="/images/photo11.jpg"
@@ -83,7 +70,16 @@ import Image from 'next/image'
   />
 </div>
 
-{' '}
+<div className="pano-container">
+  <Image
+    src="/images/photo_pano3.jpg"
+    alt="Panorama Photo"
+    width={5474}
+    height={2923}
+    priority
+    className="next-image pano-img"
+  />
+</div>
 
 <div className="img-container">
   <Image
@@ -109,40 +105,23 @@ import Image from 'next/image'
   />
 </div>
 
-{' '}
-
-<div className="pano-container">
-  <Image
-    src="/images/photo_pano3.jpg"
-    alt="Panorama Photo"
-    width={5474}
-    height={2923}
-    priority
-    className="next-image pano-img"
-  />
-</div>
-
-{' '}
-
-<div className="img-container">
-  <Image
-    src="/images/photo14.jpg"
-    alt="Photo"
-    width={9974}
-    height={4995}
-    priority
-    className="next-image"
-  />
-</div>
-
-{' '}
-
 <div className="img-container">
   <Image
     src="/images/photo15.png"
     alt="Photo"
     width={5450}
     height={3633}
+    priority
+    className="next-image"
+  />
+</div>
+
+<div className="img-container">
+  <Image
+    src="/images/photo.jpg"
+    alt="Photo"
+    width={600}
+    height={334}
     priority
     className="next-image"
   />
