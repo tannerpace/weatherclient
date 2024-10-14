@@ -1,22 +1,13 @@
 ---
 title: Optimizing Local Storage Efficiency with Bitwise Operations in TypeScript Enum
-date: 2024-10-13
-description: Using bitwise operations to solve local storage limitations by compactly storing user-selected activities in a TypeScript application.
-tag: web development
-tags:
-  [
-    TypeScript,
-    bitwise operations,
-    local storage,
-    performance optimization,
-    enum,
-    JavaScript,
-    development
-  ]
-author: [Tanner Bleakley]
+Date: 2024-10-13
+Description: Using bitwise operations to solve local storage limitations by compactly storing user-selected activities in a TypeScript application.
+Tag: web development
+Tags: [TypeScript, bitwise operations, local storage, performance optimization, enum, JavaScript, development]
+Author: [Tanner Bleakley]
 ---
 
-# Storage Bottle Necks in a privacy focused app.
+# Solving Storage Bottlenecks
 
 During the development of my app, windysession.com, I encountered a critical issue: local storage was filling up quickly due to inefficient storage of user-selected activities. Initially, each activity was stored as a string, but as more activities were added, the storage footprint expanded rapidly. This post explores the technical details of how I solved the issue using bitwise operations in a TypeScript enum and the trade-offs involved.
 
@@ -26,20 +17,17 @@ Local storage provides around 5MB of space in most browsers, which sounds suffic
 
 Additionally, my app had a filter feature that allowed users to filter locations based on the activity type, and as the app grew, the number of available filters also expanded rapidly. This further increased the data stored in local storage.
 
-[https://windysession.com](www.windysession.com)
-
-#
 Over time, this string-based storage approach led to warnings and errors about exceeding local storage limits, making it clear that this strategy wasn't scalable. The problem needed to be solved at the structural level, not just with data compression.
 
 ## Recognizing the Bottleneck
 
 The string-based approach quickly ran into limitations as local storage filled up. Storing an array of strings for user activities consumed unnecessary space due to the overhead of UTF-16 encoding and the lack of a compact data representation. A solution was needed to reduce the space usage while still allowing for multiple activities to be stored efficiently.
 
-## The Solution: Bitwise Operations with `ActivityEnum`
+The Solution: Bitwise Operations with ActivityEnum
 
-To reduce the storage footprint, I switched from string-based storage to bitwise operations. By defining activities as an `enum` in TypeScript, I could use bitwise operators to store multiple activity selections in a single integer.
+To reduce the storage footprint, I switched from string-based storage to bitwise operations. By defining activities as an enum in TypeScript, I could use bitwise operators to store multiple activity selections in a single integer.
 
-```typescript
+```
 enum ActivityEnum {
   Kitesurfing = 1 << 0,  // 1
   Hiking = 1 << 1,       // 2
@@ -55,15 +43,49 @@ enum ActivityEnum {
 In this approach, each activity is assigned a unique bit by shifting 1 left by the desired number of positions. This allows multiple activities to be represented in a single integer by using bitwise OR (|) operations.
 
 Combining Activities with Bitwise Operations
-For example, if a user selects both "Kitesurfing" and "Fishing", their selected activities can be represented as: 
 
-### Trade offs
+For example, if a user selects both "Kitesurfing" and "Fishing", their selected activities can be represented as:
 
-Trade-offs
+```
+const selectedActivities = ActivityEnum.Kitesurfing | ActivityEnum.Fishing;
+```
 
-This approach is effective for managing a predefined set of activities and offers scalability to a certain extent. However, as the number of activities grows, the storage strategy may need to be re-evaluated. While bitwise operations provide significant performance improvements and minimize the storage footprint, long-term scalability could present challenges as the system continues to expand. For a more scalable local storage, I'm considering using IndexedDB or, Service Workers with Cache Storage for offline-first capabilities, if Web SQL wasn't deprecated it would be nice for its relational database functionality.
+This results in the number 9, which is derived from adding the bitwise values of Kitesurfing (1) and Fishing (8). Using this method, multiple activities can be combined into a single integer, drastically reducing the storage footprint.
 
-Conclusion
+## How it Works:
+
+1. Storing Activities: Each activity is represented as a unique bit in the integer. When a user selects multiple activities, these bits are combined using the bitwise OR (|) operator, allowing all selected activities to be stored in a single integer.
+
+
+2. Retrieving Activities: To check if a specific activity has been selected, the app uses the bitwise AND (&) operator:
+
+
+```
+const isKitesurfingSelected = (selectedActivities & ActivityEnum.Kitesurfing) !== 0;
+```
+
+If the result is not zero, it means the "Kitesurfing" bit is set in the integer, indicating that the user selected this activity.
+
+3. Efficiency: This approach significantly reduces the amount of data stored in local storage. Instead of storing an array of strings like ["Kitesurfing", "Fishing", "Hiking"], which could take up several bytes, a single integer is stored, such as 13 (representing Kitesurfing, Hiking, and Fishing).
+
+
+
+## Filtering with Bitwise Operations:
+
+Filtering locations based on selected activities also becomes easier and more efficient. For example, if you want to filter locations where both "Kitesurfing" and "Fishing" are possible, you can check for the combined value using bitwise operations:
+
+```
+const activitiesFilter = ActivityEnum.Kitesurfing | ActivityEnum.Fishing;
+const isMatch = (locationActivities & activitiesFilter) === activitiesFilter;
+```
+
+## Trade-offs
+
+This approach is effective for managing a predefined set of activities and offers scalability to a certain extent. However, as the number of activities grows, the storage strategy may need to be re-evaluated. While bitwise operations provide significant performance improvements and minimize the storage footprint, long-term scalability could present challenges as the system continues to expand.
+
+For future scalability, I'm considering using more robust storage options like IndexedDB or leveraging Service Workers with Cache Storage for offline-first capabilities. If Web SQL were not deprecated, its relational database functionality would also be ideal for this purpose.
+
+## Conclusion
 
 By implementing bitwise operations with the ActivityEnum, I successfully addressed the local storage limitations, significantly reducing the space required for storing user-selected activities. This solution meets my current needs, but future scaling will require careful consideration of evolving storage strategies.
 
