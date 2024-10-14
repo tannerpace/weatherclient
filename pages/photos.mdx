@@ -4,245 +4,133 @@ title: Drone Photography Portfolio
 date: 2021-03-18
 ---
 
-# My Drone Photography Portfolio
+# Photos
 
-Explore my collection of drone-captured landscapes and unique aerial shots. From serene marshlands to vibrant cityscapes, these photos showcase the world from a bird's-eye view.
+Here's some of my photography.
 
-<div className="photo-grid">
-  <figure>
-    <Image
-      src="/images/3d_golf_course.jpg"
-      alt="Drone view of a 3D golf course"
-      width={1125}
-      height={750}
-      priority
-      className="next-image"
-    />
-    <figcaption>Drone view of a 3D golf course</figcaption>
-  </figure>
+import Image from 'next/image'
 
-{' '}
-
-<figure>
-  <Image
-    src="/images/abstract_expression_breakfast.jpg"
-    alt="Abstract drone shot of breakfast art"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Abstract drone shot of breakfast art</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/baseball_feild_at_dusk.jpg"
-    alt="Drone view of a baseball field at dusk"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Drone view of a baseball field at dusk</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/birds_eye_marsh.jpg"
-    alt="Aerial view of a marshland"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Aerial view of a marshland</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/downtown_charleston_marion_square.jpg"
-    alt="Drone view of Downtown Charleston's Marion Square"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Drone view of Downtown Charleston's Marion Square</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/folly_beach_county_park.jpg"
-    alt="Aerial view of Folly Beach County Park"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Aerial view of Folly Beach County Park</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/kiteboarding_sullivans_island.jpg"
-    alt="Drone shot of kiteboarding at Sullivan's Island"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Drone shot of kiteboarding at Sullivan's Island</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/lighthouse.jpg"
-    alt="Aerial shot of a lighthouse by the ocean"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Aerial shot of a lighthouse by the ocean</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/Maui_HDR.png"
-    alt="Drone HDR view of Maui"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Drone HDR view of Maui</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/me_on_beach_jeep.jpg"
-    alt="Drone shot of me on the beach with my Jeep"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Drone shot of me on the beach with my Jeep</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/pano_of_colburg_creek.jpg"
-    alt="Panoramic drone view of Colburg Creek"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Panoramic drone view of Colburg Creek</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/PANO0001-5-Pano-EFFECTS.jpg"
-    alt="Panoramic drone view of a coastal landscape"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Panoramic drone view of a coastal landscape</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/PANO0001-6-Pano~2.jpg"
-    alt="Panoramic drone view of a mountain range"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Panoramic drone view of a mountain range</figcaption>
-</figure>
-
-{' '}
-
-<figure>
-  <Image
-    src="/images/ashley_river_storm_brewing.jpg"
-    alt="Drone shot of Ashley River with a storm brewing"
-    width={1125}
-    height={750}
-    priority
-    className="next-image"
-  />
-  <figcaption>Drone shot of Ashley River with a storm brewing</figcaption>
-</figure>
-
-  <figure>
-    <Image
-      src="/images/sunrise_over_creek.jpg"
-      alt="Drone view of sunrise over a creek"
-      width={1125}
-      height={750}
-      priority
-      className="next-image"
-    />
-    <figcaption>Drone view of sunrise over a creek</figcaption>
-  </figure>
+<div className="photo-title">
+  <h2>Some of my Photography</h2>
 </div>
 
-<style jsx>{`
-  .photo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
+<div className="photo-gallery">
 
-  figure {
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-  }
+{/* Standard Photos */}
 
-  figure:hover {
-    transform: scale(1.05); /* Slight zoom effect on hover */
-  }
+{' '}
 
-  figcaption {
-    text-align: center;
-    font-size: 1rem;
-    margin-top: 0.5rem;
-    color: #555;
-  }
+<div className="img-container">
+  <Image
+    src="/images/photo.jpg"
+    alt="Photo"
+    width={600}
+    height={334}
+    priority
+    className="next-image"
+  />
+</div>
 
-  .next-image {
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  }
-`}</style>
+{' '}
+
+<div className="pano-container">
+  <Image
+    src="/images/photo_pano1.jpg"
+    alt="Panorama Photo"
+    width={13473}
+    height={3804}
+    priority
+    className="next-image pano-img"
+  />
+</div>
+
+{' '}
+
+<div className="img-container">
+  <Image
+    src="/images/photo10.jpg"
+    alt="Photo"
+    width={2322}
+    height={1049}
+    priority
+    className="next-image"
+  />
+</div>
+
+{' '}
+
+<div className="pano-container">
+  <Image
+    src="/images/photo_pano2.jpg"
+    alt="Panorama Photo"
+    width={8384}
+    height={3278}
+    priority
+    className="next-image pano-img"
+  />
+</div>
+
+{' '}
+
+<div className="img-container">
+  <Image
+    src="/images/photo11.jpg"
+    alt="Photo"
+    width={5430}
+    height={2897}
+    priority
+    className="next-image"
+  />
+</div>
+
+{' '}
+
+<Image
+  src="/images/photo12.jpg"
+  alt="Photo"
+  width={1125}
+  height={750}
+  priority
+  className="next-image"
+
+/>
+
+<Image
+  src="/images/photo13.jpg"
+  alt="Photo"
+  width={1125}
+  height={750}
+  priority
+  className="next-image"
+
+/>
+
+<Image
+  src="/images/photo14.jpg"
+  alt="Photo"
+  width={1125}
+  height={750}
+  priority
+  className="next-image"
+
+/>
+
+<Image
+  src="/images/photo15.jpg"
+  alt="Photo"
+  width={1125}
+  height={750}
+  priority
+  className="next-image"
+
+/>
+
+<Image
+  src="/images/photo_pano1.jpg"
+  alt="Photo"
+  width={1125}
+  height={750}
+  priority
+  className="next-image"
+
+/>
