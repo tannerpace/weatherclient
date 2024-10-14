@@ -21,10 +21,6 @@ This script accomplishes the following tasks:
 5. **Creates and configures a systemd service**: Ensures your application starts on boot and can be managed like any other service.
 6. **Deploys the application and sets up a deploy script**: A simple script is created to allow easy redeployment of updated code.
 
-## A Word of Advice
-
-While this script automates the setup, I would recommend using it as more of a recipe and running these commands manually at least once. This will give you a better understanding of how everything works, from installing packages to configuring MySQL and setting up the Spring Boot application as a systemd service. By doing so, you’ll be able to troubleshoot more effectively and make customizations as needed for your specific setup.
-
 ### The Script
 
 Here’s the bash script that automates the entire setup:
