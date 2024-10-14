@@ -1,3 +1,11 @@
+---
+title: Automating Spring Boot Deployment on EC2 with MySQL
+date: 2022/6/12
+description: A step-by-step guide to automate Spring Boot and MySQL setup on EC2 using bash scripts
+tags: [spring-boot, ec2, aws, mysql]
+author: Tanner Bleakley
+---
+
 ## Automating Spring Boot Application Deployment with MySQL on Amazon Linux
 
 Deploying a Spring Boot application on an Amazon Linux EC2 instance can be a straightforward task, but adding automated MySQL setup, secure GitHub repository access, and systemd service management can take your setup to the next level. In this blog post, I’ll walk you through a bash script that automates the entire process—from installing necessary packages to setting up your application as a service.
@@ -12,6 +20,10 @@ This script accomplishes the following tasks:
 4. **Builds and packages the Spring Boot application**: Uses Maven to package your application.
 5. **Creates and configures a systemd service**: Ensures your application starts on boot and can be managed like any other service.
 6. **Deploys the application and sets up a deploy script**: A simple script is created to allow easy redeployment of updated code.
+
+## A Word of Advice
+
+While this script automates the setup, I would recommend using it as more of a recipe and running these commands manually at least once. This will give you a better understanding of how everything works, from installing packages to configuring MySQL and setting up the Spring Boot application as a systemd service. By doing so, you’ll be able to troubleshoot more effectively and make customizations as needed for your specific setup.
 
 ### The Script
 
@@ -121,84 +133,3 @@ sudo chmod +x /usr/local/bin/deploy.sh
 # Reboot the system to ensure everything is set up correctly
 sudo reboot
 ```
-
-### Step-by-Step Explanation
-
-#### 1. **Updating the System and Installing Required Packages**
-
-The script begins by updating the package repository to ensure you’re installing the latest versions of Java, Git, and Maven:
-
-```bash
-sudo yum update -y
-sudo yum install -y java-17 git maven
-```
-
-#### 2. **Setting Up MySQL**
-
-MySQL isn’t always available in the default repositories, so the script adds the official MySQL repository and installs MySQL from there:
-
-```bash
-sudo yum install -y https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
-sudo yum install -y mysql-community-server
-```
-
-After installation, MySQL is started, and its secure installation is automated using a temporary root password:
-
-```bash
-TEMP_PASSWORD=$(sudo grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}')
-```
-
-#### 3. **Cloning the Spring Boot Application**
-
-To clone your private GitHub repository securely, the script uses a GitHub token passed as a variable:
-
-```bash
-GITHUB_TOKEN="your-github-token-here"
-REPO_URL="https://$GITHUB_TOKEN@github.com/<USER_NAME>/api.git"
-```
-
-This ensures that your credentials are not hardcoded into the script, making it more secure.
-
-#### 4. **Building the Application**
-
-The script then navigates to the application directory and builds the Spring Boot application using Maven:
-
-```bash
-sudo mvn clean package
-```
-
-#### 5. **Setting Up the Application as a Systemd Service**
-
-A systemd service file is created to manage the Spring Boot application, allowing it to start on boot and be controlled with standard systemd commands:
-
-```bash
-sudo bash -c "cat > /etc/systemd/system/$SERVICE_NAME.service <<EOF
-...
-EOF"
-```
-
-#### 6. **Deployment Script**
-
-The script sets up a simple deployment script that pulls the latest changes from the repository, rebuilds the application, and restarts the service:
-
-```bash
-sudo bash -c "cat > /usr/local/bin/deploy.sh <<EOF
-#!/bin/bash
-cd $APP_DIR/$SUBDIR
-sudo git pull origin main
-sudo mvn clean package
-sudo systemctl restart $SERVICE_NAME
-EOF"
-```
-
-This script can be executed anytime you need to deploy updates to your application.
-
-### Conclusion
-
-This bash script simplifies the process of deploying a Spring Boot application on an Amazon Linux EC2 instance, making it ideal for hobby projects. It handles everything from MySQL installation and configuration to setting up your application as a systemd service. By integrating GitHub token-based authentication, it also ensures secure access to your private repositories.
-
-While this setup is perfect for hobby projects or small personal applications, it's important to note that a production environment typically requires more robust solutions. For instance, using MySQL installed directly on your EC2 instance is convenient for development, but it lacks the reliability and scalability needed for a production application. In a production scenario, you would likely want to use Amazon RDS or another managed database service that provides automatic backups, scaling, and high availability.
-
-This script is a great starting point for learning and experimenting with Spring Boot on AWS. As your project grows or transitions into production, consider upgrading your database and infrastructure to ensure data security, reliability, and performance.
-
-Feel free to reach out if you have any questions or suggestions for improvements! Happy coding!
