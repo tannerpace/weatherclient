@@ -106,3 +106,20 @@ details summary {
   src: url(/fonts/Inter-italic.latin.var.woff2) format('woff2');
   font-named-instance: 'Italic';
 }
+
+.full-width-container {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+}
