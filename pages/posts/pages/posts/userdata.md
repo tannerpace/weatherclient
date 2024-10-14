@@ -1,6 +1,6 @@
 ---
 title: Automating Spring Boot Application Deployment with MySQL on Amazon Linux
-date: 10/14/2024
+date: 10/01/2024
 description: Learn how to automate the deployment of a Spring Boot application on an Amazon Linux EC2 instance, complete with MySQL setup, GitHub repository access, and systemd service management.
 tag: deployment
 tags: [Spring Boot, MySQL, Amazon Linux, EC2, AWS, Systemd]
