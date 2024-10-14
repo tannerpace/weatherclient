@@ -5,6 +5,11 @@ export default function Document() {
     title: 'Tanner Bleakley - Portfolio',
     description: 'Tanner Bleakley is a full-stack developer and DevOps engineer.',
     image: 'https://assets.vercel.com/image/upload/q_auto/front/vercel/dps.png' // Update this with your actual image URL
+    title: 'Tanner Bleakley - Full-Stack Developer & Drone Enthusiast',
+    description: 'Explore the portfolio and blog of Tanner Bleakley, a full-stack developer with a passion for kitesurfing, drone technology, and creating dynamic web experiences.',
+    image: 'https://your-image-url.com/your-portfolio-image.jpg',
+    twitterHandle: '@boyashaka83',
+    siteUrl: 'https://tannerb.dev'
   }
 
   return (
