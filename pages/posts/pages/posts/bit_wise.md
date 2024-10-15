@@ -4,37 +4,33 @@ Date: 2024-10-13
 Description: Using bitwise operations to solve local storage limitations by compactly storing user-selected activities in a TypeScript application.
 Tag: web development
 Tags:
-  [
-    TypeScript,
-    bitwise operations,
-    local storage,
-    performance optimization,
-    enum,
-    JavaScript,
-    development
-  ]
+[TypeScript, bitwise operations, local storage, performance optimization, enum, JavaScript, development]
 Author: [Tanner Bleakley]
 ---
 
 # Problem
 
-During the development of my app, [https://windysession.com](windysession.com), I encountered a critical issue: local storage was filling up quickly due to inefficient storage usage. Initially, each activity was stored as a string, but as more activities were added, the storage footprint expanded rapidly. This post explores the details, and solution implementing bitwise operations in a TypeScript enum and the trade-offs involved.
+During the development of my app, windysession.com, I encountered an issue with local storage filling up quickly. Initially, I stored user-selected activities as strings, which worked fine at first, but as more activities were added, it became clear this approach wasn’t scalable. Local storage usage expanded rapidly, leading to warnings about exceeding storage limits. To fix this, I switched to using bitwise operations with a TypeScript enum, significantly reducing the storage footprint.
 
-# Local Storage Limitations
+## Local Storage Limitations
 
-Local storage provides around 5MB of space in most browsers, which sounds sufficient for small apps but quickly becomes inadequate when storing data inefficiently. In my case, each user-selected activity was being stored as a string, meaning that every activity took up more space than necessary. For instance, a user selecting "Kitesurfing," "Hiking," and "Fishing" would result in multiple string entries, which compounded as more activities were added.
+Browsers typically provide around 5MB of local storage, which seems sufficient until inefficient data storage practices eat it up. In my case, each selected activity was stored as a string, so users choosing multiple activities resulted in several string entries. For example, if a user selected "Kitesurfing," "Hiking," and "Fishing," it led to multiple entries like:
 
-Additionally, my app had a filter feature that allowed users to filter locations based on the activity type, as the app grew, so did the available filters I wanted to implement. This further increased the data stored in local storage. Warnings and errors about exceeding local storage limits, made it clear that this strategy wasn't scalable. So the problem needed to be solved at the structural level, not just with data compression.
+```TS
+["Kitesurfing", "Hiking", "Fishing"]
+```
 
-## Recognizing the Bottleneck
+This quickly consumed space, and as more activities were added, the issue grew worse. The app also had a filtering feature, further increasing the amount of data stored. It was clear that a new, more efficient approach was needed to handle user selections.
 
-The string-based approach quickly ran into limitations as local storage filled up. Storing an array of strings for user activities consumed unnecessary space due to the overhead of UTF-16 encoding and the lack of a compact data representation. A solution was needed to reduce the space usage while still allowing for multiple activities to be stored efficiently.
+### Recognizing the Bottleneck
 
-### The Solution: Bitwise Operations in an Enum
+The problem stemmed from storing activities as individual strings. Each activity took up more space than necessary due to the overhead of UTF-16 encoding and the absence of any compact data representation. I needed a way to store multiple activities in a more efficient manner.
 
-To reduce the storage footprint, I switched from string-based storage to bitwise operations.
+## The Solution: Bitwise Operations in a TypeScript Enum
 
-By defining activities as an enum in TypeScript, I could use bitwise operators to store multiple activity selections in a single integer.
+To optimize local storage usage, I switched from storing strings to using bitwise operations with a TypeScript enum. This allowed me to represent multiple activities in a single integer, minimizing storage space.
+
+Here’s how I defined the ActivityEnum:
 
 ```TS
 enum ActivityEnum {
@@ -44,52 +40,97 @@ enum ActivityEnum {
   Fishing = 1 << 3,      // 8
   HuntingDuck = 1 << 4,  // 16
   HuntingDeer = 1 << 5,  // 32
-  Running = 1 << 7,      // 128
-  Surfing = 1 << 8,      // 256
+  Running = 1 << 6,      // 64
+  Surfing = 1 << 7,      // 128
 }
 ```
 
-With this approach, each activity is assigned a unique bit by shifting 1 left by the desired number of positions.
+Each activity is represented as a unique bit. The bitwise shift operator (<<) assigns a unique power of two to each activity, ensuring they don’t overlap. Using this setup, multiple activities can be stored in a single integer by combining them with the bitwise OR (|) operator.
 
-This allows multiple activities to be represented in a single integer by using bitwise OR (|) operations.
-
-For example, if a user selects both "Kitesurfing" and "Fishing", their selected activities can be represented as:
+For example, if a user selects both "Kitesurfing" and "Fishing," I can store these selections as:
 
 ```TS
 const selectedActivities = ActivityEnum.Kitesurfing | ActivityEnum.Fishing;
 ```
 
-This results in the number 9, which is derived from adding the bitwise values of Kitesurfing (1) and Fishing (8). Using this method, multiple activities can be combined into a single integer, drastically reducing the storage footprint.
+This results in the number 9 (1 for Kitesurfing and 8 for Fishing), which is a much more compact representation than storing an array of strings.
 
-## How it Works:
+How Bitwise Operations Help
+Storing Activities
+To store selected activities, I combine them using the bitwise OR operator. This allows all selected activities to be compressed into a single integer. The code for storing these activities looks like this:
 
-1. Storing Activities: Each activity is represented as a unique bit in the integer. When a user selects multiple activities, these bits are combined using the bitwise OR (|) operator, allowing all selected activities to be stored in a single integer.
-
-2. Retrieving Activities: To check if a specific activity has been selected, the app uses the bitwise AND (&) operator:
-
+```TS
+const handleActivityChange = (activities: ActivityEnum[]) => {
+  setSelectedActivities(activities);
+};
 ```
+
+With the ActivityEnum in place, each activity selection is added to the selectedActivities state, which holds the bitwise value representing the combination of selected activities.
+
+Retrieving Activities
+To check whether a specific activity has been selected, I use the bitwise AND (&) operator. For example, to check if the user selected "Kitesurfing":
+
+```TS
 const isKitesurfingSelected = (selectedActivities & ActivityEnum.Kitesurfing) !== 0;
 ```
 
-If the result is not zero, it means the "Kitesurfing" bit is set in the integer, indicating that the user selected this activity.
+This checks whether the "Kitesurfing" bit is set in the selectedActivities integer.
 
-3. Efficiency: This approach significantly reduces the amount of data stored in local storage. Instead of storing an array of strings like ["Kitesurfing", "Fishing", "Hiking"], which could take up several bytes, a single integer is stored, such as 13 (representing Kitesurfing, Hiking, and Fishing).
+### Efficiency Gains
 
-## Filtering with Bitwise Operations:
+This approach significantly reduces the amount of data stored. Instead of saving an array like:
 
-Filtering locations based on selected activities also becomes easier and more efficient. For example, if you want to filter locations where both "Kitesurfing" and "Fishing" are possible, you can check for the combined value using bitwise operations:
-
+```TS
+["Kitesurfing", "Fishing", "Hiking"]
 ```
+
+I store a single integer, such as 13, which represents all selected activities.
+
+### Filtering with Bitwise Operations
+
+This optimization also extends to filtering locations based on selected activities. For example, to filter kitesurf spots that allow both "Kitesurfing" and "Fishing," I can use the following logic:
+
+```TS
 const activitiesFilter = ActivityEnum.Kitesurfing | ActivityEnum.Fishing;
-const isMatch = (locationActivities & activitiesFilter) === activitiesFilter;
+const isMatch = (spot.activity & activitiesFilter) === activitiesFilter;
 ```
+
+This checks whether both "Kitesurfing" and "Fishing" are possible at a given location using a single comparison.
+
+### Implementation in Context
+
+The logic for handling filters and applying bitwise operations is integrated into my app’s FilterContext. Here’s an excerpt:
+
+```TSX
+export const FilterProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [selectedActivities, setSelectedActivities] = useState<ActivityEnum[]>([]);
+
+  useEffect(() => {
+    let filtered: ActivitySpot[] = kitesurfSpots;
+
+    if (selectedActivities.length > 0) {
+      filtered = filtered.filter((spot) =>
+        selectedActivities.includes(spot.activity as ActivityEnum)
+      );
+    }
+
+    setFilteredKitesurfSpots(filtered);
+  }, [selectedActivities]);
+
+  return (
+    <FilterContext.Provider value={{ selectedActivities, handleActivityChange }}>
+      {children}
+    </FilterContext.Provider>
+  );
+};
+```
+
+In this implementation, the selected activities are filtered based on the bitwise representation, reducing the amount of data being processed and stored.
 
 ## Trade-offs
 
-This approach is effective for managing a predefined set of activities and offers scalability to a certain extent. However, as the number of activities grows, the storage strategy may need to be re-evaluated. While bitwise operations provide significant performance improvements and minimize the storage footprint, long-term scalability could present challenges as the system continues to expand.
+While this solution works efficiently for a predefined set of activities, it has limitations as the number of activities increases. Since the bitwise method relies on unique bits, adding too many activities may require switching to a different storage strategy, such as IndexedDB. For now, however, this solution provides a scalable, lightweight alternative to storing user selections as strings.
 
-For future scalability, I'm considering using more robust storage options like IndexedDB or leveraging Service Workers with Cache Storage for offline-first capabilities. If Web SQL were not deprecated, its relational database functionality would also be ideal for this purpose.
+# Conclusion
 
-## Conclusion
-
-By implementing bitwise operations with the ActivityEnum, I successfully addressed the local storage limitations, significantly reducing the space required for storing user-selected activities. This solution meets my current needs, but future scaling will require careful consideration of evolving storage strategies.
+By using bitwise operations and enums in TypeScript, I drastically reduced the local storage footprint in my app. This approach allowed me to store multiple activities in a single integer, making the app more efficient and scalable. Though this method is not without limitations, it serves my current needs and has improved performance significantly.
