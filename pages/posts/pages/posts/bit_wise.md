@@ -1,7 +1,7 @@
 ---
 title: Optimizing Local Storage Efficiency with Bitwise Operations
-Date: 2024/10/13
-Description: Using bitwise operations
+date: 2024/10/13
+description: Using bitwise operations
 tag: web development
 tags: [react, typescript, aws, ec2, backend, deployment, web dev, REST API]
 author: Tanner Bleakley
