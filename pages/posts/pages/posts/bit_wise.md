@@ -1,9 +1,9 @@
 ---
 title: Optimizing Local Storage Efficiency with Bitwise Operations in TypeScript Enum
-Date: 2024-10-13
-Description: Using bitwise operations to solve local storage limitations by compactly storing user-selected activities in a TypeScript application.
-Tag: web development
-Tags:
+date: 2024-10-13
+description: Using bitwise operations to solve local storage limitations by compactly storing user-selected activities in a TypeScript application.
+tag: web development
+tags:
   [
     TypeScript,
     bitwise operations,
@@ -13,12 +13,12 @@ Tags:
     JavaScript,
     development
   ]
-Author: [Tanner Bleakley]
+author: [Tanner Bleakley]
 ---
 
 # Problem
 
-During the development of my app, [https://windysession.com](windysession.com), I encountered a critical issue: local storage was filling up quickly due to inefficient storage usage. Initially, each activity was stored as a string, but as more activities were added, the storage footprint expanded rapidly. This post explores the details, and solution implementing bitwise operations in a TypeScript enum and the trade-offs involved.
+During the development of a hobby project, [https://windysession.com](www.windysession.com), I encountered a critical issue: local storage was filling up quickly due to inefficient storage usage. Initially, each activity was stored as a string, but as more activities were added, the storage footprint expanded rapidly. This post explores the details, and solution implementing bitwise operations in a TypeScript enum and the trade-offs involved.
 
 # Local Storage Limitations
 
