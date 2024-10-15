@@ -1,6 +1,6 @@
 ---
 title: Optimizing Local Storage Efficiency with Bitwise Operations in TypeScript Enum
-Date: 2024-10-13
+Date: 2024/10/13
 Description: Using bitwise operations to solve local storage limitations by compactly storing user-selected activities in a TypeScript application.
 Tag: web development
 Tags: [TypeScript, bitwise operations, local-storage]
