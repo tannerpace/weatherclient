@@ -9,7 +9,7 @@ Author: [Tanner Bleakley]
 
 # Problem
 
-During the development of my app, windysession.com, I encountered an issue with local storage filling up quickly. Initially, I stored user-selected activities as strings, which worked fine at first, but as more activities were added, it became clear this approach wasn’t scalable. Local storage usage expanded rapidly, leading to warnings about exceeding storage limits. To fix this, I switched to using bitwise operations with a TypeScript enum, significantly reducing the storage footprint.
+During the development of a side project, [https://windysession.com](windysession.com), I encountered an issue with local storage filling up quickly. Initially, I stored user-selected activities as strings, which worked fine at first, but as more activities were added, it became clear this approach wasn’t scalable. Local storage usage expanded rapidly, leading to warnings about exceeding storage limits. To fix this, I switched to using bitwise operations with a TypeScript enum, significantly reducing the storage footprint.
 
 ## Local Storage Limitations
 
