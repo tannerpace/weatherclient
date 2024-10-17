@@ -9,6 +9,7 @@ import React, {
 
 import ActivityEnum from "@/app/enums/ActivityEnum"
 import { useKiteSurfSpots } from "../hooks/useKiteSurfSpots"
+import { ActivitySpot } from "../api/mock"
 
 export type WindDirection = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
 export const DEFAULT_LATITUDE = "32.78621094914123"
