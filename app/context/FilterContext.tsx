@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useEffect,
 } from "react"
-import { ActivitySpot } from "../api/mock"
+
 import ActivityEnum from "@/app/enums/ActivityEnum"
 import { useKiteSurfSpots } from "../hooks/useKiteSurfSpots"
 

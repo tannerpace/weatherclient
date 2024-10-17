@@ -1,10 +1,13 @@
-import { WindDirection } from "../context/FilterContext";
 import ActivityEnum from "../enums/ActivityEnum";
-
+import { WindDirection } from "../context/FilterContext";
 const capersIslandImageUrl = '/party.jpg'
 const birdKeyLat = "32.62833267361373"
 const birdKeyLong = "-79.98719329863708"
+
 export interface ActivitySpot {
+  meta_description?: string;
+  seo_title?: string;
+  image_alt_text?: string;
   wildlife?: string;
   trail_length?: string;
   best_times?: string;
@@ -42,10 +45,13 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "S,SW,SE,E,ENE",
     waves: "3",
     depth: "shallow inside",
-    description: "Sullivan's Island is located along the Atlantic Ocean near the center of Charleston County. The town is bordered to the west by the entrance to Charleston Harbor, to the north by Cove Inlet and the west by the Intercostal waterway. The writer Edgar Allan Poe was stationed at Fort Moultrie from November 1827 to December 1828. The island is a setting for much of his short story 'The Gold-Bug' (1843). In Poe's short story 'The Balloon-Hoax', a gas balloon (forerunner of the dirigible) is piloted by eight men, six of them making independent diary entries, and describes a trip from Northern Wales to Fort Moultrie, Sullivan's Island over the course of 75 hours, published as fact in a New York City newspaper in 1844 and retracted three days later.",
+    description: "Sullivan's Island is located along the Atlantic Ocean near the center of Charleston County. The town is bordered to the west by the entrance to Charleston Harbor, to the north by Cove Inlet and the west by the Intercostal waterway.",
     experience: "beginner",
     references: "https://en.wikipedia.org/wiki/Sullivan%27s_Island,_South_Carolina",
     location_img_url: "/photo1.jpg",
+    image_alt_text: "View of Sullivan's Island Beach for kitesurfing", // SEO alt text
+    seo_title: "Sullivan's Island Kitesurfing Spot - Charleston",      // SEO title
+    meta_description: "Discover kitesurfing at Sullivan's Island, Charleston, a beginner-friendly spot with shallow waters and great wind conditions.", // SEO meta description
     viable_directions: {
       "N": 0,
       "S": 1,
@@ -67,10 +73,13 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "S,SW,W,NNE",
     waves: "2",
     depth: "deep",
-    description: "Folly Beach County Park is a large park on the south end of Folly Beach, South Carolina. It is a great place to start your kiteboarding session, and is a great place to kite on almost any wind direction. It is also a swimming beach with seasonal lifeguards & pelican rookery featured in the preserve with limited parking.",
+    description: "Folly Beach County Park is a large park on the south end of Folly Beach, a popular spot for kitesurfing with excellent wind conditions for beginners.",
     experience: "beginner",
     references: "https://en.wikipedia.org/wiki/Folly_Beach_County_Park",
-    location_img_url: '/PANO0001-Pano.jpg',
+    location_img_url: "/PANO0001-Pano.jpg",
+    image_alt_text: "Kitesurfing at Folly Beach County Park, South Carolina", // SEO alt text
+    seo_title: "Kitesurfing at Folly Beach County Park - Charleston",         // SEO title
+    meta_description: "Explore kitesurfing at Folly Beach County Park in Charleston. A perfect location for beginners with strong winds and a picturesque beach.", // SEO meta description
     viable_directions: {
       "N": 0,
       "S": 1,
@@ -92,12 +101,13 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "N,NE,NNE",
     waves: "4",
     depth: "various",
-    description:
-      "Folly Beach is a barrier island, six miles long and the closest beach to downtown Charleston. It's only a 15-minute drive. Morris Island Lighthouse is on the north end and makes a fantastic backdrop for your kiteboarding session. Afterward, you can enjoy gourmet food, endangered species of birds, and southern hospitality. In this spot, be cautious of the rocks on the beach, beach users, and submerged jetties in the water. The water here can range from semi-flat to choppy depending on the tides. On windy days, you’re almost certain to encounter kiters on this beach!",
+    description: "Folly Beach is a barrier island with Morris Island Lighthouse as a stunning backdrop for kitesurfers. It offers a range of water conditions from flat to choppy.",
     experience: "intermediate",
-
     references: "https://en.wikipedia.org/wiki/Folly_Beach",
     location_img_url: "/photo2.jpg",
+    image_alt_text: "Kitesurfing at Folly North End with Morris Island Lighthouse", // SEO alt text
+    seo_title: "Folly North End Kitesurfing Spot - Charleston",                  // SEO title
+    meta_description: "Kitesurf at Folly North End with Morris Island Lighthouse as a backdrop. Perfect for intermediate kitesurfers looking for challenging conditions.", // SEO meta description
     viable_directions: {
       "N": 1,
       "S": 0,
@@ -119,61 +129,13 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "N,NNE,NE",
     waves: "2",
     depth: "deep",
-    description:
-      "Fort Sumter is a sea fort built on an artificial island protecting Charleston, South Carolina from naval invasion. Its origin dates to the War of 1812 when the British invaded Washington by sea. It was still incomplete in 1861 when the Battle of Fort Sumter began the American Civil War. It was severely damaged during the war, left in ruins, and although there was some rebuilding, the fort as conceived was never completed. The fort was abandoned in the late 19th century and was rebuilt in the early 20th century. The fort is now a museum and a tourist attraction. The fort is a great place to start your kiteboarding session, and is a great place to see dolphins. In this spot, be cautious of the rocks on the beach, you will often see hikers and fishers on this beach. The water here has very strong currents. This makes it suitable for experienced kiteboarders, but not for beginners.",
+    description: "Fort Sumter is a sea fort built on an artificial island protecting Charleston, with strong currents and deep waters, making it suitable for advanced kitesurfers.",
     experience: "advanced",
     references: "https://en.wikipedia.org/wiki/Fort_Sumter",
-    location_img_url: '/photograph-Charleston-South-Carolina-shots-Fort-Sumter.webp',
-    viable_directions: {
-      "N": 0,
-      "S": 1,
-      "E": 1,
-      "W": 0,
-      "NE": 1,
-      "NW": 1,
-      "SE": 1,
-      "SW": 1
-    },
-  },
-  {
-    activity: ActivityEnum.Kitesurfing,
-    id: 6,
-    latitude: "32.757628",
-    longitude: "-79.857808",
-    name: "Fort Moultrie",
-    island: "Sullivan's Island",
-    winddirections: "S,SSW,W,NW",
-    waves: "1",
-    depth: "deep",
-    description: "Beware of coyotes, shipping traffic, and strong currents. This is an ok spot for intermediate kiteboarders. Fort Moultrie is a series of fortifications on Sullivan's Island, South Carolina, built to protect the city of Charleston. The first fort, formerly named Fort Sullivan, built of palmetto logs, inspired the flag and nickname of South Carolina, as 'The Palmetto State.' The fort was renamed for the U.S. patriot commander in the Battle of Sullivan's Island, General William Moultrie. During British occupation, in 1780–1782, the fort was known as Fort Arbuthnot.",
-    experience: "advanced",
-    references: "https://en.wikipedia.org/wiki/Fort_Moultrie",
-    location_img_url: '/moultry.jpg',
-    viable_directions: {
-      "N": 0,
-      "S": 1,
-      "E": 1,
-      "W": 0,
-      "NE": 1,
-      "NW": 1,
-      "SE": 1,
-      "SW": 1
-    },
-  },
-  {
-    activity: ActivityEnum.Kitesurfing,
-    id: 7,
-    latitude: "32.814271180990076",
-    longitude: "-79.71980425914779",
-    name: "North IOP",
-    description: "Wild Dunes is a private, gated community located on the Isle of Palms, just outside of Charleston, South Carolina. Known for its picturesque beaches and lush landscapes, Wild Dunes is a popular destination for kiteboarders from around the world. The community boasts miles of pristine beaches, perfect for launching and landing kites, as well as a variety of challenging waves and winds for experienced riders. The private nature of the community means that kiteboarding spots are less crowded, allowing for more open space and greater freedom to ride. In addition to the natural beauty and kiteboarding opportunities, Wild Dunes also offers a variety of amenities, including tennis courts, swimming pools, and bike rentals, as well as restaurants and shops. For those looking for a secluded kiteboarding paradise, Wild Dunes is the perfect destination.",
-    location_img_url: "/WD-Links-17-18-7-1140x600-1-1140x605.jpg",
-    waves: "1",
-    island: "Sullivan's Island",
-    references: "https://en.wikipedia.org/wiki/Fort_Moultrie",
-    depth: "deep",
-    winddirections: "",
-    experience: "",
+    location_img_url: "/photograph-Charleston-South-Carolina-shots-Fort-Sumter.webp",
+    image_alt_text: "Kitesurfing near Fort Sumter, Charleston", // SEO alt text
+    seo_title: "Kitesurfing near Fort Sumter - Advanced Spot",  // SEO title
+    meta_description: "Kitesurf near the historic Fort Sumter in Charleston. Strong currents and deep waters make this an advanced kitesurfing spot.", // SEO meta description
     viable_directions: {
       "N": 0,
       "S": 1,
@@ -195,35 +157,13 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "NE,E,SE",
     waves: "2",
     depth: "shallow to deep",
-    description: "Capers Island is a barrier island located about 15 miles north of Charleston, South Carolina. It is an undeveloped island, accessible only by boat, making it a pristine location for kiteboarding. The island offers a mix of shallow and deep waters, and the best winds come from the NE, E, and SE directions. It is a great spot for intermediate to advanced kiteboarders looking for a more secluded and natural setting. Wildlife is abundant, and it's common to see dolphins and various bird species.",
+    description: "Capers Island is an undeveloped island accessible only by boat. It offers pristine kayaking opportunities, with abundant wildlife and calm waters.",
     experience: "intermediate",
     references: "https://en.wikipedia.org/wiki/Capers_Island",
     location_img_url: capersIslandImageUrl,
-    viable_directions: {
-      "N": 0,
-      "S": 0,
-      "E": 1,
-      "W": 0,
-      "NE": 1,
-      "NW": 0,
-      "SE": 1,
-      "SW": 0
-    },
-  },
-  {
-    activity: ActivityEnum.Kitesurfing,
-    id: 8,
-    latitude: birdKeyLat,
-    longitude: birdKeyLong,
-    name: "Bird Key",
-    island: "Bird Key",
-    winddirections: "NE,E,SE",
-    waves: "2",
-    depth: "various",
-    description: "Bird Key is a small island located near the entrance to Charleston Harbor. It's known for its strong winds from the NE, E, and SE, making it a great spot for kitesurfing. The island is accessible only by boat and offers a mix of shallow and deep waters. The wildlife on Bird Key is diverse, and it's common to see various bird species and occasional dolphins. It's a great spot for intermediate to advanced kiteboarders looking for a less crowded and natural setting.",
-    experience: "intermediate",
-    references: "https://www.dnr.sc.gov/birdsanctuaries/birdkeystono.html",
-    location_img_url: '/birdkey.jpg',
+    image_alt_text: "Kayaking at Capers Island, Charleston", // SEO alt text
+    seo_title: "Kayaking at Capers Island - Charleston",     // SEO title
+    meta_description: "Experience kayaking at Capers Island in Charleston. Explore an undeveloped island with abundant wildlife and calm, scenic waters.", // SEO meta description
     viable_directions: {
       "N": 0,
       "S": 0,
@@ -245,10 +185,13 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "S,SW",
     waves: "4",
     depth: "medium",
-    description: "The Folly Beach Pier is one of the most iconic surf spots in South Carolina. With consistent swells and a long stretch of beach, it's a great spot for beginner to advanced surfers. The pier is also a popular fishing spot and has a café nearby for post-surf snacks.",
+    description: "Folly Beach Pier is one of South Carolina's most iconic surf spots, offering consistent swells and beautiful surroundings for surfers of all levels.",
     experience: "all levels",
     references: "https://www.charlestoncountyparks.com/94/Folly-Beach-Pier",
     location_img_url: "/follypier.jpg",
+    image_alt_text: "Surfing at Folly Beach Pier, South Carolina", // SEO alt text
+    seo_title: "Surfing at Folly Beach Pier - Iconic South Carolina Spot",  // SEO title
+    meta_description: "Surf at the iconic Folly Beach Pier in South Carolina. Great for all levels of surfers, with consistent swells and a long beach.", // SEO meta description
     viable_directions: {
       "N": 0,
       "S": 1,
@@ -261,57 +204,32 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     },
   },
   {
-    activity: ActivityEnum.Kayaking,
-    id: 10,
-    latitude: "32.8682",
-    longitude: "-79.6790",
-    name: "Capers Island",
-    island: "Capers Island",
-    winddirections: "NE,E,SE",
-    waves: "2",
-    depth: "shallow to deep",
-    description: "Capers Island is a barrier island located about 15 miles north of Charleston, South Carolina. It is an undeveloped island, accessible only by boat, making it a pristine location for kayaking. Wildlife is abundant, and it's common to see dolphins and various bird species.",
-    experience: "intermediate",
-    best_times: "Morning and evening",
-    wildlife: "Dolphins, birds",
-    references: "https://en.wikipedia.org/wiki/Capers_Island",
-    location_img_url: capersIslandImageUrl,
-    viable_directions: {
-      N: 0,
-      S: 0,
-      E: 1,
-      W: 0,
-      NE: 1,
-      NW: 0,
-      SE: 1,
-      SW: 0,
-    },
-  },
-  {
+
     activity: ActivityEnum.FishingRedfish,
     id: 11,
-    latitude: "32.7638",
-    longitude: "-79.8741",
+    latitude: "32.9080",
+    longitude: "-79.6090",
     name: "Bull Island",
     island: "Bull Island",
     winddirections: "SW,W,NW",
     waves: "calm",
     depth: "shallow",
-    description: "Bull Island is a nature preserve and a prime spot for fishing, especially for redfish. Accessible by boat, the island offers serene fishing spots and beautiful views. The best fishing times are during early mornings and late evenings when the tides are moving.",
+    description: "Bull Island is a pristine nature preserve, ideal for redfish fishing in shallow waters with serene surroundings. Best times to fish are early morning and late evening.",
     experience: "intermediate",
-    best_times: "Early mornings, late evenings",
-    wildlife: "Redfish, other aquatic life",
     references: "https://www.dnr.sc.gov/fishing.html",
     location_img_url: "/bullisland.jpg",
+    image_alt_text: "Fishing at Bull Island, South Carolina", // SEO alt text
+    seo_title: "Redfish Fishing at Bull Island - South Carolina",   // SEO title
+    meta_description: "Fish for redfish at Bull Island in South Carolina. Enjoy serene, calm waters and beautiful nature. Best times are early morning and late evening.", // SEO meta description
     viable_directions: {
-      N: 0,
-      S: 0,
-      E: 0,
-      W: 1,
-      NE: 0,
-      NW: 1,
-      SE: 0,
-      SW: 1,
+      "N": 0,
+      "S": 0,
+      "E": 0,
+      "W": 1,
+      "NE": 0,
+      "NW": 1,
+      "SE": 0,
+      "SW": 1
     },
   },
   {
@@ -324,30 +242,36 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "N,S",
     waves: "none",
     depth: "land",
-    description: "The Palmetto Trail is one of the best hiking destinations in the Charleston area, offering miles of trails through woods, marsh, and wetlands. The trail is well-marked and suitable for all skill levels.",
+    description: "The Palmetto Trail offers miles of well-marked hiking trails through woods, marshes, and wetlands, suitable for all skill levels.",
     experience: "beginner",
     trail_length: "10 miles",
     wildlife: "Deer, birds",
     references: "https://palmettoconservation.org/palmetto-trail/",
     location_img_url: "/palmettotrail.jpg",
+    image_alt_text: "Hiking on the Palmetto Trail, Charleston", // SEO alt text
+    seo_title: "Hiking the Palmetto Trail - Charleston, South Carolina",   // SEO title
+    meta_description: "Hike the scenic Palmetto Trail in Charleston, South Carolina. Explore 10 miles of woods, marshes, and wetlands. Suitable for all skill levels.", // SEO meta description
     viable_directions: null,
   },
   {
     activity: ActivityEnum.HuntingDeer,
     id: 13,
-    latitude: "  33.07445696020566",
+    latitude: "33.07445696020566",
     longitude: "-79.76219466876957",
     name: "Francis Marion National Forest",
     island: "Mainland",
     winddirections: "all",
     waves: "none",
     depth: "land",
-    description: "Francis Marion National Forest is a prime spot for deer hunting, located just north of Charleston. The forest offers vast land to explore and hunt, with deer and other wildlife abundant in the area.",
+    description: "Francis Marion National Forest is a prime spot for deer hunting, located just north of Charleston, offering vast areas for exploration.",
     experience: "intermediate",
     best_times: "Dawn and dusk",
     wildlife: "Deer, wild turkey",
     references: "https://www.fs.usda.gov/francis_marion",
     location_img_url: "/francismarion.jpg",
+    image_alt_text: "Deer hunting at Francis Marion National Forest", // SEO alt text
+    seo_title: "Deer Hunting at Francis Marion National Forest - Charleston",  // SEO title
+    meta_description: "Experience deer hunting at Francis Marion National Forest in Charleston. Explore vast land and wildlife, including deer and wild turkey. Best times: dawn and dusk.", // SEO meta description
     viable_directions: null,
   },
   {
@@ -360,10 +284,13 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "SW,W,NW",
     waves: "calm",
     depth: "shallow",
-    description: "Bull Island is a nature preserve and a prime spot for fishing, especially for redfish. Accessible by boat, the island offers serene fishing spots and beautiful views. The best fishing times are during early mornings and late evenings when the tides are moving.",
+    description: "Bull Island is a pristine spot for redfish fishing in South Carolina, offering calm, shallow waters and beautiful scenery.",
     experience: "intermediate",
     references: "https://www.dnr.sc.gov/fishing.html",
     location_img_url: "/bullisland.jpg",
+    image_alt_text: "Fishing at Bull Island, redfish hotspot", // SEO alt text
+    seo_title: "Redfish Fishing at Bull Island - Pristine Fishing Spot",  // SEO title
+    meta_description: "Enjoy serene redfish fishing at Bull Island in South Carolina. A nature preserve offering calm, shallow waters perfect for fishing enthusiasts.", // SEO meta description
     viable_directions: {
       "N": 0,
       "S": 0,
@@ -385,10 +312,13 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "N,S,E,W",
     waves: "calm",
     depth: "shallow",
-    description: "Shem Creek is a popular kayaking destination known for its calm waters and scenic views. Paddle through the marshlands and enjoy the wildlife. The area is also home to restaurants and bars, making it a great spot to relax after a paddle.",
+    description: "Shem Creek is a popular kayaking destination known for its calm waters and scenic views of marshlands and wildlife.",
     experience: "beginner",
     references: "https://www.shemcreek.com/",
     location_img_url: "/shemcreek.jpg",
+    image_alt_text: "Kayaking at Shem Creek, scenic marsh views", // SEO alt text
+    seo_title: "Kayaking at Shem Creek - Scenic Waters of Mount Pleasant", // SEO title
+    meta_description: "Discover the calm waters and scenic marshlands of Shem Creek, Mount Pleasant. A perfect spot for beginner kayakers to enjoy wildlife and nature.", // SEO meta description
     viable_directions: {
       "N": 1,
       "S": 1,
@@ -410,10 +340,13 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "N,S",
     waves: "none",
     depth: "land",
-    description: "The Palmetto Trail is one of the best hiking destinations in the Charleston area, offering miles of trails through the woods, marsh, and wetlands. The trail is well-marked and suitable for all skill levels.",
+    description: "The Palmetto Trail is a must-visit hiking destination offering miles of trails through woods and wetlands, suitable for hikers of all levels.",
     experience: "beginner",
     references: "https://palmettoconservation.org/palmetto-trail/",
     location_img_url: "/palmettotrail.jpg",
+    image_alt_text: "Hiking the Palmetto Trail through woods and wetlands", // SEO alt text
+    seo_title: "Hiking the Palmetto Trail - Explore Charleston's Nature",  // SEO title
+    meta_description: "Hike the Palmetto Trail in Charleston's Mount Pleasant, a trail that runs through beautiful woods and wetlands. Ideal for hikers of all skill levels.", // SEO meta description
     viable_directions: null,
   },
   {
@@ -426,14 +359,15 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "all",
     waves: "none",
     depth: "land",
-    description: "Francis Marion National Forest is a prime spot for deer hunting, located just north of Charleston. The forest offers vast land to explore and hunt, with deer and other wildlife abundant in the area.",
+    description: "Francis Marion National Forest is a prime destination for deer hunting, offering vast expanses of land for experienced hunters to explore.",
     experience: "intermediate",
     references: "https://www.fs.usda.gov/francis_marion",
     location_img_url: "/francismarion.jpg",
+    image_alt_text: "Deer hunting at Francis Marion National Forest",  // SEO alt text
+    seo_title: "Deer Hunting at Francis Marion National Forest",      // SEO title
+    meta_description: "Experience deer hunting at the Francis Marion National Forest, a vast area north of Charleston, known for its diverse wildlife and prime hunting grounds.", // SEO meta description
     viable_directions: null,
   },
-
-
   {
     activity: ActivityEnum.FishingRedfish,
     id: 18,
@@ -444,11 +378,14 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "SW,W,NW",
     waves: "calm",
     depth: "shallow",
-    description: "Bull Island is a nature preserve and a prime spot for fishing, especially for redfish. Accessible by boat, the island offers serene fishing spots and beautiful views.",
+    description: "Bull Island is a premier location for redfish fishing, with calm waters and access only by boat, making it a serene fishing destination.",
     experience: "intermediate",
     references: "https://www.dnr.sc.gov/fishing.html",
     location_img_url: "/bullisland.jpg",
-    viable_directions: null
+    image_alt_text: "Redfish fishing at Bull Island, calm waters",  // SEO alt text
+    seo_title: "Redfish Fishing at Bull Island - Premier Location",  // SEO title
+    meta_description: "Discover redfish fishing at Bull Island, a premier destination in South Carolina. With calm waters and serene surroundings, it's perfect for intermediate anglers.", // SEO meta description
+    viable_directions: null,
   },
   {
     activity: ActivityEnum.Kayaking,
@@ -460,13 +397,15 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "N,S,E,W",
     waves: "calm",
     depth: "shallow",
-    description: "Shem Creek is a popular kayaking destination known for its calm waters and scenic views. Paddle through the marshlands and enjoy the wildlife.",
+    description: "Shem Creek is known for its calm waters and beautiful marshlands, offering a scenic kayaking experience for beginners and nature lovers.",
     experience: "beginner",
     references: "https://www.shemcreek.com/",
     location_img_url: "/shemcreek.jpg",
-    viable_directions: null
+    image_alt_text: "Kayaking at Shem Creek, calm marsh waters",  // SEO alt text
+    seo_title: "Kayaking at Shem Creek - Charleston's Scenic Waters",  // SEO title
+    meta_description: "Kayak through the calm marsh waters of Shem Creek in Charleston. Enjoy the beauty of the natural surroundings and peaceful kayaking experience.", // SEO meta description
+    viable_directions: null,
   },
-
   {
     activity: ActivityEnum.Hiking,
     id: 20,
@@ -477,10 +416,13 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "N,S",
     waves: "none",
     depth: "land",
-    description: "The Palmetto Trail offers miles of hiking trails through marsh and wetlands. Suitable for all skill levels.",
+    description: "The Palmetto Trail offers a scenic hiking experience through Charleston's marshlands and wetlands, with trails suitable for all skill levels.",
     experience: "beginner",
     references: "https://palmettoconservation.org/palmetto-trail/",
     location_img_url: "/palmettotrail.jpg",
+    image_alt_text: "Scenic hike on Palmetto Trail through marshlands",  // SEO alt text
+    seo_title: "Hiking the Palmetto Trail - Charleston Marshlands",  // SEO title
+    meta_description: "Hike through the scenic marshlands and wetlands of Charleston on the Palmetto Trail. A perfect outdoor adventure for hikers of all levels.", // SEO meta description
     viable_directions: null,
   },
   {
@@ -493,12 +435,16 @@ const locations: ActivitySpotWithSringCoordinates[] = [
     winddirections: "all",
     waves: "none",
     depth: "land",
-    description: "A prime spot for deer hunting, located just north of Charleston. Vast land to explore and hunt.",
+    description: "Francis Marion National Forest provides vast lands perfect for deer hunting, offering experienced hunters a chance to explore diverse terrain and wildlife.",
     experience: "intermediate",
     references: "https://www.fs.usda.gov/francis_marion",
     location_img_url: "/francismarion.jpg",
+    image_alt_text: "Hunting in Francis Marion National Forest, vast hunting grounds",  // SEO alt text
+    seo_title: "Deer Hunting at Francis Marion National Forest",      // SEO title
+    meta_description: "Hunt for deer at the expansive Francis Marion National Forest in South Carolina. A top destination for experienced hunters, rich with wildlife.", // SEO meta description
     viable_directions: null,
-  },
+  }
 ];
+
 
 export default locations;
