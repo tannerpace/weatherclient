@@ -1,3 +1,5 @@
+# Todo fix add location location type not being visible bug on edit location tab
+
 # WeatherClient
 Welcome to the WeatherClient repository! This project is designed to provide a seamless and intuitive interface for viewing weather information, specifically for kitesurfing spots. It leverages modern web technologies to create a responsive and interactive user experience.
 
